@@ -20,6 +20,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Decisions so far
 
+- [Grilling: MCP Primitive Mapping](tickets/004-mcp-primitive-mapping.md) — 17 snake_case tools incl. composed `plan_trip` (accepts names, fuzzy-resolves to stop codes, disambiguates); GTFS-RT exposed only through filtered tools (never raw full-dataset dumps); alerts folded into one `get_service_alerts(line?, stop?, category?)`; static data ships as Resources (`gotransit://...`) AND mirror tools since many clients ignore resources; three v1 prompts: `plan_a_trip`, `check_my_commute`, `service_status`.
 - [Research: Metrolinx API Inventory](tickets/001-metrolinx-api-inventory.md) — 34 GET endpoints across 8 domains (Stop, ServiceUpdate, ServiceataGlance, Schedule, GTFS Feeds, UP GTFS-RT, Fleet, Fares). Auth via `?key=` query param; auth failures return HTTP 200 with `Metadata.ErrorCode: "401"` in body — wrapper must check body not status. Format selection via `Accept` header (documented URL suffix is dead). No sandbox, no push/webhooks, everything is poll. Primitive split: Tools for real-time/query endpoints; Resources for `Stop/All`, `Stop/Details`, daily Schedule/Line; one useful Prompt template (trip-plan scaffold). Open items (non-blocking): numeric rate limit undocumented, OGL licence scope over live responses unconfirmed, GTFS Access and Use Agreement text not retrieved.
 - [Research: Vercel Free Tier Constraints](tickets/003-vercel-constraints.md) — Hobby tier is viable, no design change forced. 300s function timeout (default=max, Fluid compute), 4.5 MB body cap (streamed responses exempt), 1M invocations + 4 active-CPU-hrs/month (CPU-hrs is the binding constraint; overage pauses the feature, no bills). Use Node.js runtime (Vercel now recommends against Edge); Streamable HTTP per-POST invocation is Vercel's own documented MCP pattern (`mcp-handler`, Redis only for legacy SSE). PR previews work on Hobby for personal repos (not GitHub-org private repos). Hobby is non-commercial use only. Open items: Protection Bypass on Hobby unverified, no official cold-start ms figure, assume idle scale-to-zero.
 
@@ -27,8 +28,9 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 - Exact retry parameters (retry count, backoff curve, jitter) — rate limit is undocumented; design conservatively, revisit only if it becomes an operational problem
 - Whether any Resource endpoints warrant in-process caching and at what TTLs — now informed by ticket 001; to be pinned in ticket 005
-- Exact tool/resource/prompt names and schemas — depends on primitive mapping (ticket 004)
+- Exact per-tool input/output schemas — names and roster now fixed by ticket 004; schemas to be pinned in ticket 006
 - Whether ghcr.io image publishing is worth the complexity for v1 or deferred
+- Vercel Hobby is non-commercial-use only — fine for this open source project now, but if the future app/backend becomes commercial, the owner's hosted instance must move off Hobby (revisit when the backend effort starts)
 
 ## Out of scope
 
@@ -43,14 +45,13 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ### Frontier (unblocked, open)
 
-- [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — create public repo, wire Vercel
-- [Grilling: MCP Primitive Mapping](tickets/004-mcp-primitive-mapping.md) — map API endpoints to Tools/Resources/Prompts
+- [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo created & pushed; remaining: wire Vercel project + env secret
 - [Grilling: Caching & Rate Limiting Spec](tickets/005-caching-rate-limiting-spec.md) — decide TTLs and backoff strategy
+- [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — pin per-tool input/output schemas
 
 ### Blocked (open, waiting)
 
-- [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — blocked by 004
-- [Grilling: Project Architecture](tickets/007-project-architecture.md) — blocked by 004, 005, 006
+- [Grilling: Project Architecture](tickets/007-project-architecture.md) — blocked by 004 ✅, 005, 006
 - [Grilling: Test Architecture](tickets/008-test-architecture.md) — blocked by 007
 - [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — blocked by 002, 003, 008
 - [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — blocked by 007
@@ -59,3 +60,4 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 - [Research: Metrolinx API Inventory](tickets/001-metrolinx-api-inventory.md) — full endpoint inventory, auth confirmed, format selection confirmed
 - [Research: Vercel Free Tier Constraints](tickets/003-vercel-constraints.md) — Hobby tier viable, Streamable HTTP confirmed, Node.js runtime, all limits documented
+- [Grilling: MCP Primitive Mapping](tickets/004-mcp-primitive-mapping.md) — 17-tool roster, composed `plan_trip`, filtered GTFS-RT, Resources + mirror tools, 3 prompts
