@@ -20,14 +20,13 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Decisions so far
 
-_(empty — no tickets closed yet)_
+- [Research: Metrolinx API Inventory](tickets/001-metrolinx-api-inventory.md) — 34 GET endpoints across 8 domains (Stop, ServiceUpdate, ServiceataGlance, Schedule, GTFS Feeds, UP GTFS-RT, Fleet, Fares). Auth via `?key=` query param; auth failures return HTTP 200 with `Metadata.ErrorCode: "401"` in body — wrapper must check body not status. Format selection via `Accept` header (documented URL suffix is dead). No sandbox, no push/webhooks, everything is poll. Primitive split: Tools for real-time/query endpoints; Resources for `Stop/All`, `Stop/Details`, daily Schedule/Line; one useful Prompt template (trip-plan scaffold). Open items (non-blocking): numeric rate limit undocumented, OGL licence scope over live responses unconfirmed, GTFS Access and Use Agreement text not retrieved.
 
 ## Not yet specified
 
-- Exact retry parameters (retry count, backoff curve, jitter) — depends on Metrolinx API rate limit findings (ticket 001)
-- Whether any Resource endpoints warrant in-process caching and at what TTLs — depends on ticket 001
+- Exact retry parameters (retry count, backoff curve, jitter) — rate limit is undocumented; design conservatively, revisit only if it becomes an operational problem
+- Whether any Resource endpoints warrant in-process caching and at what TTLs — now informed by ticket 001; to be pinned in ticket 005
 - Exact tool/resource/prompt names and schemas — depends on primitive mapping (ticket 004)
-- Whether the Metrolinx API has a sandbox/test environment usable in CI
 - Whether ghcr.io image publishing is worth the complexity for v1 or deferred
 
 ## Out of scope
@@ -35,7 +34,7 @@ _(empty — no tickets closed yet)_
 - The frontend app (explicitly deferred to a separate future effort)
 - The backend that will eventually consume this MCP server (deferred)
 - Per-user authentication on the MCP server itself (self-hosters bring their own `METROLINX_API_KEY`)
-- Real-time push / webhooks from Metrolinx (if the API doesn't support it — to be confirmed by research)
+- Real-time push / webhooks from Metrolinx — confirmed not supported; API is poll-only
 
 ---
 
@@ -43,16 +42,19 @@ _(empty — no tickets closed yet)_
 
 ### Frontier (unblocked, open)
 
-- [Research: Metrolinx API Inventory](tickets/001-metrolinx-api-inventory.md) — document all endpoints, auth, rate limits, costs
 - [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — create public repo, wire Vercel
 - [Research: Vercel Free Tier Constraints](tickets/003-vercel-constraints.md) — confirm Streamable HTTP viability, limits
+- [Grilling: MCP Primitive Mapping](tickets/004-mcp-primitive-mapping.md) — map API endpoints to Tools/Resources/Prompts
+- [Grilling: Caching & Rate Limiting Spec](tickets/005-caching-rate-limiting-spec.md) — decide TTLs and backoff strategy
 
 ### Blocked (open, waiting)
 
-- [Grilling: MCP Primitive Mapping](tickets/004-mcp-primitive-mapping.md) — blocked by 001
-- [Grilling: Caching & Rate Limiting Spec](tickets/005-caching-rate-limiting-spec.md) — blocked by 001
 - [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — blocked by 004
 - [Grilling: Project Architecture](tickets/007-project-architecture.md) — blocked by 004, 005, 006
 - [Grilling: Test Architecture](tickets/008-test-architecture.md) — blocked by 007
 - [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — blocked by 002, 003, 008
 - [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — blocked by 007
+
+### Resolved
+
+- [Research: Metrolinx API Inventory](tickets/001-metrolinx-api-inventory.md) — full endpoint inventory, auth confirmed, format selection confirmed
