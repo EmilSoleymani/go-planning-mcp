@@ -23,3 +23,9 @@ What does the Metrolinx Open Data API actually expose? Fetch and document:
 Base URL: https://api.openmetrolinx.com/OpenDataAPI/Help/Index/en
 
 Produce a structured report grouping endpoints by domain (trip planning, stops, schedules, alerts, real-time, etc.) and flagging which are candidates for MCP Tools vs Resources vs Prompts.
+
+## Research
+
+Findings captured on branch `research/metrolinx-api-inventory`: [.wayfinder/research/handoff-001-metrolinx-api-research.md](../research/handoff-001-metrolinx-api-research.md)
+
+Open gaps not resolvable from primary sources — needs empirical testing once an Access Key is issued, or direct confirmation from Metrolinx: the exact API-key parameter/header name, the numeric rate limit (only the existence of a 429 quota is documented), whether the Open Government Licence covers live API responses vs. just static downloads, and the full text of the GTFS "Access and Use Agreement."
