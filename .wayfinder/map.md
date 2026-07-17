@@ -20,6 +20,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Decisions so far
 
+- [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo live at [github.com/EmilSoleymani/go-planning-mcp](https://github.com/EmilSoleymani/go-planning-mcp) (public, MIT LICENSE, Actions secret `METROLINX_API_KEY` set); Vercel project wired at [vercel.com/emilsoleymani2002-gmailcoms-projects/go-planning-mcp](https://vercel.com/emilsoleymani2002-gmailcoms-projects/go-planning-mcp), production domain [go-planning-mcp.vercel.app](https://go-planning-mcp.vercel.app/). One verification carried to implementation: Vercel-side env var for Production+Preview.
 - [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — full spec in [docs/spec/docker-deployment.md](../docs/spec/docker-deployment.md): multi-stage `node:22-alpine` (port 3000, non-root, liveness-only `/health`, fail-fast env contract), run-only compose with the dev-vs-run split documented in CONTRIBUTING.md, four-block self-hoster README section, and publishing to **both ghcr.io (multi-arch) and npm (`go-transit-mcp`, trusted publishing)** triggered only by `v*` tags — resolving both publishing fog lines. `docs/RELEASING.md` (one-time setup + first-timer runbook) is a required implementation deliverable.
 - [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — full spec in [docs/spec/cicd-pipeline.md](../docs/spec/cicd-pipeline.md): one sequential keyless `checks` job on Node [20, 22], Vercel built-in Git integration with zero deploy code (gating at merge), smoke cron `17 11 * * 1` with `gh`-CLI auto-issue, single secret (`METROLINX_API_KEY`), squash-only merges with required checks and a phase-two admin-enforcement flip when the scaffold lands. Assumes ticket 002 wires Vercel + the repo secret.
 - [Grilling: Test Architecture](tickets/008-test-architecture.md) — full spec in [docs/spec/test-architecture.md](../docs/spec/test-architecture.md): msw at the HTTP seam + hand-built fake client for tools, captured-real JSON fixtures with a refresh script (first capture doubles as ticket-006's empirical verification), 80/70 coverage gate excluding transport glue, smoke = one call per upstream domain validated against Zod outputSchemas (weekly separate workflow, never PR-gating, failures auto-file a `smoke-failure` issue), two-tier Inspector/Desktop manual checklist in CONTRIBUTING.md.
@@ -49,13 +50,15 @@ _(none — the way to the destination is fully charted; only the repo-wiring tas
 
 ### Frontier (unblocked, open)
 
-- [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo created & pushed; remaining: wire Vercel project + env secret, plus `METROLINX_API_KEY` GitHub Actions repo secret (owner committed to setting it, ticket 008)
+_(none — all tickets resolved; the map has reached its destination)_
 
 ### Blocked (open, waiting)
 
 _(none)_
 
 ### Resolved
+
+- [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo + Vercel project live, secret set, MIT LICENSE, URLs recorded
 
 - [Research: Metrolinx API Inventory](tickets/001-metrolinx-api-inventory.md) — full endpoint inventory, auth confirmed, format selection confirmed
 - [Research: Vercel Free Tier Constraints](tickets/003-vercel-constraints.md) — Hobby tier viable, Streamable HTTP confirmed, Node.js runtime, all limits documented
