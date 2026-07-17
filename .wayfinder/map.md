@@ -20,6 +20,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Decisions so far
 
+- [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — full spec in [docs/spec/cicd-pipeline.md](../docs/spec/cicd-pipeline.md): one sequential keyless `checks` job on Node [20, 22], Vercel built-in Git integration with zero deploy code (gating at merge), smoke cron `17 11 * * 1` with `gh`-CLI auto-issue, single secret (`METROLINX_API_KEY`), squash-only merges with required checks and a phase-two admin-enforcement flip when the scaffold lands. Assumes ticket 002 wires Vercel + the repo secret.
 - [Grilling: Test Architecture](tickets/008-test-architecture.md) — full spec in [docs/spec/test-architecture.md](../docs/spec/test-architecture.md): msw at the HTTP seam + hand-built fake client for tools, captured-real JSON fixtures with a refresh script (first capture doubles as ticket-006's empirical verification), 80/70 coverage gate excluding transport glue, smoke = one call per upstream domain validated against Zod outputSchemas (weekly separate workflow, never PR-gating, failures auto-file a `smoke-failure` issue), two-tier Inspector/Desktop manual checklist in CONTRIBUTING.md.
 - [Grilling: Project Architecture](tickets/007-project-architecture.md) — full spec in [docs/spec/project-architecture.md](../docs/spec/project-architecture.md): pure ESM + strict TS (NodeNext/ES2022, Node ≥ 20), `tsc`-only build with `tsx` dev, transport-agnostic `buildServer()` with three entry surfaces, one file per tool, co-located unit tests, native `fetch` with GTFS-RT as JSON (no protobuf dep), hand-rolled ADR-0001 retry, four runtime deps (SDK ^1.29, zod ^4, mcp-handler ^1.1), TS ^7, ESLint flat `recommendedTypeChecked` + default Prettier, carets + lockfile.
 - [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — full schema spec in [docs/spec/tool-schemas.md](../docs/spec/tool-schemas.md): normalized snake_case DTOs (never passthrough, per-call `lang` for French), Zod-backed `outputSchema`/`structuredContent` on all 17 tools, ISO 8601 with Toronto-clock defaults, opaque-string IDs with unified `stop_code`, in-result errors with closed code enum (disambiguation is a success), no pagination (limit + truncated + narrow-filter hints), `plan_trip` gains emulated `arrive_by`, two-mode anti-dump `get_line_schedule`, unfiltered `get_trip_updates` = disruptions-only, resources share mirror tools' serializers.
@@ -52,7 +53,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ### Blocked (open, waiting)
 
-- [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — blocked by 002, 003 ✅, 008 ✅
+_(none)_
 
 ### Resolved
 
@@ -63,3 +64,4 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 - [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — full 17-tool schema spec ([docs/spec/tool-schemas.md](../docs/spec/tool-schemas.md)): normalized DTOs, structured output, ISO 8601, unified IDs, error taxonomy, no pagination
 - [Grilling: Project Architecture](tickets/007-project-architecture.md) — full project spec ([docs/spec/project-architecture.md](../docs/spec/project-architecture.md)): ESM/strict TS, tsc-only, transport-agnostic core, four runtime deps
 - [Grilling: Test Architecture](tickets/008-test-architecture.md) — full test spec ([docs/spec/test-architecture.md](../docs/spec/test-architecture.md)): msw + fake client, captured fixtures, 80/70 gate, schema-validated smoke, two-tier Desktop checklist
+- [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — full CI/CD spec ([docs/spec/cicd-pipeline.md](../docs/spec/cicd-pipeline.md)): keyless PR checks, Vercel Git integration, smoke cron + auto-issue, squash-only + phased branch protection

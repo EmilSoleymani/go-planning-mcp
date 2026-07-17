@@ -2,7 +2,8 @@
 id: "009"
 title: "Grilling: CI/CD Pipeline Spec"
 type: grilling
-status: open
+status: resolved
+assignee: emil
 blocked_by: ["002", "008", "003"]
 blocks: []
 ---
@@ -35,3 +36,13 @@ Design the full GitHub Actions CI/CD pipeline:
 - Require PR reviews? (1 reviewer?)
 - Require status checks to pass before merge?
 - Require branches to be up to date?
+
+## Answer
+
+Grilled 2026-07-17. Full spec: [docs/spec/cicd-pipeline.md](../../docs/spec/cicd-pipeline.md). Worked ahead of ticket 002's remaining wiring with two recorded assumptions (Vercel↔GitHub integration wired; `METROLINX_API_KEY` repo secret set — owner committed to both). Five decisions, all confirmed one-by-one:
+
+1. **PR checks**: one `ci.yml` / one sequential `checks` job (`npm ci` → lint → format:check → typecheck → test+coverage), Node **[20, 22] matrix both required**, `setup-node` npm caching. Keyless by design — fork PRs get identical green checks.
+2. **Deployment = Vercel built-in Git integration, zero deploy code**: auto previews per PR, auto production on push to `main`; gating happens at merge via branch protection. `VERCEL_*` secrets intentionally absent.
+3. **Smoke ops**: cron `17 11 * * 1` (Monday-morning Toronto service peak, off-hour minute), job-level env injection of the repo secret, failure issue via transparent `gh` CLI steps (no marketplace action in the secret-holding workflow), `timeout-minutes: 10` + concurrency guard.
+4. **Secrets inventory = `METROLINX_API_KEY` only**; CONTRIBUTING.md documents key registration (free, up to 10 business days) and that only `test:smoke` + fixture capture need it.
+5. **Branch protection**: required checks `checks (20)`/`checks (22)`, no required reviews (solo), up-to-date off, **squash-merge only** + auto-delete branches; admin bypass allowed during planning, **flipped off the moment the code scaffold lands** (closes the unchecked-hot-push-deploys hole).
