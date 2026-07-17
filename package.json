@@ -23,6 +23,7 @@
     "build": "tsc -p tsconfig.build.json",
     "start:stdio": "node dist/entry/stdio.js",
     "start:http": "node dist/entry/http.js",
+    "mcp-inspector": "npx @modelcontextprotocol/inspector",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
