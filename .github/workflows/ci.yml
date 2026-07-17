@@ -1,0 +1,31 @@
+# PR checks per docs/spec/cicd-pipeline.md §1.
+#
+# KEYLESS BY DESIGN: no secret is available to or needed by this workflow.
+# Unit and integration tests run fully offline against fixtures, so fork PRs
+# get identical green checks. Do not add secrets here — the only
+# secret-bearing workflow is smoke.yml.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm test -- --coverage

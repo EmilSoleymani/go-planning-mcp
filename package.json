@@ -1,0 +1,50 @@
+{
+  "name": "go-transit-mcp",
+  "version": "0.0.0",
+  "description": "MCP server for GO Transit (Metrolinx) trip planning: schedules, live departures, fares, and service alerts.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Emil Soleymani",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmilSoleymani/go-planning-mcp.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "go-transit-mcp": "dist/entry/stdio.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsx watch src/entry/http.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start:stdio": "node dist/entry/stdio.js",
+    "start:http": "node dist/entry/http.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:smoke": "vitest run test/smoke",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitest/coverage-v8": "^4.1.10",
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "msw": "^2.15.0",
+    "prettier": "^3.9.5",
+    "tsx": "^4.23.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.64.0",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 10:00:00",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Stop": {
+    "LocationCode": "UN",
+    "LocationName": "Union Station GO",
+    "LocationType": "Train Station",
+    "City": "Toronto",
+    "Latitude": 43.645195,
+    "Longitude": -79.380331,
+    "IsBus": true,
+    "IsTrain": true,
+    "Facilities": ["Ticket counter", "Washrooms", "Wheelchair accessible"],
+    "ParkingLots": [],
+    "AccessibilityInfo": "Elevators to all platforms.",
+    "BoardingInfo": null,
+    "DrivingDirections": null
+  }
+}
