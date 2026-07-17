@@ -1,0 +1,266 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:46:52",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "SchJourneys": [
+    {
+      "Date": "2026-07-17",
+      "Time": "09:00",
+      "To": "00137",
+      "From": "UN",
+      "Services": [
+        {
+          "Colour": "#98002e",
+          "Type": "RB",
+          "Direction": "W",
+          "Code": "01",
+          "StartTime": "2026-07-17 09:10:00",
+          "EndTime": "2026-07-17 09:42:00",
+          "Duration": "00:32:00",
+          "Accessible": "",
+          "Trips": {
+            "Trip": [
+              {
+                "Number": "1961",
+                "Display": "LW - Niagara Falls GO (VIA Station)",
+                "Line": "LW",
+                "Direction": "W",
+                "LineVariant": "LW",
+                "Type": "T",
+                "Stops": {
+                  "Stop": [
+                    {
+                      "Code": "UN",
+                      "Order": 1,
+                      "Time": "09:10",
+                      "sortingTime": "0910",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "EX",
+                      "Order": 2,
+                      "Time": "09:18",
+                      "sortingTime": "0918",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "PO",
+                      "Order": 3,
+                      "Time": "09:32",
+                      "sortingTime": "0932",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "OA",
+                      "Order": 4,
+                      "Time": "09:42",
+                      "sortingTime": "0942",
+                      "IsMajor": true
+                    }
+                  ]
+                },
+                "destinationStopCode": "OA",
+                "departFromCode": "UN",
+                "departFromAlternativeCode": null,
+                "departFromTimingPoint": "union",
+                "tripPatternId": 7004
+              }
+            ]
+          },
+          "Transfers": {
+            "Transfer": []
+          },
+          "TransferLinks": {
+            "Link": []
+          },
+          "StartSortTime": "0910",
+          "EndSortTime": "0942",
+          "tripHash": "1961_",
+          "transferCount": 0
+        },
+        {
+          "Colour": "#98002e",
+          "Type": "RB",
+          "Direction": "W",
+          "Code": "01",
+          "StartTime": "2026-07-17 09:17:00",
+          "EndTime": "2026-07-17 09:59:00",
+          "Duration": "00:42:00",
+          "Accessible": "",
+          "Trips": {
+            "Trip": [
+              {
+                "Number": "1011",
+                "Display": "LW - Aldershot GO",
+                "Line": "LW",
+                "Direction": "W",
+                "LineVariant": "LW",
+                "Type": "T",
+                "Stops": {
+                  "Stop": [
+                    {
+                      "Code": "UN",
+                      "Order": 1,
+                      "Time": "09:17",
+                      "sortingTime": "0917",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "EX",
+                      "Order": 2,
+                      "Time": "09:24",
+                      "sortingTime": "0924",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "MI",
+                      "Order": 3,
+                      "Time": "09:32",
+                      "sortingTime": "0932",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "LO",
+                      "Order": 4,
+                      "Time": "09:38",
+                      "sortingTime": "0938",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "PO",
+                      "Order": 5,
+                      "Time": "09:45",
+                      "sortingTime": "0945",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "CL",
+                      "Order": 6,
+                      "Time": "09:52",
+                      "sortingTime": "0952",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "OA",
+                      "Order": 7,
+                      "Time": "09:59",
+                      "sortingTime": "0959",
+                      "IsMajor": true
+                    }
+                  ]
+                },
+                "destinationStopCode": "OA",
+                "departFromCode": "UN",
+                "departFromAlternativeCode": null,
+                "departFromTimingPoint": "union",
+                "tripPatternId": 200
+              }
+            ]
+          },
+          "Transfers": {
+            "Transfer": []
+          },
+          "TransferLinks": {
+            "Link": []
+          },
+          "StartSortTime": "0917",
+          "EndSortTime": "0959",
+          "tripHash": "1011_",
+          "transferCount": 0
+        },
+        {
+          "Colour": "#98002e",
+          "Type": "RB",
+          "Direction": "W",
+          "Code": "01",
+          "StartTime": "2026-07-17 09:47:00",
+          "EndTime": "2026-07-17 10:29:00",
+          "Duration": "00:42:00",
+          "Accessible": "",
+          "Trips": {
+            "Trip": [
+              {
+                "Number": "1611",
+                "Display": "LW - West Harbour GO",
+                "Line": "LW",
+                "Direction": "W",
+                "LineVariant": "LW",
+                "Type": "T",
+                "Stops": {
+                  "Stop": [
+                    {
+                      "Code": "UN",
+                      "Order": 1,
+                      "Time": "09:47",
+                      "sortingTime": "0947",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "EX",
+                      "Order": 2,
+                      "Time": "09:54",
+                      "sortingTime": "0954",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "MI",
+                      "Order": 3,
+                      "Time": "10:02",
+                      "sortingTime": "1002",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "LO",
+                      "Order": 4,
+                      "Time": "10:08",
+                      "sortingTime": "1008",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "PO",
+                      "Order": 5,
+                      "Time": "10:15",
+                      "sortingTime": "1015",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "CL",
+                      "Order": 6,
+                      "Time": "10:22",
+                      "sortingTime": "1022",
+                      "IsMajor": true
+                    },
+                    {
+                      "Code": "OA",
+                      "Order": 7,
+                      "Time": "10:29",
+                      "sortingTime": "1029",
+                      "IsMajor": true
+                    }
+                  ]
+                },
+                "destinationStopCode": "OA",
+                "departFromCode": "UN",
+                "departFromAlternativeCode": null,
+                "departFromTimingPoint": "union",
+                "tripPatternId": 4108
+              }
+            ]
+          },
+          "Transfers": {
+            "Transfer": []
+          },
+          "TransferLinks": {
+            "Link": []
+          },
+          "StartSortTime": "0947",
+          "EndSortTime": "1029",
+          "tripHash": "1611_",
+          "transferCount": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4049 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:46:52",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Lines": {
+    "Line": [
+      {
+        "Code": "LW",
+        "Direction": "E",
+        "Type": "T",
+        "Trip": [
+          {
+            "Number": "1004",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 04:52:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 04:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 05:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 05:11:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 05:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 05:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 05:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 05:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 05:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 05:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 06:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1604",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 05:11:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 05:23:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 05:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 05:35:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 05:41:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 05:47:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 05:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 06:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 06:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 06:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 06:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 06:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1854",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "HA",
+                "Order": 1,
+                "Time": "2026-07-17 05:47:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 06:03:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 06:10:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 06:16:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 06:22:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 06:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 06:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 8,
+                "Time": "2026-07-17 07:02:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1756",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "CF",
+                "Order": 1,
+                "Time": "2026-07-17 05:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "WR",
+                "Order": 2,
+                "Time": "2026-07-17 06:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 3,
+                "Time": "2026-07-17 06:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 4,
+                "Time": "2026-07-17 06:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 5,
+                "Time": "2026-07-17 06:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 6,
+                "Time": "2026-07-17 06:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 7,
+                "Time": "2026-07-17 06:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 8,
+                "Time": "2026-07-17 06:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 9,
+                "Time": "2026-07-17 07:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1006",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 05:52:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 05:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 06:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 06:11:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 06:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 06:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 06:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 06:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 06:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 06:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 07:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1856",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "HA",
+                "Order": 1,
+                "Time": "2026-07-17 06:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 06:33:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 06:40:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 06:46:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 06:52:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 06:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 07:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 8,
+                "Time": "2026-07-17 07:32:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1960",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "NI",
+                "Order": 1,
+                "Time": "2026-07-17 06:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "SCTH",
+                "Order": 2,
+                "Time": "2026-07-17 07:03:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CF",
+                "Order": 3,
+                "Time": "2026-07-17 07:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "WR",
+                "Order": 4,
+                "Time": "2026-07-17 07:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 5,
+                "Time": "2026-07-17 08:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 6,
+                "Time": "2026-07-17 08:12:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 7,
+                "Time": "2026-07-17 08:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 8,
+                "Time": "2026-07-17 08:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 9,
+                "Time": "2026-07-17 08:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 10,
+                "Time": "2026-07-17 08:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 09:04:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1306",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AP",
+                "Order": 1,
+                "Time": "2026-07-17 06:39:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 2,
+                "Time": "2026-07-17 06:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 3,
+                "Time": "2026-07-17 06:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 4,
+                "Time": "2026-07-17 06:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 5,
+                "Time": "2026-07-17 07:04:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 6,
+                "Time": "2026-07-17 07:11:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 7,
+                "Time": "2026-07-17 07:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 8,
+                "Time": "2026-07-17 07:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 9,
+                "Time": "2026-07-17 07:34:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1858",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "HA",
+                "Order": 1,
+                "Time": "2026-07-17 06:47:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 07:03:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 07:10:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 07:16:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 07:22:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 07:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 07:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 8,
+                "Time": "2026-07-17 08:02:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1256",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 06:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 06:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 07:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 07:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 07:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 07:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 7,
+                "Time": "2026-07-17 07:47:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1758",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "CF",
+                "Order": 1,
+                "Time": "2026-07-17 06:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "WR",
+                "Order": 2,
+                "Time": "2026-07-17 07:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 3,
+                "Time": "2026-07-17 07:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 4,
+                "Time": "2026-07-17 07:26:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 5,
+                "Time": "2026-07-17 07:32:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 6,
+                "Time": "2026-07-17 07:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 7,
+                "Time": "2026-07-17 07:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 8,
+                "Time": "2026-07-17 07:52:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 9,
+                "Time": "2026-07-17 08:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1108",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AP",
+                "Order": 1,
+                "Time": "2026-07-17 07:09:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 2,
+                "Time": "2026-07-17 07:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 3,
+                "Time": "2026-07-17 07:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 4,
+                "Time": "2026-07-17 07:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 5,
+                "Time": "2026-07-17 07:34:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 6,
+                "Time": "2026-07-17 07:41:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 7,
+                "Time": "2026-07-17 07:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 8,
+                "Time": "2026-07-17 07:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 9,
+                "Time": "2026-07-17 08:04:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1860",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "HA",
+                "Order": 1,
+                "Time": "2026-07-17 07:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 07:33:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 07:40:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 07:46:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 07:52:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 07:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 08:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 8,
+                "Time": "2026-07-17 08:32:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1308",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AP",
+                "Order": 1,
+                "Time": "2026-07-17 07:39:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 2,
+                "Time": "2026-07-17 07:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 3,
+                "Time": "2026-07-17 07:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 4,
+                "Time": "2026-07-17 07:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 5,
+                "Time": "2026-07-17 08:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 6,
+                "Time": "2026-07-17 08:12:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 7,
+                "Time": "2026-07-17 08:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 8,
+                "Time": "2026-07-17 08:26:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 9,
+                "Time": "2026-07-17 08:34:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1258",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 07:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 07:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 08:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 08:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 08:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 08:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 7,
+                "Time": "2026-07-17 08:47:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1110",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AP",
+                "Order": 1,
+                "Time": "2026-07-17 08:09:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 2,
+                "Time": "2026-07-17 08:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 3,
+                "Time": "2026-07-17 08:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 4,
+                "Time": "2026-07-17 08:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 5,
+                "Time": "2026-07-17 08:34:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 6,
+                "Time": "2026-07-17 08:41:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 7,
+                "Time": "2026-07-17 08:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 8,
+                "Time": "2026-07-17 08:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 9,
+                "Time": "2026-07-17 09:04:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1310",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AP",
+                "Order": 1,
+                "Time": "2026-07-17 08:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 2,
+                "Time": "2026-07-17 08:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 3,
+                "Time": "2026-07-17 08:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 4,
+                "Time": "2026-07-17 08:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 5,
+                "Time": "2026-07-17 08:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 6,
+                "Time": "2026-07-17 08:57:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 7,
+                "Time": "2026-07-17 09:04:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 8,
+                "Time": "2026-07-17 09:11:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 9,
+                "Time": "2026-07-17 09:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1610",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 08:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 08:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 08:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 08:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 08:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 09:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 09:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 09:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 09:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 09:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 09:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 09:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1012",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 09:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 09:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 09:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 09:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 09:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 09:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 09:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 09:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 09:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 10:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 10:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1612",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 09:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 09:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 09:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 09:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 09:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 10:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 10:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 10:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 10:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 10:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 10:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 10:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1014",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 10:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 10:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 10:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 10:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 10:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 10:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 10:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 10:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 10:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 11:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 11:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1614",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 10:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 10:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 10:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 10:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 10:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 11:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 11:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 11:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 11:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 11:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 11:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 11:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1016",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 11:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 11:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 11:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 11:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 11:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 11:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 11:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 11:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 11:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 12:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 12:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1716",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "CF",
+                "Order": 1,
+                "Time": "2026-07-17 11:10:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "WR",
+                "Order": 2,
+                "Time": "2026-07-17 11:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 3,
+                "Time": "2026-07-17 11:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 4,
+                "Time": "2026-07-17 11:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 5,
+                "Time": "2026-07-17 11:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 6,
+                "Time": "2026-07-17 11:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 7,
+                "Time": "2026-07-17 12:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 8,
+                "Time": "2026-07-17 12:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 9,
+                "Time": "2026-07-17 12:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 10,
+                "Time": "2026-07-17 12:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 11,
+                "Time": "2026-07-17 12:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 12,
+                "Time": "2026-07-17 12:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 13,
+                "Time": "2026-07-17 12:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1018",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 12:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 12:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 12:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 12:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 12:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 12:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 12:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 12:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 12:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 13:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 13:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1618",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 12:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 12:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 12:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 12:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 12:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 13:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 13:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 13:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 13:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 13:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 13:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 13:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1972",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "NI",
+                "Order": 1,
+                "Time": "2026-07-17 13:02:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "SCTH",
+                "Order": 2,
+                "Time": "2026-07-17 13:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CF",
+                "Order": 3,
+                "Time": "2026-07-17 14:03:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "WR",
+                "Order": 4,
+                "Time": "2026-07-17 14:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 5,
+                "Time": "2026-07-17 14:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 6,
+                "Time": "2026-07-17 14:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 7,
+                "Time": "2026-07-17 14:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 15:02:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 9,
+                "Time": "2026-07-17 15:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 10,
+                "Time": "2026-07-17 15:27:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1020",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 13:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 13:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 13:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 13:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 13:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 13:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 13:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 13:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 13:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 14:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 14:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1620",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 13:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 13:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 13:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 13:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 13:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 14:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 14:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 14:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 14:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 14:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 14:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 14:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1022",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 14:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 14:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 14:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 14:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 14:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 14:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 14:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 14:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 14:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 15:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 15:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1622",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 14:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 14:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 14:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 14:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 14:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 15:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 15:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 15:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 15:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 15:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 15:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 15:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1024",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 15:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 15:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 15:19:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 15:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 15:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 15:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 15:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 15:51:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 15:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 16:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 16:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1624",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 15:26:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 15:38:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 15:44:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 15:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 15:56:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 16:02:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 16:09:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 16:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 16:22:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 16:29:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 16:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 16:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1026",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 16:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 16:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 16:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 16:26:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 16:32:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 16:39:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 16:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 16:52:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 16:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 17:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 17:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1626",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 16:23:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 16:35:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 16:42:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 16:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 16:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 17:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 17:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 17:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 17:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 17:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 17:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 17:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1028",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 17:03:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 17:10:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 17:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 17:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 17:31:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 17:39:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 17:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 17:52:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 17:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 18:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 18:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1628",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 17:23:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 17:35:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 17:42:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 17:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 17:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 18:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 18:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 18:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 18:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 18:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 18:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 18:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1030",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 18:03:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 18:11:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 18:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 18:23:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 18:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 18:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 18:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 18:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 18:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 19:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 19:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1630",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 18:25:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 18:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 18:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 18:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 18:55:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 19:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 19:08:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 19:14:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 19:21:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 19:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 19:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 19:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1032",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 19:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 19:12:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 19:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 19:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 19:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 19:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 19:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 19:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 19:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 20:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 20:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1732",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "CF",
+                "Order": 1,
+                "Time": "2026-07-17 19:09:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "WR",
+                "Order": 2,
+                "Time": "2026-07-17 19:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 3,
+                "Time": "2026-07-17 19:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 4,
+                "Time": "2026-07-17 19:42:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 5,
+                "Time": "2026-07-17 19:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 6,
+                "Time": "2026-07-17 19:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 7,
+                "Time": "2026-07-17 20:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 8,
+                "Time": "2026-07-17 20:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 9,
+                "Time": "2026-07-17 20:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 10,
+                "Time": "2026-07-17 20:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 11,
+                "Time": "2026-07-17 20:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 12,
+                "Time": "2026-07-17 20:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 13,
+                "Time": "2026-07-17 20:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1988",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "NI",
+                "Order": 1,
+                "Time": "2026-07-17 19:59:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "SCTH",
+                "Order": 2,
+                "Time": "2026-07-17 20:27:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CF",
+                "Order": 3,
+                "Time": "2026-07-17 21:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "WR",
+                "Order": 4,
+                "Time": "2026-07-17 21:16:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 5,
+                "Time": "2026-07-17 21:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 6,
+                "Time": "2026-07-17 21:35:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 7,
+                "Time": "2026-07-17 21:49:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 22:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 9,
+                "Time": "2026-07-17 22:17:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 10,
+                "Time": "2026-07-17 22:26:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1034",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 20:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 20:12:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 20:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 20:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 20:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 20:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 20:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 20:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 20:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 21:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 21:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1634",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 20:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 20:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 20:42:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 20:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 20:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 21:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 21:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 21:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 21:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 21:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 21:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 21:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1036",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 21:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 21:12:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 21:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 21:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 21:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 21:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 21:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 21:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 21:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 22:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 22:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1636",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 21:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 21:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 21:42:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 21:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 21:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 22:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 22:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 22:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 22:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 22:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 22:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 22:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1038",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 22:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 22:12:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 22:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 22:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 22:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 22:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 22:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 22:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 22:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-17 23:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-17 23:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1638",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 22:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 22:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 22:42:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 22:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 22:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-17 23:00:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-17 23:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-17 23:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-17 23:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-17 23:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-17 23:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-17 23:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1040",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "AL",
+                "Order": 1,
+                "Time": "2026-07-17 23:05:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 2,
+                "Time": "2026-07-17 23:12:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 3,
+                "Time": "2026-07-17 23:18:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 4,
+                "Time": "2026-07-17 23:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 5,
+                "Time": "2026-07-17 23:30:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 6,
+                "Time": "2026-07-17 23:37:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 7,
+                "Time": "2026-07-17 23:43:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 8,
+                "Time": "2026-07-17 23:50:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 9,
+                "Time": "2026-07-17 23:58:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 10,
+                "Time": "2026-07-18 00:06:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 11,
+                "Time": "2026-07-18 00:15:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          },
+          {
+            "Number": "1640",
+            "Display": "LW - Union Station",
+            "Stops": [
+              {
+                "Code": "WR",
+                "Order": 1,
+                "Time": "2026-07-17 23:24:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AL",
+                "Order": 2,
+                "Time": "2026-07-17 23:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BU",
+                "Order": 3,
+                "Time": "2026-07-17 23:42:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "AP",
+                "Order": 4,
+                "Time": "2026-07-17 23:48:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "BO",
+                "Order": 5,
+                "Time": "2026-07-17 23:54:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "OA",
+                "Order": 6,
+                "Time": "2026-07-18 00:01:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "CL",
+                "Order": 7,
+                "Time": "2026-07-18 00:07:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "PO",
+                "Order": 8,
+                "Time": "2026-07-18 00:13:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "LO",
+                "Order": 9,
+                "Time": "2026-07-18 00:20:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "MI",
+                "Order": 10,
+                "Time": "2026-07-18 00:28:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "EX",
+                "Order": 11,
+                "Time": "2026-07-18 00:36:00",
+                "sortingTime": null,
+                "IsMajor": false
+              },
+              {
+                "Code": "UN",
+                "Order": 12,
+                "Time": "2026-07-18 00:45:00",
+                "sortingTime": null,
+                "IsMajor": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:40:15",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Stations": {
+    "Station": [
+      {
+        "LocationCode": "00137",
+        "PublicStopId": "100137",
+        "LocationName": "Oakville GO",
+        "LocationType": "Bus Stop"
+      },
+      {
+        "LocationCode": "OA",
+        "PublicStopId": "1OA",
+        "LocationName": "Oakville GO",
+        "LocationType": "Train & Bus Station"
+      }
+    ]
+  }
+}

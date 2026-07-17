@@ -59,7 +59,7 @@ describe("MetrolinxHttpClient", () => {
 
     const body = await makeClient().getStopDetails("UN");
 
-    expect(body.Stop?.LocationCode).toBe("UN");
+    expect(body.Stop?.Code).toBe("UN");
     expect(captured).toBeDefined();
     const url = new URL(captured!.url);
     expect(url.searchParams.get("key")).toBe("test-key");
@@ -79,7 +79,7 @@ describe("MetrolinxHttpClient", () => {
 
     const body = await makeClient().getStopDetails("UN");
 
-    expect(body.Stop?.LocationCode).toBe("UN");
+    expect(body.Stop?.Code).toBe("UN");
     expect(calls).toBe(2);
   });
 
@@ -96,7 +96,7 @@ describe("MetrolinxHttpClient", () => {
 
     const body = await makeClient().getStopDetails("UN");
 
-    expect(body.Stop?.LocationCode).toBe("UN");
+    expect(body.Stop?.Code).toBe("UN");
     expect(calls).toBe(2);
   });
 
@@ -111,7 +111,7 @@ describe("MetrolinxHttpClient", () => {
 
     const body = await makeClient().getStopDetails("UN");
 
-    expect(body.Stop?.LocationCode).toBe("UN");
+    expect(body.Stop?.Code).toBe("UN");
     expect(calls).toBe(2);
   });
 

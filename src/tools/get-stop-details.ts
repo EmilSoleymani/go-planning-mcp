@@ -22,10 +22,11 @@ export function registerGetStopDetails(
       inputSchema: getStopDetailsInputShape,
       outputSchema: stopDetailsOutputShape,
     },
-    async ({ stop_code }): Promise<CallToolResult> => {
+    async ({ stop_code, lang }): Promise<CallToolResult> => {
       try {
         const dto = normalizeStopDetails(
           await client.getStopDetails(stop_code),
+          lang,
         );
         return {
           content: [{ type: "text", text: JSON.stringify(dto) }],

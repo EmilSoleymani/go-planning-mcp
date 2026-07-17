@@ -1,0 +1,261 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:46:52",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Messages": {
+    "Message": [
+      {
+        "Code": "M0000442934",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-01-01 23:40:49",
+        "SubjectEnglish": "Elevator out of service",
+        "SubjectFrench": "Ascenseur hors service",
+        "BodyEnglish": "The elevator connecting the main lobby to platforms 1 and 2 is out of service. The station remains accessible through the ramp in the bus terminal. Visit the Hamilton GO Centre page to find helpful information on departures, a station map and a listing of all the services we have available. Visit out Accessibility page to see how we are committed to making our services easy for everyone to use.",
+        "BodyFrench": "L’ascenseur reliant le hall principal aux quais 1 et 2 est hors service. La gare reste accessible par la rampe de la station d’autobus. Visitez la page du centre GO de Hamilton pour trouver des informations utiles sur les départs, un plan de la gare et une liste de tous les services disponibles. Visitez notre page sur l’accessibilité pour voir comment nous nous engageons à rendre nos services faciles à utiliser pour tous.",
+        "Category": "Amenity",
+        "SubCategory": "Elevator-Escalator Disruption",
+        "Lines": [
+          {
+            "Code": "LW"
+          }
+        ],
+        "Stops": [
+          {
+            "Name": null,
+            "Code": "HA"
+          }
+        ],
+        "Trips": []
+      },
+      {
+        "Code": "M0000480679",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-01-01 23:29:54",
+        "SubjectEnglish": "Elevator out of service",
+        "SubjectFrench": "Ascenseur hors service",
+        "BodyEnglish": "The elevators leading from the station building to the south tunnel are out of service. Customers can access both platforms through the north tunnel using elevator access. Visit the Agincourt GO Station page to find helpful information on departures, a station map and a listing of all the services we have available. For Accessibility support during elevator outages, contact us here for assistance.",
+        "BodyFrench": "Les ascenseurs menant du bâtiment de la gare au tunnel sud sont hors service. Les clients peuvent accéder aux deux quais par le tunnel nord en utilisant l’accès aux ascenseurs. Visitez la page de la gare GO d’Agincourt pour trouver des informations utiles sur les départs, un plan de la gare et une liste de tous les services que nous avons disponibles. Pour le support sur l’accessibilité pendant les pannes d’ascenseur, contactez-nous ici pour obtenir de l’aide.",
+        "Category": "Amenity",
+        "SubCategory": "Elevator-Escalator Disruption",
+        "Lines": [
+          {
+            "Code": "ST"
+          }
+        ],
+        "Stops": [
+          {
+            "Name": null,
+            "Code": "AG"
+          }
+        ],
+        "Trips": []
+      },
+      {
+        "Code": "M0000500637",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-02-05 14:06:15",
+        "SubjectEnglish": "Temporary stop relocation – Route 88",
+        "SubjectFrench": "Arrêt temporaire – trajet 88",
+        "BodyEnglish": "The southbound stop on Bowmanville Avenue at Waverly Road is out of service due to long term construction. The northbound stop has moved to the south side of Waverly Road.Subscribe to On the GO alerts and receive customized, real-time alerts for schedule changes, construction updates and more. Sign up for On The GO alerts here.",
+        "BodyFrench": "L’arrêt en direction sud sur l’avenue Bowmanville à la route Waverly est hors service en raison de travaux de construction à long terme. L’arrêt en direction nord a été déplacé du côté sud de la route Waverly. Abonnez-vous aux alertes On the GO et recevez des alertes personnalisées en temps réel pour les changements d’horaire, les mises à jour de construction et plus encore. Inscrivez-vous aux alertes On the GO ici.",
+        "Category": "Service Disruption",
+        "SubCategory": "Temporary Bus Stop Location",
+        "Lines": [
+          {
+            "Code": "88"
+          }
+        ],
+        "Stops": [],
+        "Trips": []
+      },
+      {
+        "Code": "M0000506531",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-04-02 09:47:22",
+        "SubjectEnglish": "Temporary stop relocation – Route 88",
+        "SubjectFrench": "Arrêt temporaire – Trajet 88",
+        "BodyEnglish": "Route 88: The stop at Bowmanville Ave. @ Aspen Springs Dr. has been move to Bowmanville Ave. @ Hartwell Ave. due to construction. We will provide an update when we are able to serve this stop. Subscribe to On the GO alerts and receive customized, real-time alerts for schedule changes, construction updates and more. Sign up for On The GO alerts here.",
+        "BodyFrench": "Trajet 88 : L’arrêt à Bowmanville Ave. @ Aspen Springs Dr. a été déplacé à Bowmanville Ave. @ Hartwell Ave. en raison de travaux de construction. Nous fournirons une mise à jour lorsque nous pourrons desservir cet arrêt. Abonnez-vous aux alertes On the GO et recevez des alertes personnalisées en temps réel pour les changements d’horaire, les mises à jour de construction et plus encore. Inscrivez-vous aux alertes On The GO ici.",
+        "Category": "Service Disruption",
+        "SubCategory": "Temporary Bus Stop Location",
+        "Lines": [
+          {
+            "Code": "88"
+          }
+        ],
+        "Stops": [],
+        "Trips": []
+      },
+      {
+        "Code": "M0000507430",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-04-12 15:52:35",
+        "SubjectEnglish": "Elevator out of service",
+        "SubjectFrench": "Ascenseur hors service",
+        "BodyEnglish": "The elevator connecting the main lobby to the buildings upper floors is out of service. The station remains accessible. Visit the Hamilton GO Centre page to find helpful information on departures, a station map and a listing of all the services we have available. Visit out Accessibility page to see how we are committed to making our services easy for everyone to use",
+        "BodyFrench": "L'ascenseur qui relie le hall principal aux étages supérieurs des bâtiments est hors service. La gare reste accessible. Visitez la page de la gare GO de Hamilton pour trouver des informations utiles, notamment sur les départs, un plan de la gare et tous les services que nous proposons. Pour obtenir de l’aide en matière d’accessibilité pendant les pannes d’ascenseur, communiquez avec nous ici pour obtenir de l’assistance.",
+        "Category": "Amenity",
+        "SubCategory": "Elevator-Escalator Disruption",
+        "Lines": [
+          {
+            "Code": "LW"
+          }
+        ],
+        "Stops": [
+          {
+            "Name": null,
+            "Code": "HA"
+          }
+        ],
+        "Trips": []
+      },
+      {
+        "Code": "M0000507712",
+        "ParentCode": "M0000507189",
+        "Status": "UPD",
+        "PostedDateTime": "2026-04-14 17:00:56",
+        "SubjectEnglish": "North Bus Loop Closed at Brampton Transit Terminal",
+        "SubjectFrench": "",
+        "BodyEnglish": "The north bus loop at Brampton Transit Terminal is closed due to construction of the underground parking lot. Temporary bus stops have been set up on Main Street.- Northbound: Stop is located on the east side of Main St. N., just north of the terminal – exit to Main St. N. and turn left.- Southbound: Route ends on the west side of Main St. N, near the terminal. Additional Information- Accessible parking spaces remain available in the main parking lot.- Work is expected to be completed in August 2026. - Please follow directional signage and use caution around construction areas.",
+        "BodyFrench": "La boucle d’autobus nord à la station d’autobus Brampton Transit est fermée en raison de la construction du parc de stationnement souterrain. Des arrêts d’autobus temporaires ont été installés sur Main Street. - Direction nord : L’arrêt est situé du côté est de Main Street N., juste au nord de la station d’autobus – sortie vers Main Street N. et tourner à gauche. - Direction sud : Le trajet se termine du côté ouest de Main Street N., près de la station d’autobus. Informations supplémentaires - Des places de stationnement accessibles restent disponibles dans le parc de stationnement principal. - Les travaux devraient être terminés en août 2026. - Veuillez suivre la signalisation directionnelle et faire preuve de prudence autour des zones de construction.",
+        "Category": "Service Disruption",
+        "SubCategory": "Temporary Bus Stop Location",
+        "Lines": [
+          {
+            "Code": "37"
+          }
+        ],
+        "Stops": [],
+        "Trips": []
+      },
+      {
+        "Code": "M0000507713",
+        "ParentCode": "M0000507187",
+        "Status": "UPD",
+        "PostedDateTime": "2026-04-14 17:00:49",
+        "SubjectEnglish": "North Bus Loop Closed at Brampton Transit Terminal",
+        "SubjectFrench": "Boucle d’autobus nord fermée à la station d’autobus Brampton Transit",
+        "BodyEnglish": "The north bus loop at Brampton Transit Terminal is closed due to construction of the underground parking lot. Temporary bus stops have been set up on Main Street. GO bus routes 31 & 33- Eastbound: Stop is located on the west side of Main St. N. – exit to Main St. N, turn left and proceed about 85 metres north.- Westbound: Stop is located on the east side of Main St. N. at Church St. E. – exit to Main St. N., turn left and proceed about 125 metres north toward Church St. E.Additional Information- Accessible parking spaces remain available in the main parking lot.- Work is expected to be completed in August 2026. - Please follow directional signage and use caution around construction areas.",
+        "BodyFrench": "La boucle d’autobus nord à la station d’autobus Brampton Transit est fermée en raison de la construction du parc de stationnement souterrain. Des arrêts d’autobus temporaires ont été installés sur Main Street. Trajets d’autobus GO 31 et 33 - Direction est : L’arrêt est situé du côté ouest de Main Street N. – sortez sur Main Street N, tournez à gauche et avancez d’environ 85 mètres vers le nord. - Direction ouest : L’arrêt est situé du côté est de Main Street N. à Church Street E. – sortez sur Main Street N., tournez à gauche et avancez d’environ 125 mètres vers le nord en direction de Church Street E. Informations supplémentaires - Des places de stationnement accessibles restent disponibles dans le parc de stationnement principal. - Les travaux devraient être terminés en août 2026. - Veuillez suivre la signalisation directionnelle et faire preuve de prudence autour des zones de construction.",
+        "Category": "Service Disruption",
+        "SubCategory": "Temporary Bus Stop Location",
+        "Lines": [
+          {
+            "Code": "31"
+          },
+          {
+            "Code": "33"
+          }
+        ],
+        "Stops": [],
+        "Trips": []
+      },
+      {
+        "Code": "M0000508874",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-04-24 15:51:27",
+        "SubjectEnglish": "Elevator back in service",
+        "SubjectFrench": "Ascenseur hors service",
+        "BodyEnglish": "The elevator connecting the tunnel to the north platform will be out of service from April 27 at 9:00 until April 28 at 11:00 for repairs and will not be accessible to customers requiring a step-free path. Customers must travel through Port Credit GO or Union Station. While this platform typically serves westbound trains, platform changes may also impact eastbound trains. Alternative travel options: For westbound travel to or from Exhibition GO, please use Union Station as an accessible alternative. Streetcar connection: - TTC #509 Harbourfront provides accessible service between Exhibition GO and Union Station. - TTC is a One Fare Program partner, meaning this streetcar ride is free for customers traveling with PRESTO and connecting to GO service. Visit the Exhibition GO Station page to find helpful information on departures, a station map and a listing of all the services we have available. For Accessibility support during elevator outages, contact us here for assistance.",
+        "BodyFrench": "L’ascenseur reliant le tunnel au quai nord sera hors service du 27 avril à 9h00 jusqu’au 28 avril à 11h00 pour des réparations et ne sera pas accessible aux clients nécessitant un chemin sans marche. Les clients doivent voyager via la gare GO de Port Credit ou la gare Union. Bien que ce quai serve généralement les trains en direction ouest, les changements de quai peuvent également affecter les trains en direction est. Options de voyage alternatives : Pour les déplacements vers l’ouest à destination ou en provenance de la gare GO d’Exhibition, veuillez utiliser la gare Union comme alternative accessible. Connexion au tramway : - La TTC #509 Harbourfront offre un service accessible entre la gare GO d’Exhibition et la gare Union. - La TTC est partenaire du programme Un Tarif, ce qui signifie que ce trajet en tramway est gratuit pour les clients voyageant avec PRESTO et se connectant au service GO. Visitez la page de la gare GO d’Exhibition pour trouver des informations utiles sur les départs, une carte de la gare et une liste de tous les services disponibles. Pour un soutien en accessibilité lors des pannes d’ascenseur, contactez-nous ici pour obtenir de l’aide.",
+        "Category": "Amenity",
+        "SubCategory": "Elevator-Escalator Disruption",
+        "Lines": [
+          {
+            "Code": "LW"
+          }
+        ],
+        "Stops": [
+          {
+            "Name": null,
+            "Code": "EX"
+          }
+        ],
+        "Trips": []
+      },
+      {
+        "Code": "M0000518393",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-07-13 13:30:12",
+        "SubjectEnglish": "Temporary stop relocation – Route 32",
+        "SubjectFrench": "Arrêt temporaire – Trajet 32",
+        "BodyEnglish": "Until further notice, the stop at Yonge Street and John Street has been relocated 50 metres north of the intersection due to a construction project. We will provide an update when we are able to serve this stop. Subscribe to On the GO alerts and receive customized, real-time alerts for schedule changes, construction updates and more. Sign up for On The GO alerts here.",
+        "BodyFrench": "Jusqu’à nouvel ordre, l’arrêt à l’angle de la rue Yonge et de la rue John a été déplacé de 50 mètres au nord de l’intersection en raison d’un projet de construction. Nous fournirons une mise à jour lorsque nous serons en mesure de desservir cet arrêt. Abonnez-vous aux alertes On the GO et recevez des alertes personnalisées en temps réel pour les changements d’horaire, les mises à jour sur les projets de construction et plus encore. Inscrivez-vous aux alertes On The GO ici.",
+        "Category": "Service Disruption",
+        "SubCategory": "Temporary Bus Stop Location",
+        "Lines": [
+          {
+            "Code": "32"
+          }
+        ],
+        "Stops": [],
+        "Trips": []
+      },
+      {
+        "Code": "M0000518872",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-07-17 05:37:50",
+        "SubjectEnglish": "Lakeshore West - Track Issue",
+        "SubjectFrench": "Ligne de Lakeshore West - problème de voie",
+        "BodyEnglish": "Ongoing track conditions between Confederation GO and Niagara Falls GO (VIA Station) continue to require trains to operate at reduced speeds through the area.As a result, trips may experience delays of up to 20 minutes while crews work to resolve the issue. Customers are encouraged to allow extra travel time and check their trip before travelling. Subscribe to On the GO alerts and receive customized, real-time alerts for schedule changes, construction updates and more. Sign up for On The GO alerts here. See below for current train status:",
+        "BodyFrench": "Les conditions continues des voies entre la gare GO de Confederation et la gare GO de Niagara Falls (gare VIA) obligent les trains à circuler à vitesse réduite dans la zone. En conséquence, les parcours peuvent subir des retards allant jusqu’à 20 minutes pendant que les équipes travaillent à résoudre le problème. Les clients sont encouragés à prévoir un temps de trajet supplémentaire et à vérifier leur parcours avant de voyager. Abonnez-vous aux alertes On the GO et recevez des alertes personnalisées en temps réel concernant les changements d’horaire, les mises à jour de construction et plus encore. Inscrivez-vous aux alertes On the GO ici. Voir ci-dessous l’état actuel des trains :",
+        "Category": "Service Disruption",
+        "SubCategory": "Train Delay",
+        "Lines": [
+          {
+            "Code": "LW"
+          }
+        ],
+        "Stops": [
+          {
+            "Name": null,
+            "Code": "CF"
+          },
+          {
+            "Name": null,
+            "Code": "SCTH"
+          },
+          {
+            "Name": null,
+            "Code": "NI"
+          }
+        ],
+        "Trips": []
+      },
+      {
+        "Code": "M0000519033",
+        "ParentCode": null,
+        "Status": "INIT",
+        "PostedDateTime": "2026-07-17 15:55:11",
+        "SubjectEnglish": "Elevator out of service",
+        "SubjectFrench": "Ascenseur hors service",
+        "BodyEnglish": "The elevator connecting the east tunnel to platform 1 is out of service. Customers can use the pedestrian bridge elevator to access platform 1. The station building is accessible. Visit the Pickering GO Station page to find helpful information on departures, a station map and a listing of all the services we have available. For Accessibility support during elevator outages, contact us here for assistance.",
+        "BodyFrench": "L’ascenseur reliant le tunnel est au quai 1 est hors service. Les clients peuvent utiliser l’ascenseur du pont piétonnier pour accéder au quai 1. Le bâtiment de la gare est accessible. Visitez la page de la gare GO de Pickering pour trouver des informations utiles, notamment sur les départs, un plan de la gare et tous les services que nous proposons. Pour obtenir de l’aide en matière d’accessibilité pendant les pannes d’ascenseur, communiquez avec nous ici pour obtenir de l’assistance.",
+        "Category": "Amenity",
+        "SubCategory": "Elevator-Escalator Disruption",
+        "Lines": [
+          {
+            "Code": "LE"
+          }
+        ],
+        "Stops": [
+          {
+            "Name": null,
+            "Code": "PIN"
+          }
+        ],
+        "Trips": []
+      }
+    ]
+  }
+}
