@@ -17,6 +17,10 @@ const handler = createMcpHandler(
     registerTools(server, client);
   },
   { serverInfo: SERVER_INFO },
+  // mcp-handler matches requests against this path itself; it has no way to
+  // know Vercel is invoking it at /api/mcp (this file's location) rather
+  // than its own "/mcp" default, so it must be told explicitly.
+  { basePath: "/api" },
 );
 
 export { handler as GET, handler as POST, handler as DELETE };
