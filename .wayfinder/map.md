@@ -20,6 +20,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Decisions so far
 
+- [Grilling: Test Architecture](tickets/008-test-architecture.md) — full spec in [docs/spec/test-architecture.md](../docs/spec/test-architecture.md): msw at the HTTP seam + hand-built fake client for tools, captured-real JSON fixtures with a refresh script (first capture doubles as ticket-006's empirical verification), 80/70 coverage gate excluding transport glue, smoke = one call per upstream domain validated against Zod outputSchemas (weekly separate workflow, never PR-gating, failures auto-file a `smoke-failure` issue), two-tier Inspector/Desktop manual checklist in CONTRIBUTING.md.
 - [Grilling: Project Architecture](tickets/007-project-architecture.md) — full spec in [docs/spec/project-architecture.md](../docs/spec/project-architecture.md): pure ESM + strict TS (NodeNext/ES2022, Node ≥ 20), `tsc`-only build with `tsx` dev, transport-agnostic `buildServer()` with three entry surfaces, one file per tool, co-located unit tests, native `fetch` with GTFS-RT as JSON (no protobuf dep), hand-rolled ADR-0001 retry, four runtime deps (SDK ^1.29, zod ^4, mcp-handler ^1.1), TS ^7, ESLint flat `recommendedTypeChecked` + default Prettier, carets + lockfile.
 - [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — full schema spec in [docs/spec/tool-schemas.md](../docs/spec/tool-schemas.md): normalized snake_case DTOs (never passthrough, per-call `lang` for French), Zod-backed `outputSchema`/`structuredContent` on all 17 tools, ISO 8601 with Toronto-clock defaults, opaque-string IDs with unified `stop_code`, in-result errors with closed code enum (disambiguation is a success), no pagination (limit + truncated + narrow-filter hints), `plan_trip` gains emulated `arrive_by`, two-mode anti-dump `get_line_schedule`, unfiltered `get_trip_updates` = disruptions-only, resources share mirror tools' serializers.
 - [Grilling: Caching & Rate Limiting Spec](tickets/005-caching-rate-limiting-spec.md) — conservative retry ([ADR 0001](../docs/adr/0001-conservative-retry-no-429-retry.md)): 2 retries on network/5xx only (incl. body-tunneled codes), 429 never retried — surfaced to the LLM immediately; 500ms→5s full-jitter backoff. In-process best-effort TTL cache: stops 24h, schedules/fares 6h, real-time never; `CACHE_ENABLED` env var; best-effort on Vercel warm instances, full on Docker.
@@ -46,13 +47,12 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ### Frontier (unblocked, open)
 
-- [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo created & pushed; remaining: wire Vercel project + env secret
-- [Grilling: Test Architecture](tickets/008-test-architecture.md) — unblocked: 007 ✅
+- [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo created & pushed; remaining: wire Vercel project + env secret, plus `METROLINX_API_KEY` GitHub Actions repo secret (owner committed to setting it, ticket 008)
 - [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — unblocked: 007 ✅
 
 ### Blocked (open, waiting)
 
-- [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — blocked by 002, 003 ✅, 008
+- [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — blocked by 002, 003 ✅, 008 ✅
 
 ### Resolved
 
@@ -62,3 +62,4 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 - [Grilling: Caching & Rate Limiting Spec](tickets/005-caching-rate-limiting-spec.md) — conservative retry (ADR 0001, 429 never retried), in-process TTL cache
 - [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — full 17-tool schema spec ([docs/spec/tool-schemas.md](../docs/spec/tool-schemas.md)): normalized DTOs, structured output, ISO 8601, unified IDs, error taxonomy, no pagination
 - [Grilling: Project Architecture](tickets/007-project-architecture.md) — full project spec ([docs/spec/project-architecture.md](../docs/spec/project-architecture.md)): ESM/strict TS, tsc-only, transport-agnostic core, four runtime deps
+- [Grilling: Test Architecture](tickets/008-test-architecture.md) — full test spec ([docs/spec/test-architecture.md](../docs/spec/test-architecture.md)): msw + fake client, captured fixtures, 80/70 gate, schema-validated smoke, two-tier Desktop checklist
