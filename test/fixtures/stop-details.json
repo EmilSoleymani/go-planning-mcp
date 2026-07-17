@@ -1,22 +1,138 @@
 {
   "Metadata": {
-    "TimeStamp": "2026-07-17 10:00:00",
+    "TimeStamp": "2026-07-17 16:46:52",
     "ErrorCode": "200",
     "ErrorMessage": "OK"
   },
   "Stop": {
-    "LocationCode": "UN",
-    "LocationName": "Union Station GO",
-    "LocationType": "Train Station",
+    "ZoneCode": "02",
+    "StreetNumber": "140",
+    "Intersection": "Bay Street and Front Street",
     "City": "Toronto",
-    "Latitude": 43.645195,
-    "Longitude": -79.380331,
-    "IsBus": true,
+    "StreetName": "Bay Street",
+    "Code": "UN",
+    "StopName": "Union Station GO",
+    "StopNameFr": "",
+    "IsBus": false,
     "IsTrain": true,
-    "Facilities": ["Ticket counter", "Washrooms", "Wheelchair accessible"],
-    "ParkingLots": [],
-    "AccessibilityInfo": "Elevators to all platforms.",
-    "BoardingInfo": null,
-    "DrivingDirections": null
+    "Longitude": "-79.3806",
+    "Latitude": "43.645195",
+    "DrivingDirections": "Westbound: Exit Gardiner Expwy. @ Yonge St./Bay St. to Lake Shore; west to Bay.; north to station\nEastbound: Exit Gardiner Expwy. @ York St./Bay St. to York; north to Front St. west to station",
+    "DrivingDirectionsFr": "",
+    "BoardingInfo": "GO Buses board at Union Station GO Bus Terminal on the east side of Bay Street at Lake Shore Blvd.",
+    "BoardingInfoFr": "",
+    "TicketSales": "Bay & York Concourses:\nMonday to Friday: 06:30 - 01:00, Weekends & Holidays:  06:30 - 01:00",
+    "TicketSalesFr": "Concourses Bay et York :        Lundi au Vendredi : 06:30 - 01:00, Week-ends et jours fériés : 06:30 - 01:00",
+    "Facilities": [
+      {
+        "Code": "ABM",
+        "Description": "Automatic Bank Teller Machine",
+        "DescriptionFr": "Guichet automatique"
+      },
+      {
+        "Code": "BR",
+        "Description": "Bicycle Rack",
+        "DescriptionFr": "Support à bicyclettes"
+      },
+      {
+        "Code": "CCA",
+        "Description": "Credit cards accepted",
+        "DescriptionFr": "Cartes de crédit acceptées"
+      },
+      {
+        "Code": "DCA",
+        "Description": "Debit cards accepted",
+        "DescriptionFr": "Cartes de débit acceptées"
+      },
+      {
+        "Code": "EV",
+        "Description": "Elevators",
+        "DescriptionFr": "Ascenseurs"
+      },
+      {
+        "Code": "PP",
+        "Description": "Pay Phones",
+        "DescriptionFr": "Téléphones public"
+      },
+      {
+        "Code": "PW",
+        "Description": "Public Washroom",
+        "DescriptionFr": "Toilettes publiques"
+      },
+      {
+        "Code": "SB",
+        "Description": "Station building",
+        "DescriptionFr": "Bâtiment de la gare"
+      },
+      {
+        "Code": "TAXI",
+        "Description": "Taxi stand",
+        "DescriptionFr": "Poste d'attente de taxi"
+      },
+      {
+        "Code": "TVM",
+        "Description": "Ticket Vending Machine (Cash/ Debit/ Credit) ",
+        "DescriptionFr": "Distributeurs de billets"
+      },
+      {
+        "Code": "FBS",
+        "Description": "Food and Beverage Sales",
+        "DescriptionFr": "Vente de nourriture et de boissons"
+      },
+      {
+        "Code": "WR",
+        "Description": "Waiting Room",
+        "DescriptionFr": "Salle d’attente"
+      },
+      {
+        "Code": "WAT",
+        "Description": "Wheelchair Accessible Train Service",
+        "DescriptionFr": "Service de train accessible en fauteuil roulant"
+      },
+      {
+        "Code": "BCH",
+        "Description": "Bench",
+        "DescriptionFr": "Banc"
+      },
+      {
+        "Code": "WIFI",
+        "Description": "Wi-Fi",
+        "DescriptionFr": "Wi-Fi"
+      },
+      {
+        "Code": "TVMP",
+        "Description": "PRESTO Enabled TVM (Cash/Debit/Credit)",
+        "DescriptionFr": "Distributeurs de billets acceptant PRESTO"
+      },
+      {
+        "Code": "SSRM",
+        "Description": "Self Serve Reload Machine (Debit/ Credit)",
+        "DescriptionFr": "Borne de rechargement libre-service "
+      },
+      {
+        "Code": "AVM",
+        "Description": "Add Value Machine",
+        "DescriptionFr": "Appareils d’ajout de fonds"
+      },
+      {
+        "Code": "VS",
+        "Description": "VIA Rail Service",
+        "DescriptionFr": "Service de VIA Rail\n"
+      },
+      {
+        "Code": "UPWAT",
+        "Description": "Upexpress Wheelchair Accessible Train Service",
+        "DescriptionFr": ""
+      }
+    ],
+    "Parkings": [],
+    "Place": {
+      "Code": "unionS",
+      "Name": "Union Station ",
+      "Longitude": "-79.3804680",
+      "Latitude": "43.6452910",
+      "Radius": "0",
+      "Stops": null
+    }
   }
 }

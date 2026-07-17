@@ -1,0 +1,2421 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:46:52",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "AllDepartures": {
+    "Trip": [
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1029",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:17:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1031",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:17:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1033",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 20:17:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1077",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:29:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1127",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:05:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1327",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:35:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1627",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:53:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          },
+          {
+            "Name": "West Harbour",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1631",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:47:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          },
+          {
+            "Name": "West Harbour",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1729",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:47:00",
+        "Stops": [
+          {
+            "Name": "Exhibition",
+            "Code": null
+          },
+          {
+            "Name": "Mimico",
+            "Code": null
+          },
+          {
+            "Name": "Long Branch",
+            "Code": null
+          },
+          {
+            "Name": "Port Credit",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          },
+          {
+            "Name": "West Harbour",
+            "Code": null
+          },
+          {
+            "Name": "Confederation",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Proceed / Avancez",
+        "TripNumber": "1875",
+        "Platform": "5 & 6",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 16:50:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          },
+          {
+            "Name": "Hamilton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1877",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:20:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          },
+          {
+            "Name": "Hamilton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1879",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:50:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          },
+          {
+            "Name": "Hamilton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "1977",
+        "Platform": "-",
+        "Service": "Lakeshore West",
+        "ServiceType": "T",
+        "Time": "2026-07-17 16:59:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Clarkson",
+            "Code": null
+          },
+          {
+            "Name": "Oakville",
+            "Code": null
+          },
+          {
+            "Name": "Bronte",
+            "Code": null
+          },
+          {
+            "Name": "Appleby",
+            "Code": null
+          },
+          {
+            "Name": "Burlington",
+            "Code": null
+          },
+          {
+            "Name": "Aldershot",
+            "Code": null
+          },
+          {
+            "Name": "West Harbour",
+            "Code": null
+          },
+          {
+            "Name": "Confederation",
+            "Code": null
+          },
+          {
+            "Name": "St. Catharines",
+            "Code": null
+          },
+          {
+            "Name": "Niagara Falls",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Proceed / Avancez",
+        "TripNumber": "2735",
+        "Platform": "4",
+        "Service": "Milton",
+        "ServiceType": "T",
+        "Time": "2026-07-17 16:55:00",
+        "Stops": [
+          {
+            "Name": "Kipling",
+            "Code": null
+          },
+          {
+            "Name": "Dixie GO",
+            "Code": null
+          },
+          {
+            "Name": "Cooksville",
+            "Code": null
+          },
+          {
+            "Name": "Erindale",
+            "Code": null
+          },
+          {
+            "Name": "Streetsville",
+            "Code": null
+          },
+          {
+            "Name": "Meadowvale",
+            "Code": null
+          },
+          {
+            "Name": "Lisgar",
+            "Code": null
+          },
+          {
+            "Name": "Milton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "2737",
+        "Platform": "-",
+        "Service": "Milton",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:10:00",
+        "Stops": [
+          {
+            "Name": "Kipling",
+            "Code": null
+          },
+          {
+            "Name": "Dixie GO",
+            "Code": null
+          },
+          {
+            "Name": "Cooksville",
+            "Code": null
+          },
+          {
+            "Name": "Erindale",
+            "Code": null
+          },
+          {
+            "Name": "Streetsville",
+            "Code": null
+          },
+          {
+            "Name": "Meadowvale",
+            "Code": null
+          },
+          {
+            "Name": "Lisgar",
+            "Code": null
+          },
+          {
+            "Name": "Milton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "2739",
+        "Platform": "-",
+        "Service": "Milton",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:25:00",
+        "Stops": [
+          {
+            "Name": "Kipling",
+            "Code": null
+          },
+          {
+            "Name": "Dixie GO",
+            "Code": null
+          },
+          {
+            "Name": "Cooksville",
+            "Code": null
+          },
+          {
+            "Name": "Erindale",
+            "Code": null
+          },
+          {
+            "Name": "Streetsville",
+            "Code": null
+          },
+          {
+            "Name": "Meadowvale",
+            "Code": null
+          },
+          {
+            "Name": "Lisgar",
+            "Code": null
+          },
+          {
+            "Name": "Milton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "2741",
+        "Platform": "-",
+        "Service": "Milton",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:55:00",
+        "Stops": [
+          {
+            "Name": "Kipling",
+            "Code": null
+          },
+          {
+            "Name": "Dixie GO",
+            "Code": null
+          },
+          {
+            "Name": "Cooksville",
+            "Code": null
+          },
+          {
+            "Name": "Erindale",
+            "Code": null
+          },
+          {
+            "Name": "Streetsville",
+            "Code": null
+          },
+          {
+            "Name": "Meadowvale",
+            "Code": null
+          },
+          {
+            "Name": "Lisgar",
+            "Code": null
+          },
+          {
+            "Name": "Milton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "2745",
+        "Platform": "-",
+        "Service": "Milton",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:25:00",
+        "Stops": [
+          {
+            "Name": "Kipling",
+            "Code": null
+          },
+          {
+            "Name": "Dixie GO",
+            "Code": null
+          },
+          {
+            "Name": "Cooksville",
+            "Code": null
+          },
+          {
+            "Name": "Erindale",
+            "Code": null
+          },
+          {
+            "Name": "Streetsville",
+            "Code": null
+          },
+          {
+            "Name": "Meadowvale",
+            "Code": null
+          },
+          {
+            "Name": "Lisgar",
+            "Code": null
+          },
+          {
+            "Name": "Milton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "2749",
+        "Platform": "-",
+        "Service": "Milton",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:10:00",
+        "Stops": [
+          {
+            "Name": "Kipling",
+            "Code": null
+          },
+          {
+            "Name": "Dixie GO",
+            "Code": null
+          },
+          {
+            "Name": "Cooksville",
+            "Code": null
+          },
+          {
+            "Name": "Erindale",
+            "Code": null
+          },
+          {
+            "Name": "Streetsville",
+            "Code": null
+          },
+          {
+            "Name": "Meadowvale",
+            "Code": null
+          },
+          {
+            "Name": "Lisgar",
+            "Code": null
+          },
+          {
+            "Name": "Milton",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3029",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:04:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Etobicoke North",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3031",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:04:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3033",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 20:04:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3227",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:34:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3529",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:34:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Etobicoke North",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3531",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:34:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Etobicoke North",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3533",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 20:34:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Etobicoke North",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3627",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:04:00",
+        "Stops": [
+          {
+            "Name": "Bloor",
+            "Code": null
+          },
+          {
+            "Name": "Mount Dennis",
+            "Code": null
+          },
+          {
+            "Name": "Weston",
+            "Code": null
+          },
+          {
+            "Name": "Etobicoke North",
+            "Code": null
+          },
+          {
+            "Name": "Malton",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          },
+          {
+            "Name": "Georgetown",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3777",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:22:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          },
+          {
+            "Name": "Georgetown",
+            "Code": null
+          },
+          {
+            "Name": "Acton",
+            "Code": null
+          },
+          {
+            "Name": "Guelph Central",
+            "Code": null
+          },
+          {
+            "Name": "Kitchener",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3779",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:21:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          },
+          {
+            "Name": "Georgetown",
+            "Code": null
+          },
+          {
+            "Name": "Acton",
+            "Code": null
+          },
+          {
+            "Name": "Guelph Central",
+            "Code": null
+          },
+          {
+            "Name": "Kitchener",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "3877",
+        "Platform": "-",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:51:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Etobicoke North",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          },
+          {
+            "Name": "Georgetown",
+            "Code": null
+          },
+          {
+            "Name": "Acton",
+            "Code": null
+          },
+          {
+            "Name": "Guelph Central",
+            "Code": null
+          },
+          {
+            "Name": "Kitchener",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Proceed / Avancez",
+        "TripNumber": "3975",
+        "Platform": "13",
+        "Service": "Kitchener",
+        "ServiceType": "T",
+        "Time": "2026-07-17 16:52:00",
+        "Stops": [
+          {
+            "Name": "Express To",
+            "Code": null
+          },
+          {
+            "Name": "Bramalea",
+            "Code": null
+          },
+          {
+            "Name": "Brampton Innovation District GO",
+            "Code": null
+          },
+          {
+            "Name": "Mount Pleasant",
+            "Code": null
+          },
+          {
+            "Name": "Georgetown",
+            "Code": null
+          },
+          {
+            "Name": "Acton",
+            "Code": null
+          },
+          {
+            "Name": "Guelph Central",
+            "Code": null
+          },
+          {
+            "Name": "Kitchener",
+            "Code": null
+          },
+          {
+            "Name": "Stratford GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "5127",
+        "Platform": "-",
+        "Service": "Richmond Hill",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:15:00",
+        "Stops": [
+          {
+            "Name": "Oriole",
+            "Code": null
+          },
+          {
+            "Name": "Old Cummer",
+            "Code": null
+          },
+          {
+            "Name": "Langstaff",
+            "Code": null
+          },
+          {
+            "Name": "Richmond Hill",
+            "Code": null
+          },
+          {
+            "Name": "Gormley",
+            "Code": null
+          },
+          {
+            "Name": "Bloomington",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "5327",
+        "Platform": "-",
+        "Service": "Richmond Hill",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:45:00",
+        "Stops": [
+          {
+            "Name": "Oriole",
+            "Code": null
+          },
+          {
+            "Name": "Old Cummer",
+            "Code": null
+          },
+          {
+            "Name": "Langstaff",
+            "Code": null
+          },
+          {
+            "Name": "Richmond Hill",
+            "Code": null
+          },
+          {
+            "Name": "Gormley",
+            "Code": null
+          },
+          {
+            "Name": "Bloomington",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "5329",
+        "Platform": "-",
+        "Service": "Richmond Hill",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:45:00",
+        "Stops": [
+          {
+            "Name": "Oriole",
+            "Code": null
+          },
+          {
+            "Name": "Old Cummer",
+            "Code": null
+          },
+          {
+            "Name": "Langstaff",
+            "Code": null
+          },
+          {
+            "Name": "Richmond Hill",
+            "Code": null
+          },
+          {
+            "Name": "Gormley",
+            "Code": null
+          },
+          {
+            "Name": "Bloomington",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Proceed / Avancez",
+        "TripNumber": "6325",
+        "Platform": "9 & 10",
+        "Service": "Barrie",
+        "ServiceType": "T",
+        "Time": "2026-07-17 16:53:00",
+        "Stops": [
+          {
+            "Name": "Downsview Park",
+            "Code": null
+          },
+          {
+            "Name": "Rutherford",
+            "Code": null
+          },
+          {
+            "Name": "Maple",
+            "Code": null
+          },
+          {
+            "Name": "King City",
+            "Code": null
+          },
+          {
+            "Name": "Aurora",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "6329",
+        "Platform": "-",
+        "Service": "Barrie",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:54:00",
+        "Stops": [
+          {
+            "Name": "Downsview Park",
+            "Code": null
+          },
+          {
+            "Name": "Rutherford",
+            "Code": null
+          },
+          {
+            "Name": "Maple",
+            "Code": null
+          },
+          {
+            "Name": "King City",
+            "Code": null
+          },
+          {
+            "Name": "Aurora",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "6331",
+        "Platform": "-",
+        "Service": "Barrie",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:54:00",
+        "Stops": [
+          {
+            "Name": "Downsview Park",
+            "Code": null
+          },
+          {
+            "Name": "Rutherford",
+            "Code": null
+          },
+          {
+            "Name": "Maple",
+            "Code": null
+          },
+          {
+            "Name": "King City",
+            "Code": null
+          },
+          {
+            "Name": "Aurora",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "6627",
+        "Platform": "-",
+        "Service": "Barrie",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:08:00",
+        "Stops": [
+          {
+            "Name": "Downsview Park",
+            "Code": null
+          },
+          {
+            "Name": "Rutherford",
+            "Code": null
+          },
+          {
+            "Name": "Maple",
+            "Code": null
+          },
+          {
+            "Name": "King City",
+            "Code": null
+          },
+          {
+            "Name": "Aurora",
+            "Code": null
+          },
+          {
+            "Name": "Newmarket",
+            "Code": null
+          },
+          {
+            "Name": "East Gwillimbury",
+            "Code": null
+          },
+          {
+            "Name": "Bradford",
+            "Code": null
+          },
+          {
+            "Name": "Barrie South",
+            "Code": null
+          },
+          {
+            "Name": "Allandale Waterfront",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "6727",
+        "Platform": "-",
+        "Service": "Barrie",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:23:00",
+        "Stops": [
+          {
+            "Name": "Downsview Park",
+            "Code": null
+          },
+          {
+            "Name": "Rutherford",
+            "Code": null
+          },
+          {
+            "Name": "Maple",
+            "Code": null
+          },
+          {
+            "Name": "King City",
+            "Code": null
+          },
+          {
+            "Name": "Aurora",
+            "Code": null
+          },
+          {
+            "Name": "Newmarket",
+            "Code": null
+          },
+          {
+            "Name": "East Gwillimbury",
+            "Code": null
+          },
+          {
+            "Name": "Bradford",
+            "Code": null
+          },
+          {
+            "Name": "Barrie South",
+            "Code": null
+          },
+          {
+            "Name": "Allandale Waterfront",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "6927",
+        "Platform": "-",
+        "Service": "Barrie",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:53:00",
+        "Stops": [
+          {
+            "Name": "Downsview Park",
+            "Code": null
+          },
+          {
+            "Name": "Rutherford",
+            "Code": null
+          },
+          {
+            "Name": "Maple",
+            "Code": null
+          },
+          {
+            "Name": "King City",
+            "Code": null
+          },
+          {
+            "Name": "Aurora",
+            "Code": null
+          },
+          {
+            "Name": "Newmarket",
+            "Code": null
+          },
+          {
+            "Name": "East Gwillimbury",
+            "Code": null
+          },
+          {
+            "Name": "Bradford",
+            "Code": null
+          },
+          {
+            "Name": "Barrie South",
+            "Code": null
+          },
+          {
+            "Name": "Allandale Waterfront",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Proceed / Avancez",
+        "TripNumber": "7324",
+        "Platform": "21",
+        "Service": "Stouffville",
+        "ServiceType": "T",
+        "Time": "2026-07-17 16:50:00",
+        "Stops": [
+          {
+            "Name": "Kennedy",
+            "Code": null
+          },
+          {
+            "Name": "Agincourt",
+            "Code": null
+          },
+          {
+            "Name": "Milliken",
+            "Code": null
+          },
+          {
+            "Name": "Unionville",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "7428",
+        "Platform": "-",
+        "Service": "Stouffville",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:15:00",
+        "Stops": [
+          {
+            "Name": "Kennedy",
+            "Code": null
+          },
+          {
+            "Name": "Agincourt",
+            "Code": null
+          },
+          {
+            "Name": "Milliken",
+            "Code": null
+          },
+          {
+            "Name": "Unionville",
+            "Code": null
+          },
+          {
+            "Name": "Centennial",
+            "Code": null
+          },
+          {
+            "Name": "Markham",
+            "Code": null
+          },
+          {
+            "Name": "Mount Joy",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "7430",
+        "Platform": "-",
+        "Service": "Stouffville",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:00:00",
+        "Stops": [
+          {
+            "Name": "Kennedy",
+            "Code": null
+          },
+          {
+            "Name": "Agincourt",
+            "Code": null
+          },
+          {
+            "Name": "Milliken",
+            "Code": null
+          },
+          {
+            "Name": "Unionville",
+            "Code": null
+          },
+          {
+            "Name": "Centennial",
+            "Code": null
+          },
+          {
+            "Name": "Markham",
+            "Code": null
+          },
+          {
+            "Name": "Mount Joy",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "7432",
+        "Platform": "-",
+        "Service": "Stouffville",
+        "ServiceType": "T",
+        "Time": "2026-07-17 20:00:00",
+        "Stops": [
+          {
+            "Name": "Kennedy",
+            "Code": null
+          },
+          {
+            "Name": "Agincourt",
+            "Code": null
+          },
+          {
+            "Name": "Milliken",
+            "Code": null
+          },
+          {
+            "Name": "Unionville",
+            "Code": null
+          },
+          {
+            "Name": "Centennial",
+            "Code": null
+          },
+          {
+            "Name": "Markham",
+            "Code": null
+          },
+          {
+            "Name": "Mount Joy",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "7626",
+        "Platform": "-",
+        "Service": "Stouffville",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:00:00",
+        "Stops": [
+          {
+            "Name": "Kennedy",
+            "Code": null
+          },
+          {
+            "Name": "Agincourt",
+            "Code": null
+          },
+          {
+            "Name": "Milliken",
+            "Code": null
+          },
+          {
+            "Name": "Unionville",
+            "Code": null
+          },
+          {
+            "Name": "Centennial",
+            "Code": null
+          },
+          {
+            "Name": "Markham",
+            "Code": null
+          },
+          {
+            "Name": "Mount Joy",
+            "Code": null
+          },
+          {
+            "Name": "Stouffville",
+            "Code": null
+          },
+          {
+            "Name": "Old Elm",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "7826",
+        "Platform": "-",
+        "Service": "Stouffville",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:32:00",
+        "Stops": [
+          {
+            "Name": "Kennedy",
+            "Code": null
+          },
+          {
+            "Name": "Agincourt",
+            "Code": null
+          },
+          {
+            "Name": "Milliken",
+            "Code": null
+          },
+          {
+            "Name": "Unionville",
+            "Code": null
+          },
+          {
+            "Name": "Centennial",
+            "Code": null
+          },
+          {
+            "Name": "Markham",
+            "Code": null
+          },
+          {
+            "Name": "Mount Joy",
+            "Code": null
+          },
+          {
+            "Name": "Stouffville",
+            "Code": null
+          },
+          {
+            "Name": "Old Elm",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9026",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:03:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9126",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:23:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9128",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:20:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9130",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:20:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9132",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 20:20:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9226",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:35:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Proceed / Avancez",
+        "TripNumber": "9324",
+        "Platform": "11 & 12",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 16:53:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9326",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:50:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9328",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 18:50:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9330",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 19:50:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          },
+          {
+            "Name": "DC Oshawa GO",
+            "Code": null
+          }
+        ]
+      },
+      {
+        "Info": "Wait / Attendez",
+        "TripNumber": "9626",
+        "Platform": "-",
+        "Service": "Lakeshore East",
+        "ServiceType": "T",
+        "Time": "2026-07-17 17:13:00",
+        "Stops": [
+          {
+            "Name": "Danforth",
+            "Code": null
+          },
+          {
+            "Name": "Scarborough",
+            "Code": null
+          },
+          {
+            "Name": "Eglinton",
+            "Code": null
+          },
+          {
+            "Name": "Guildwood",
+            "Code": null
+          },
+          {
+            "Name": "Rouge Hill",
+            "Code": null
+          },
+          {
+            "Name": "Pickering",
+            "Code": null
+          },
+          {
+            "Name": "Ajax",
+            "Code": null
+          },
+          {
+            "Name": "Whitby",
+            "Code": null
+          }
+        ]
+      }
+    ]
+  }
+}
