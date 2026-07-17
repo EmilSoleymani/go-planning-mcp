@@ -20,6 +20,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Decisions so far
 
+- [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — full spec in [docs/spec/docker-deployment.md](../docs/spec/docker-deployment.md): multi-stage `node:22-alpine` (port 3000, non-root, liveness-only `/health`, fail-fast env contract), run-only compose with the dev-vs-run split documented in CONTRIBUTING.md, four-block self-hoster README section, and publishing to **both ghcr.io (multi-arch) and npm (`go-transit-mcp`, trusted publishing)** triggered only by `v*` tags — resolving both publishing fog lines. `docs/RELEASING.md` (one-time setup + first-timer runbook) is a required implementation deliverable.
 - [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — full spec in [docs/spec/cicd-pipeline.md](../docs/spec/cicd-pipeline.md): one sequential keyless `checks` job on Node [20, 22], Vercel built-in Git integration with zero deploy code (gating at merge), smoke cron `17 11 * * 1` with `gh`-CLI auto-issue, single secret (`METROLINX_API_KEY`), squash-only merges with required checks and a phase-two admin-enforcement flip when the scaffold lands. Assumes ticket 002 wires Vercel + the repo secret.
 - [Grilling: Test Architecture](tickets/008-test-architecture.md) — full spec in [docs/spec/test-architecture.md](../docs/spec/test-architecture.md): msw at the HTTP seam + hand-built fake client for tools, captured-real JSON fixtures with a refresh script (first capture doubles as ticket-006's empirical verification), 80/70 coverage gate excluding transport glue, smoke = one call per upstream domain validated against Zod outputSchemas (weekly separate workflow, never PR-gating, failures auto-file a `smoke-failure` issue), two-tier Inspector/Desktop manual checklist in CONTRIBUTING.md.
 - [Grilling: Project Architecture](tickets/007-project-architecture.md) — full spec in [docs/spec/project-architecture.md](../docs/spec/project-architecture.md): pure ESM + strict TS (NodeNext/ES2022, Node ≥ 20), `tsc`-only build with `tsx` dev, transport-agnostic `buildServer()` with three entry surfaces, one file per tool, co-located unit tests, native `fetch` with GTFS-RT as JSON (no protobuf dep), hand-rolled ADR-0001 retry, four runtime deps (SDK ^1.29, zod ^4, mcp-handler ^1.1), TS ^7, ESLint flat `recommendedTypeChecked` + default Prettier, carets + lockfile.
@@ -31,11 +32,11 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Not yet specified
 
-- Whether ghcr.io image publishing is worth the complexity for v1 or deferred
-- Whether to publish the package to npm (the `bin: go-transit-mcp` field from ticket 007 makes `npx` setup possible if so) — sibling of the ghcr.io question, likely resolved together in ticket 010
-- Vercel Hobby is non-commercial-use only — fine for this open source project now, but if the future app/backend becomes commercial, the owner's hosted instance must move off Hobby (revisit when the backend effort starts)
+_(none — the way to the destination is fully charted; only the repo-wiring task remains open)_
 
 ## Out of scope
+
+- Moving the owner's hosted instance off Vercel Hobby if the future app/backend becomes commercial (Hobby is non-commercial-use only — fine for this open source project now; revisit as part of the backend effort)
 
 - The frontend app (explicitly deferred to a separate future effort)
 - The backend that will eventually consume this MCP server (deferred)
@@ -49,7 +50,6 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 ### Frontier (unblocked, open)
 
 - [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo created & pushed; remaining: wire Vercel project + env secret, plus `METROLINX_API_KEY` GitHub Actions repo secret (owner committed to setting it, ticket 008)
-- [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — unblocked: 007 ✅
 
 ### Blocked (open, waiting)
 
@@ -65,3 +65,4 @@ _(none)_
 - [Grilling: Project Architecture](tickets/007-project-architecture.md) — full project spec ([docs/spec/project-architecture.md](../docs/spec/project-architecture.md)): ESM/strict TS, tsc-only, transport-agnostic core, four runtime deps
 - [Grilling: Test Architecture](tickets/008-test-architecture.md) — full test spec ([docs/spec/test-architecture.md](../docs/spec/test-architecture.md)): msw + fake client, captured fixtures, 80/70 gate, schema-validated smoke, two-tier Desktop checklist
 - [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — full CI/CD spec ([docs/spec/cicd-pipeline.md](../docs/spec/cicd-pipeline.md)): keyless PR checks, Vercel Git integration, smoke cron + auto-issue, squash-only + phased branch protection
+- [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — full deployment spec ([docs/spec/docker-deployment.md](../docs/spec/docker-deployment.md)): node:22-alpine multi-stage, run-only compose, ghcr + npm tag-triggered publishing, RELEASING.md runbook required
