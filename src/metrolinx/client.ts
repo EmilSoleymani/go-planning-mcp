@@ -1,10 +1,20 @@
 import { MetrolinxError } from "../errors.js";
-import type { RawStopDetailsResponse } from "./types.js";
+import { TtlCache } from "./cache.js";
+import type {
+  RawNextServiceResponse,
+  RawStopAllResponse,
+  RawStopDestinationsResponse,
+  RawStopDetailsResponse,
+} from "./types.js";
 
 const DEFAULT_BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
 const MAX_RETRIES = 2;
 const BACKOFF_BASE_MS = 500;
 const BACKOFF_CAP_MS = 5000;
+
+// Caching spec (ticket 005): stops are slow-changing (24h); next-service and
+// destinations are real-time and never cached.
+const STOP_ALL_TTL_MS = 24 * 60 * 60 * 1000;
 
 /**
  * The surface tools depend on. Tool tests inject a hand-built fake
@@ -12,6 +22,13 @@ const BACKOFF_CAP_MS = 5000;
  */
 export interface MetrolinxClient {
   getStopDetails(stopCode: string): Promise<RawStopDetailsResponse>;
+  getStopAll(): Promise<RawStopAllResponse>;
+  getNextService(stopCode: string): Promise<RawNextServiceResponse>;
+  getStopDestinations(
+    stopCode: string,
+    fromTimeWire: string,
+    toTimeWire: string,
+  ): Promise<RawStopDestinationsResponse>;
 }
 
 interface RawEnvelope {
@@ -26,12 +43,15 @@ export interface MetrolinxHttpClientOptions {
   baseUrl?: string;
   /** Injected in tests to skip real backoff waits. */
   sleep?: (ms: number) => Promise<void>;
+  /** CACHE_ENABLED kill switch (caching spec, ticket 005); default true. */
+  cacheEnabled?: boolean;
 }
 
 export class MetrolinxHttpClient implements MetrolinxClient {
   private readonly apiKey: string;
   private readonly baseUrl: string;
   private readonly sleep: (ms: number) => Promise<void>;
+  private readonly cache: TtlCache;
 
   constructor(options: MetrolinxHttpClientOptions) {
     this.apiKey = options.apiKey;
@@ -39,11 +59,34 @@ export class MetrolinxHttpClient implements MetrolinxClient {
     this.sleep =
       options.sleep ??
       ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
+    this.cache = new TtlCache({ enabled: options.cacheEnabled ?? true });
   }
 
   async getStopDetails(stopCode: string): Promise<RawStopDetailsResponse> {
     return this.get<RawStopDetailsResponse>(
       `/Stop/Details/${encodeURIComponent(stopCode)}`,
+    );
+  }
+
+  async getStopAll(): Promise<RawStopAllResponse> {
+    return this.cache.getOrFetch("stop-all", STOP_ALL_TTL_MS, () =>
+      this.get<RawStopAllResponse>("/Stop/All"),
+    );
+  }
+
+  async getNextService(stopCode: string): Promise<RawNextServiceResponse> {
+    return this.get<RawNextServiceResponse>(
+      `/Stop/NextService/${encodeURIComponent(stopCode)}`,
+    );
+  }
+
+  async getStopDestinations(
+    stopCode: string,
+    fromTimeWire: string,
+    toTimeWire: string,
+  ): Promise<RawStopDestinationsResponse> {
+    return this.get<RawStopDestinationsResponse>(
+      `/Stop/Destinations/${encodeURIComponent(stopCode)}/${fromTimeWire}/${toTimeWire}`,
     );
   }
 
@@ -101,9 +144,14 @@ export class MetrolinxHttpClient implements MetrolinxClient {
 
     const body = (await response.json()) as T;
     // Metrolinx tunnels failures through HTTP 200 bodies — the status line
-    // lies; only Metadata.ErrorCode tells the truth (ticket 001).
+    // lies; only Metadata.ErrorCode tells the truth (ticket 001). "204" is
+    // not a failure despite the tunneling mechanism: confirmed live
+    // (issue #7) for an unknown stop code across Stop/Details,
+    // Stop/NextService, and Stop/Destinations — ErrorMessage "No Content",
+    // data field null. Treated as a passthrough so each tool's own
+    // null-check produces `not_found` instead of a generic upstream error.
     const tunneled = body.Metadata?.ErrorCode;
-    if (tunneled && tunneled !== "200") {
+    if (tunneled && tunneled !== "200" && tunneled !== "204") {
       throw tunneledError(tunneled, body.Metadata?.ErrorMessage ?? undefined);
     }
     return body;

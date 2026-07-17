@@ -1,0 +1,667 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 19:20:28",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Stop": {
+    "Code": "UN",
+    "Name": "Union Station GO",
+    "Line": [
+      {
+        "Code": "BR",
+        "Display": "BR - Allandale Waterfront GO",
+        "Direction": "N",
+        "DestinationStop": "AD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Allandale Waterfront GO",
+        "Direction": "N",
+        "DestinationStop": "AD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Allandale Waterfront GO",
+        "Direction": "N",
+        "DestinationStop": "AD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Allandale Waterfront GO",
+        "Direction": "N",
+        "DestinationStop": "AD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Allandale Waterfront GO",
+        "Direction": "N",
+        "DestinationStop": "AD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Allandale Waterfront GO",
+        "Direction": "N",
+        "DestinationStop": "AD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Allandale Waterfront GO",
+        "Direction": "N",
+        "DestinationStop": "AD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Aurora GO",
+        "Direction": "N",
+        "DestinationStop": "AU"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Bradford GO",
+        "Direction": "N",
+        "DestinationStop": "BD"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Maple GO",
+        "Direction": "N",
+        "DestinationStop": "MP"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Maple GO",
+        "Direction": "N",
+        "DestinationStop": "MP"
+      },
+      {
+        "Code": "BR",
+        "Display": "BR - Maple GO",
+        "Direction": "N",
+        "DestinationStop": "MP"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Bramalea GO",
+        "Direction": "W",
+        "DestinationStop": "BE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Bramalea GO",
+        "Direction": "W",
+        "DestinationStop": "BE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Bramalea GO",
+        "Direction": "W",
+        "DestinationStop": "BE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Bramalea GO",
+        "Direction": "W",
+        "DestinationStop": "BE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Bramalea GO",
+        "Direction": "W",
+        "DestinationStop": "BE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Bramalea GO",
+        "Direction": "W",
+        "DestinationStop": "BE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Bramalea GO",
+        "Direction": "W",
+        "DestinationStop": "BE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Georgetown GO",
+        "Direction": "W",
+        "DestinationStop": "GE"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Kitchener GO",
+        "Direction": "W",
+        "DestinationStop": "KI"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Kitchener GO",
+        "Direction": "W",
+        "DestinationStop": "KI"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Kitchener GO",
+        "Direction": "W",
+        "DestinationStop": "KI"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Mount Pleasant GO",
+        "Direction": "W",
+        "DestinationStop": "MO"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Mount Pleasant GO",
+        "Direction": "W",
+        "DestinationStop": "MO"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Mount Pleasant GO",
+        "Direction": "W",
+        "DestinationStop": "MO"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Mount Pleasant GO",
+        "Direction": "W",
+        "DestinationStop": "MO"
+      },
+      {
+        "Code": "GT",
+        "Display": "GT - Mount Pleasant GO",
+        "Direction": "W",
+        "DestinationStop": "MO"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Durham College Oshawa GO",
+        "Direction": "E",
+        "DestinationStop": "OS"
+      },
+      {
+        "Code": "LE",
+        "Display": "LE - Whitby GO",
+        "Direction": "E",
+        "DestinationStop": "WH"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Aldershot GO",
+        "Direction": "W",
+        "DestinationStop": "AL"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Confederation GO",
+        "Direction": "W",
+        "DestinationStop": "CF"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Confederation GO",
+        "Direction": "W",
+        "DestinationStop": "CF"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Confederation GO",
+        "Direction": "W",
+        "DestinationStop": "CF"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Mimico GO",
+        "Direction": "W",
+        "DestinationStop": "MI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Niagara Falls GO (VIA Station)",
+        "Direction": "W",
+        "DestinationStop": "NI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Niagara Falls GO (VIA Station)",
+        "Direction": "W",
+        "DestinationStop": "NI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Niagara Falls GO (VIA Station)",
+        "Direction": "W",
+        "DestinationStop": "NI"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - Oakville GO",
+        "Direction": "W",
+        "DestinationStop": "OA"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "LW",
+        "Display": "LW - West Harbour GO",
+        "Direction": "W",
+        "DestinationStop": "WR"
+      },
+      {
+        "Code": "ST",
+        "Display": "ST - Mount Joy GO",
+        "Direction": "N",
+        "DestinationStop": "MJ"
+      },
+      {
+        "Code": "ST",
+        "Display": "ST - Mount Joy GO",
+        "Direction": "N",
+        "DestinationStop": "MJ"
+      },
+      {
+        "Code": "ST",
+        "Display": "ST - Mount Joy GO",
+        "Direction": "N",
+        "DestinationStop": "MJ"
+      },
+      {
+        "Code": "ST",
+        "Display": "ST - Old Elm GO",
+        "Direction": "N",
+        "DestinationStop": "LI"
+      },
+      {
+        "Code": "ST",
+        "Display": "ST - Old Elm GO",
+        "Direction": "N",
+        "DestinationStop": "LI"
+      },
+      {
+        "Code": "ST",
+        "Display": "ST - Old Elm GO",
+        "Direction": "N",
+        "DestinationStop": "LI"
+      }
+    ]
+  }
+}

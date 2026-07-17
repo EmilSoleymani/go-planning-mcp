@@ -59,3 +59,48 @@ export interface RawStopAllResponse {
   Metadata: RawMetadata;
   Stations?: { Station?: RawStopListEntry[] | null } | null;
 }
+
+// Stop/NextService — live departures for one stop.
+export interface RawNextServiceLine {
+  StopCode: string;
+  LineCode: string;
+  LineName: string;
+  ServiceType: string;
+  DirectionCode: string;
+  DirectionName: string;
+  ScheduledDepartureTime: string;
+  ComputedDepartureTime: string;
+  DepartureStatus: string;
+  ScheduledPlatform: string;
+  ActualPlatform: string;
+  TripOrder: number;
+  TripNumber: string;
+  UpdateTime: string;
+  Status: string;
+  Latitude: number;
+  Longitude: number;
+}
+
+export interface RawNextServiceResponse {
+  Metadata: RawMetadata;
+  NextService?: { Lines?: RawNextServiceLine[] | null } | null;
+}
+
+// Stop/Destinations — where a stop's services go within a time window.
+// Confirmed live (issue #7): no line-name field, and entries repeat once
+// per departure in the window rather than once per distinct destination.
+export interface RawDestinationLine {
+  Code: string;
+  Display: string;
+  Direction: string;
+  DestinationStop: string;
+}
+
+export interface RawStopDestinationsResponse {
+  Metadata: RawMetadata;
+  Stop?: {
+    Code: string;
+    Name: string;
+    Line?: RawDestinationLine[] | null;
+  } | null;
+}

@@ -1,5 +1,6 @@
 import { createMcpHandler } from "mcp-handler";
 
+import { cacheEnabledFromEnv } from "../src/metrolinx/cache.js";
 import { MetrolinxHttpClient } from "../src/metrolinx/client.js";
 import { SERVER_INFO, registerTools } from "../src/server.js";
 
@@ -10,7 +11,10 @@ if (!apiKey) {
   );
 }
 
-const client = new MetrolinxHttpClient({ apiKey });
+const client = new MetrolinxHttpClient({
+  apiKey,
+  cacheEnabled: cacheEnabledFromEnv(process.env.CACHE_ENABLED),
+});
 
 const handler = createMcpHandler(
   (server) => {

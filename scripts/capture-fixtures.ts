@@ -64,6 +64,10 @@ function todayYyyymmdd(): string {
   return `${String(y)}${m}${d}`;
 }
 
+function hhmm(date: Date): string {
+  return `${String(date.getHours()).padStart(2, "0")}${String(date.getMinutes()).padStart(2, "0")}`;
+}
+
 interface StopAllResponse {
   Stations?: { Station?: { LocationCode: string; LocationName: string }[] };
 }
@@ -149,6 +153,14 @@ async function main(): Promise<void> {
   await save("gtfs-trip-updates", await fetchJson("/Gtfs/Feed/TripUpdates"));
   await save("fares", await fetchJson(`/Fares/UN/${oakville.LocationCode}`));
   await save("fleet-consist", await fetchJson("/Fleet/Consist/All"));
+
+  const now = new Date();
+  const fromTime = hhmm(now);
+  const toTime = hhmm(new Date(now.getTime() + 4 * 60 * 60 * 1000));
+  await save(
+    "stop-destinations",
+    await fetchJson(`/Stop/Destinations/UN/${fromTime}/${toTime}`),
+  );
 
   // Empirical verification summary — read this to confirm enum meanings and
   // timestamp formats for docs/spec/tool-schemas.md §5.

@@ -6,10 +6,17 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
 import { MetrolinxError } from "../errors.js";
 import { MetrolinxHttpClient } from "./client.js";
-import type { RawStopDetailsResponse } from "./types.js";
+import type {
+  RawStopAllResponse,
+  RawStopDestinationsResponse,
+  RawStopDetailsResponse,
+} from "./types.js";
 
-const DETAILS_URL =
-  "https://api.openmetrolinx.com/OpenDataAPI/api/V1/Stop/Details/UN";
+const BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
+const DETAILS_URL = `${BASE_URL}/Stop/Details/UN`;
+const STOP_ALL_URL = `${BASE_URL}/Stop/All`;
+const NEXT_SERVICE_URL = `${BASE_URL}/Stop/NextService/UN`;
+const DESTINATIONS_URL = `${BASE_URL}/Stop/Destinations/UN/0900/1300`;
 
 const fixture = JSON.parse(
   readFileSync(
@@ -17,6 +24,23 @@ const fixture = JSON.parse(
     "utf8",
   ),
 ) as RawStopDetailsResponse;
+
+const stopAllFixture = JSON.parse(
+  readFileSync(
+    new URL(
+      "../../test/fixtures/ambiguous-name-oakville.json",
+      import.meta.url,
+    ),
+    "utf8",
+  ),
+) as RawStopAllResponse;
+
+const destinationsFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/stop-destinations.json", import.meta.url),
+    "utf8",
+  ),
+) as RawStopDestinationsResponse;
 
 function tunneled(code: string): RawStopDetailsResponse {
   return {
@@ -40,10 +64,11 @@ afterAll(() => {
   mswServer.close();
 });
 
-function makeClient(): MetrolinxHttpClient {
+function makeClient(cacheEnabled?: boolean): MetrolinxHttpClient {
   return new MetrolinxHttpClient({
     apiKey: "test-key",
     sleep: () => Promise.resolve(),
+    ...(cacheEnabled === undefined ? {} : { cacheEnabled }),
   });
 }
 
@@ -210,5 +235,97 @@ describe("MetrolinxHttpClient", () => {
     expect(error).toBeInstanceOf(MetrolinxError);
     expect((error as MetrolinxError).code).toBe("upstream_auth_failed");
     expect(calls).toBe(1);
+  });
+
+  it("passes through a body-tunneled 204/No Content without throwing (live-confirmed: unknown stop code)", async () => {
+    mswServer.use(
+      http.get(DETAILS_URL, () =>
+        HttpResponse.json({
+          Metadata: {
+            TimeStamp: "2026-07-17 19:45:47",
+            ErrorCode: "204",
+            ErrorMessage: "No Content",
+          },
+          Stop: null,
+        }),
+      ),
+    );
+
+    const body = await makeClient().getStopDetails("UN");
+    expect(body.Stop).toBeNull();
+  });
+
+  it("requests Stop/NextService/{StopCode}", async () => {
+    mswServer.use(
+      http.get(NEXT_SERVICE_URL, () =>
+        HttpResponse.json({
+          Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+          NextService: { Lines: [] },
+        }),
+      ),
+    );
+
+    const body = await makeClient().getNextService("UN");
+    expect(body.NextService?.Lines).toEqual([]);
+  });
+
+  it("requests Stop/Destinations/{StopCode}/{FromTime}/{ToTime}", async () => {
+    mswServer.use(
+      http.get(DESTINATIONS_URL, () => HttpResponse.json(destinationsFixture)),
+    );
+
+    const body = await makeClient().getStopDestinations("UN", "0900", "1300");
+    expect(body.Stop?.Code).toBe("UN");
+  });
+
+  it("caches Stop/All for 24h — a second call within TTL hits the cache, not upstream", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(STOP_ALL_URL, () => {
+        calls += 1;
+        return HttpResponse.json(stopAllFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getStopAll();
+    await client.getStopAll();
+
+    expect(calls).toBe(1);
+  });
+
+  it("bypasses the Stop/All cache when cacheEnabled is false", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(STOP_ALL_URL, () => {
+        calls += 1;
+        return HttpResponse.json(stopAllFixture);
+      }),
+    );
+
+    const client = makeClient(false);
+    await client.getStopAll();
+    await client.getStopAll();
+
+    expect(calls).toBe(2);
+  });
+
+  it("never caches Stop/NextService (real-time)", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(NEXT_SERVICE_URL, () => {
+        calls += 1;
+        return HttpResponse.json({
+          Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+          NextService: { Lines: [] },
+        });
+      }),
+    );
+
+    const client = makeClient();
+    await client.getNextService("UN");
+    await client.getNextService("UN");
+
+    expect(calls).toBe(2);
   });
 });
