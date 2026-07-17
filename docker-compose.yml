@@ -1,0 +1,10 @@
+# Run-only: for developing the server, use `npm run dev` (native tsx watch)
+# per CONTRIBUTING.md. This is for self-hosters' quick start and for
+# maintainers smoke-testing the actual container before release
+# (docs/spec/docker-deployment.md §3).
+services:
+  go-transit-mcp:
+    build: .
+    env_file: .env
+    ports:
+      - "3000:3000"
