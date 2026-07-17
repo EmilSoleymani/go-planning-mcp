@@ -20,6 +20,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 
 ## Decisions so far
 
+- [Grilling: Project Architecture](tickets/007-project-architecture.md) — full spec in [docs/spec/project-architecture.md](../docs/spec/project-architecture.md): pure ESM + strict TS (NodeNext/ES2022, Node ≥ 20), `tsc`-only build with `tsx` dev, transport-agnostic `buildServer()` with three entry surfaces, one file per tool, co-located unit tests, native `fetch` with GTFS-RT as JSON (no protobuf dep), hand-rolled ADR-0001 retry, four runtime deps (SDK ^1.29, zod ^4, mcp-handler ^1.1), TS ^7, ESLint flat `recommendedTypeChecked` + default Prettier, carets + lockfile.
 - [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — full schema spec in [docs/spec/tool-schemas.md](../docs/spec/tool-schemas.md): normalized snake_case DTOs (never passthrough, per-call `lang` for French), Zod-backed `outputSchema`/`structuredContent` on all 17 tools, ISO 8601 with Toronto-clock defaults, opaque-string IDs with unified `stop_code`, in-result errors with closed code enum (disambiguation is a success), no pagination (limit + truncated + narrow-filter hints), `plan_trip` gains emulated `arrive_by`, two-mode anti-dump `get_line_schedule`, unfiltered `get_trip_updates` = disruptions-only, resources share mirror tools' serializers.
 - [Grilling: Caching & Rate Limiting Spec](tickets/005-caching-rate-limiting-spec.md) — conservative retry ([ADR 0001](../docs/adr/0001-conservative-retry-no-429-retry.md)): 2 retries on network/5xx only (incl. body-tunneled codes), 429 never retried — surfaced to the LLM immediately; 500ms→5s full-jitter backoff. In-process best-effort TTL cache: stops 24h, schedules/fares 6h, real-time never; `CACHE_ENABLED` env var; best-effort on Vercel warm instances, full on Docker.
 - [Grilling: MCP Primitive Mapping](tickets/004-mcp-primitive-mapping.md) — 17 snake_case tools incl. composed `plan_trip` (accepts names, fuzzy-resolves to stop codes, disambiguates); GTFS-RT exposed only through filtered tools (never raw full-dataset dumps); alerts folded into one `get_service_alerts(line?, stop?, category?)`; static data ships as Resources (`gotransit://...`) AND mirror tools since many clients ignore resources; three v1 prompts: `plan_a_trip`, `check_my_commute`, `service_status`.
@@ -29,6 +30,7 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 ## Not yet specified
 
 - Whether ghcr.io image publishing is worth the complexity for v1 or deferred
+- Whether to publish the package to npm (the `bin: go-transit-mcp` field from ticket 007 makes `npx` setup possible if so) — sibling of the ghcr.io question, likely resolved together in ticket 010
 - Vercel Hobby is non-commercial-use only — fine for this open source project now, but if the future app/backend becomes commercial, the owner's hosted instance must move off Hobby (revisit when the backend effort starts)
 
 ## Out of scope
@@ -45,13 +47,12 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 ### Frontier (unblocked, open)
 
 - [Task: Create GitHub Repository](tickets/002-create-github-repo.md) — repo created & pushed; remaining: wire Vercel project + env secret
-- [Grilling: Project Architecture](tickets/007-project-architecture.md) — unblocked: 004 ✅, 005 ✅, 006 ✅
+- [Grilling: Test Architecture](tickets/008-test-architecture.md) — unblocked: 007 ✅
+- [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — unblocked: 007 ✅
 
 ### Blocked (open, waiting)
 
-- [Grilling: Test Architecture](tickets/008-test-architecture.md) — blocked by 007
-- [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — blocked by 002, 003, 008
-- [Grilling: Docker & Deployment Spec](tickets/010-docker-deployment-spec.md) — blocked by 007
+- [Grilling: CI/CD Pipeline Spec](tickets/009-cicd-pipeline-spec.md) — blocked by 002, 003 ✅, 008
 
 ### Resolved
 
@@ -60,3 +61,4 @@ A complete technical spec and Metrolinx API research report for the GO Transit M
 - [Grilling: MCP Primitive Mapping](tickets/004-mcp-primitive-mapping.md) — 17-tool roster, composed `plan_trip`, filtered GTFS-RT, Resources + mirror tools, 3 prompts
 - [Grilling: Caching & Rate Limiting Spec](tickets/005-caching-rate-limiting-spec.md) — conservative retry (ADR 0001, 429 never retried), in-process TTL cache
 - [Grilling: MCP Tool Schema Design](tickets/006-tool-schema-design.md) — full 17-tool schema spec ([docs/spec/tool-schemas.md](../docs/spec/tool-schemas.md)): normalized DTOs, structured output, ISO 8601, unified IDs, error taxonomy, no pagination
+- [Grilling: Project Architecture](tickets/007-project-architecture.md) — full project spec ([docs/spec/project-architecture.md](../docs/spec/project-architecture.md)): ESM/strict TS, tsc-only, transport-agnostic core, four runtime deps
