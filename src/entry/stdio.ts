@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
+import { cacheEnabledFromEnv } from "../metrolinx/cache.js";
 import { MetrolinxHttpClient } from "../metrolinx/client.js";
 import { buildServer } from "../server.js";
 
@@ -12,5 +13,10 @@ if (!apiKey) {
   process.exit(1);
 }
 
-const server = buildServer(new MetrolinxHttpClient({ apiKey }));
+const server = buildServer(
+  new MetrolinxHttpClient({
+    apiKey,
+    cacheEnabled: cacheEnabledFromEnv(process.env.CACHE_ENABLED),
+  }),
+);
 await server.connect(new StdioServerTransport());

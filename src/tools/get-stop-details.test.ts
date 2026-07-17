@@ -1,13 +1,10 @@
 import { readFileSync } from "node:fs";
 
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { describe, expect, it } from "vitest";
 
 import { MetrolinxError } from "../errors.js";
-import type { MetrolinxClient } from "../metrolinx/client.js";
 import type { RawStopDetailsResponse } from "../metrolinx/types.js";
-import { buildServer } from "../server.js";
+import { callTool, fakeClient } from "./test-support.js";
 
 const fixture = JSON.parse(
   readFileSync(
@@ -16,50 +13,11 @@ const fixture = JSON.parse(
   ),
 ) as RawStopDetailsResponse;
 
-interface ErrorPayload {
-  error: { code: string; message: string; retryable: boolean };
-}
-
-async function callTool(
-  fake: MetrolinxClient,
-  args: Record<string, unknown>,
-): Promise<{
-  isError: boolean;
-  structuredContent: unknown;
-  errorPayload: ErrorPayload | undefined;
-}> {
-  const server = buildServer(fake);
-  const client = new Client({ name: "test-client", version: "0.0.0" });
-  const [clientTransport, serverTransport] =
-    InMemoryTransport.createLinkedPair();
-  await Promise.all([
-    server.connect(serverTransport),
-    client.connect(clientTransport),
-  ]);
-  try {
-    const result = await client.callTool({
-      name: "get_stop_details",
-      arguments: args,
-    });
-    const content = result.content as { type: string; text: string }[];
-    const isError = result.isError === true;
-    return {
-      isError,
-      structuredContent: result.structuredContent,
-      errorPayload: isError
-        ? (JSON.parse(content[0]!.text) as ErrorPayload)
-        : undefined,
-    };
-  } finally {
-    await client.close();
-    await server.close();
-  }
-}
-
 describe("get_stop_details", () => {
   it("returns the normalized DTO as structuredContent (live-captured Union fixture)", async () => {
     const result = await callTool(
-      { getStopDetails: () => Promise.resolve(fixture) },
+      fakeClient({ getStopDetails: () => Promise.resolve(fixture) }),
+      "get_stop_details",
       { stop_code: "UN" },
     );
 
@@ -86,7 +44,8 @@ describe("get_stop_details", () => {
 
   it("collapses to French facility descriptions when lang: fr is requested", async () => {
     const result = await callTool(
-      { getStopDetails: () => Promise.resolve(fixture) },
+      fakeClient({ getStopDetails: () => Promise.resolve(fixture) }),
+      "get_stop_details",
       { stop_code: "UN", lang: "fr" },
     );
 
@@ -107,7 +66,8 @@ describe("get_stop_details", () => {
       Stop: null,
     };
     const result = await callTool(
-      { getStopDetails: () => Promise.resolve(empty) },
+      fakeClient({ getStopDetails: () => Promise.resolve(empty) }),
+      "get_stop_details",
       { stop_code: "NOPE" },
     );
 
@@ -118,7 +78,7 @@ describe("get_stop_details", () => {
 
   it("surfaces client failures through the error taxonomy", async () => {
     const result = await callTool(
-      {
+      fakeClient({
         getStopDetails: () =>
           Promise.reject(
             new MetrolinxError(
@@ -127,7 +87,8 @@ describe("get_stop_details", () => {
               false,
             ),
           ),
-      },
+      }),
+      "get_stop_details",
       { stop_code: "UN" },
     );
 

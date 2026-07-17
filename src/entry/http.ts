@@ -8,6 +8,7 @@ import {
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 
+import { cacheEnabledFromEnv } from "../metrolinx/cache.js";
 import { MetrolinxHttpClient } from "../metrolinx/client.js";
 import { buildServer } from "../server.js";
 
@@ -20,7 +21,10 @@ if (!apiKey) {
 }
 
 const port = Number(process.env.PORT ?? 3000);
-const client = new MetrolinxHttpClient({ apiKey });
+const client = new MetrolinxHttpClient({
+  apiKey,
+  cacheEnabled: cacheEnabledFromEnv(process.env.CACHE_ENABLED),
+});
 
 function methodNotAllowed(res: ServerResponse): void {
   res.writeHead(405, { "content-type": "application/json" }).end(
