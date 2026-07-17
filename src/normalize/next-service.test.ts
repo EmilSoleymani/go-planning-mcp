@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
+import { MetrolinxError } from "../errors.js";
 import type { RawNextServiceResponse } from "../metrolinx/types.js";
 import { normalizeNextService } from "./next-service.js";
 
@@ -60,14 +61,28 @@ describe("normalizeNextService", () => {
     expect(withoutPlatform?.platform).toEqual({});
   });
 
-  it("returns an empty departures list when NextService is absent", () => {
+  it("returns an empty departures list when Lines is empty but NextService is present", () => {
     const result = normalizeNextService({
       Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      NextService: { Lines: [] },
     });
     expect(result).toEqual({
       departures: [],
       truncated: false,
       total_matched: 0,
     });
+  });
+
+  it("throws a not_found MetrolinxError when NextService is absent (live-confirmed 204/No Content shape)", () => {
+    expect(() =>
+      normalizeNextService({
+        Metadata: {
+          TimeStamp: "2026-07-17 19:46:04",
+          ErrorCode: "204",
+          ErrorMessage: "No Content",
+        },
+        NextService: null,
+      }),
+    ).toThrow(MetrolinxError);
   });
 });

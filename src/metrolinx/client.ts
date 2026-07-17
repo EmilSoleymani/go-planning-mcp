@@ -144,9 +144,14 @@ export class MetrolinxHttpClient implements MetrolinxClient {
 
     const body = (await response.json()) as T;
     // Metrolinx tunnels failures through HTTP 200 bodies — the status line
-    // lies; only Metadata.ErrorCode tells the truth (ticket 001).
+    // lies; only Metadata.ErrorCode tells the truth (ticket 001). "204" is
+    // not a failure despite the tunneling mechanism: confirmed live
+    // (issue #7) for an unknown stop code across Stop/Details,
+    // Stop/NextService, and Stop/Destinations — ErrorMessage "No Content",
+    // data field null. Treated as a passthrough so each tool's own
+    // null-check produces `not_found` instead of a generic upstream error.
     const tunneled = body.Metadata?.ErrorCode;
-    if (tunneled && tunneled !== "200") {
+    if (tunneled && tunneled !== "200" && tunneled !== "204") {
       throw tunneledError(tunneled, body.Metadata?.ErrorMessage ?? undefined);
     }
     return body;

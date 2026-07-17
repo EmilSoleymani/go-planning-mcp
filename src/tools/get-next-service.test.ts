@@ -50,4 +50,26 @@ describe("get_next_service", () => {
     expect(result.isError).toBe(true);
     expect(result.errorPayload?.error.code).toBe("rate_limited");
   });
+
+  it("returns an in-result not_found error for an unknown stop code", async () => {
+    const result = await callTool(
+      fakeClient({
+        getNextService: () =>
+          Promise.resolve({
+            Metadata: {
+              TimeStamp: "2026-07-17 19:46:04",
+              ErrorCode: "204",
+              ErrorMessage: "No Content",
+            },
+            NextService: null,
+          }),
+      }),
+      "get_next_service",
+      { stop_code: "NOPE" },
+    );
+
+    expect(result.isError).toBe(true);
+    expect(result.errorPayload?.error.code).toBe("not_found");
+    expect(result.errorPayload?.error.message).toContain("search_stops");
+  });
 });

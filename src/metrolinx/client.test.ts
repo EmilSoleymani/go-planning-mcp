@@ -237,6 +237,24 @@ describe("MetrolinxHttpClient", () => {
     expect(calls).toBe(1);
   });
 
+  it("passes through a body-tunneled 204/No Content without throwing (live-confirmed: unknown stop code)", async () => {
+    mswServer.use(
+      http.get(DETAILS_URL, () =>
+        HttpResponse.json({
+          Metadata: {
+            TimeStamp: "2026-07-17 19:45:47",
+            ErrorCode: "204",
+            ErrorMessage: "No Content",
+          },
+          Stop: null,
+        }),
+      ),
+    );
+
+    const body = await makeClient().getStopDetails("UN");
+    expect(body.Stop).toBeNull();
+  });
+
   it("requests Stop/NextService/{StopCode}", async () => {
     mswServer.use(
       http.get(NEXT_SERVICE_URL, () =>

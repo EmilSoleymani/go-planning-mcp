@@ -1,3 +1,4 @@
+import { MetrolinxError } from "../errors.js";
 import type {
   RawNextServiceLine,
   RawNextServiceResponse,
@@ -49,7 +50,19 @@ function normalizeDeparture(line: RawNextServiceLine): Departure {
 export function normalizeNextService(
   raw: RawNextServiceResponse,
 ): NextServiceResult {
-  const departures = (raw.NextService?.Lines ?? []).map(normalizeDeparture);
+  // An absent NextService block (Metadata.ErrorCode "204"/"No Content",
+  // confirmed live, issue #7) means the stop code itself is unknown — a
+  // present block with an empty/absent Lines array is a valid, just-quiet
+  // stop, which is not an error.
+  if (!raw.NextService) {
+    throw new MetrolinxError(
+      "not_found",
+      "No stop matches that code. Verify the code via search_stops.",
+      false,
+    );
+  }
+
+  const departures = (raw.NextService.Lines ?? []).map(normalizeDeparture);
   return {
     departures,
     truncated: false,
