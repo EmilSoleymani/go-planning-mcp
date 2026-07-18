@@ -1,12 +1,16 @@
 import { MetrolinxError } from "../errors.js";
 import { TtlCache } from "./cache.js";
 import type {
+  RawAlertsResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawNextServiceResponse,
+  RawServiceExceptionsResponse,
+  RawServiceGuaranteeResponse,
   RawStopAllResponse,
   RawStopDestinationsResponse,
   RawStopDetailsResponse,
+  RawUnionDeparturesResponse,
   RawTripStatusResponse,
 } from "./types.js";
 
@@ -34,6 +38,17 @@ export interface MetrolinxClient {
     fromTimeWire: string,
     toTimeWire: string,
   ): Promise<RawStopDestinationsResponse>;
+  getServiceAlerts(): Promise<RawAlertsResponse>;
+  getInformationAlerts(): Promise<RawAlertsResponse>;
+  getMarketingAlerts(): Promise<RawAlertsResponse>;
+  getUnionDepartures(): Promise<RawUnionDeparturesResponse>;
+  getServiceExceptions(
+    mode: "train" | "bus" | "any",
+  ): Promise<RawServiceExceptionsResponse>;
+  getServiceGuarantee(
+    tripNumber: string,
+    dateWire: string,
+  ): Promise<RawServiceGuaranteeResponse>;
   getLineAll(dateWire: string): Promise<RawLineAllResponse>;
   getLineSchedule(
     dateWire: string,
@@ -102,6 +117,45 @@ export class MetrolinxHttpClient implements MetrolinxClient {
   ): Promise<RawStopDestinationsResponse> {
     return this.get<RawStopDestinationsResponse>(
       `/Stop/Destinations/${encodeURIComponent(stopCode)}/${fromTimeWire}/${toTimeWire}`,
+    );
+  }
+
+  // Alerts change through the day and have no caching tier assigned by the
+  // caching spec (ticket 005 only names stops/schedules/fares) — left
+  // uncached rather than guessing a TTL.
+  async getServiceAlerts(): Promise<RawAlertsResponse> {
+    return this.get<RawAlertsResponse>("/ServiceUpdate/ServiceAlert/All");
+  }
+
+  async getInformationAlerts(): Promise<RawAlertsResponse> {
+    return this.get<RawAlertsResponse>("/ServiceUpdate/InformationAlert/All");
+  }
+
+  async getMarketingAlerts(): Promise<RawAlertsResponse> {
+    return this.get<RawAlertsResponse>("/ServiceUpdate/MarketingAlert/All");
+  }
+
+  async getUnionDepartures(): Promise<RawUnionDeparturesResponse> {
+    return this.get<RawUnionDeparturesResponse>(
+      "/ServiceUpdate/UnionDepartures/All",
+    );
+  }
+
+  async getServiceExceptions(
+    mode: "train" | "bus" | "any",
+  ): Promise<RawServiceExceptionsResponse> {
+    const segment = mode === "train" ? "Train" : mode === "bus" ? "Bus" : "All";
+    return this.get<RawServiceExceptionsResponse>(
+      `/ServiceUpdate/Exceptions/${segment}`,
+    );
+  }
+
+  async getServiceGuarantee(
+    tripNumber: string,
+    dateWire: string,
+  ): Promise<RawServiceGuaranteeResponse> {
+    return this.get<RawServiceGuaranteeResponse>(
+      `/ServiceUpdate/ServiceGuarantee/${encodeURIComponent(tripNumber)}/${dateWire}`,
     );
   }
 

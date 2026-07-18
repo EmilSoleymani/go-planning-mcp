@@ -1,0 +1,90 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:46:52",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Trip": [
+    {
+      "TripNumber": "9724",
+      "TripName": "LW - Aldershot GO",
+      "IsCancelled": "False",
+      "IsOverride": "True",
+      "Stop": [
+        {
+          "Order": 1,
+          "ID": "1",
+          "SchArrival": null,
+          "SchDeparture": "2026-07-17 17:00:00",
+          "Name": "Union Station GO",
+          "IsStopping": "True",
+          "IsCancelled": "False",
+          "IsOverride": "False",
+          "Code": "UN",
+          "ActualTime": null,
+          "ServiceType": "T"
+        },
+        {
+          "Order": 2,
+          "ID": "2",
+          "SchArrival": "2026-07-17 17:45:00",
+          "SchDeparture": "2026-07-17 17:47:00",
+          "Name": "Oakville GO",
+          "IsStopping": "False",
+          "IsCancelled": "True",
+          "IsOverride": "False",
+          "Code": "OA",
+          "ActualTime": null,
+          "ServiceType": "T"
+        },
+        {
+          "Order": 3,
+          "ID": "3",
+          "SchArrival": "2026-07-17 18:10:00",
+          "SchDeparture": null,
+          "Name": "Aldershot GO",
+          "IsStopping": "True",
+          "IsCancelled": "False",
+          "IsOverride": "True",
+          "Code": "AL",
+          "ActualTime": "2026-07-17 18:15:00",
+          "ServiceType": "T"
+        }
+      ]
+    },
+    {
+      "TripNumber": "9999",
+      "TripName": "LW - Hamilton GO",
+      "IsCancelled": "True",
+      "IsOverride": "False",
+      "Stop": [
+        {
+          "Order": 1,
+          "ID": "4",
+          "SchArrival": null,
+          "SchDeparture": "2026-07-17 20:00:00",
+          "Name": "Union Station GO",
+          "IsStopping": "True",
+          "IsCancelled": "True",
+          "IsOverride": "False",
+          "Code": "UN",
+          "ActualTime": null,
+          "ServiceType": "T"
+        },
+        {
+          "Order": 2,
+          "ID": "5",
+          "SchArrival": "2026-07-17 20:40:00",
+          "SchDeparture": null,
+          "Name": "Hamilton GO Centre",
+          "IsStopping": "True",
+          "IsCancelled": "True",
+          "IsOverride": "False",
+          "Code": "HA",
+          "ActualTime": null,
+          "ServiceType": "T"
+        }
+      ]
+    }
+  ]
+}
