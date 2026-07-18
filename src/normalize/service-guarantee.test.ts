@@ -2,7 +2,6 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import { MetrolinxError } from "../errors.js";
 import type { RawServiceGuaranteeResponse } from "../metrolinx/types.js";
 import { normalizeServiceGuarantee } from "./service-guarantee.js";
 
@@ -47,16 +46,18 @@ describe("normalizeServiceGuarantee", () => {
     expect(result).toEqual({ eligible: false, stops: [] });
   });
 
-  it("throws a not_found MetrolinxError when Stops is absent", () => {
-    expect(() =>
-      normalizeServiceGuarantee({
-        Metadata: {
-          TimeStamp: "2026-07-17 19:46:04",
-          ErrorCode: "204",
-          ErrorMessage: "No Content",
-        },
-        Stops: null,
-      }),
-    ).toThrow(MetrolinxError);
+  it("marks eligible: false when Stops is entirely absent (live-confirmed: not an error)", () => {
+    // A real, valid trip_number/date returned no Stops container at all —
+    // the ordinary shape for "not delayed enough to be eligible," not a
+    // signal the trip/date itself is wrong (issue #9 follow-up).
+    const result = normalizeServiceGuarantee({
+      Metadata: {
+        TimeStamp: "2026-07-17 19:46:04",
+        ErrorCode: "200",
+        ErrorMessage: "OK",
+      },
+      Stops: null,
+    });
+    expect(result).toEqual({ eligible: false, stops: [] });
   });
 });

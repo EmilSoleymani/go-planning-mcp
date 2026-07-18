@@ -1,4 +1,3 @@
-import { MetrolinxError } from "../errors.js";
 import type {
   RawGuaranteeStop,
   RawServiceGuaranteeResponse,
@@ -23,23 +22,15 @@ export function normalizeServiceGuarantee(
   raw: RawServiceGuaranteeResponse,
   lang: "en" | "fr" = "en",
 ): ServiceGuaranteeResult {
-  // Same presence-vs-absence signal confirmed live across every other
-  // endpoint in this API (Stop/Details, Stop/NextService, Stop/Destinations,
-  // issues #3/#7): an absent Stops container means the trip/date itself
-  // wasn't found; a present-but-empty array is a valid "not eligible for
-  // any guarantee" result, not an error. ServiceGuarantee wasn't part of
-  // issue #3's capture batch so this specific endpoint isn't independently
-  // reconfirmed, but it's the same body-tunneling mechanism every other
-  // endpoint uses.
-  if (!raw.Stops) {
-    throw new MetrolinxError(
-      "not_found",
-      "No trip matches that trip_number/date. Verify via get_line_schedule.",
-      false,
-    );
-  }
-
-  const stops = raw.Stops.Stop ?? [];
+  // Confirmed live (issue #9 follow-up): a real, unambiguously-valid
+  // trip_number/date returned an absent Stops container. The
+  // presence-vs-absence "not_found" signal confirmed for other endpoints
+  // (Stop/Details, Stop/NextService, Stop/Destinations) does NOT hold here
+  // — an absent container is the ordinary shape for "this trip wasn't
+  // delayed enough to be guarantee-eligible," not a signal that the
+  // trip/date itself is wrong. Previously this threw not_found for every
+  // non-eligible trip, which is most of them.
+  const stops = raw.Stops?.Stop ?? [];
   return {
     eligible: stops.length > 0,
     stops: stops.map((s) => normalizeStop(s, lang)),
