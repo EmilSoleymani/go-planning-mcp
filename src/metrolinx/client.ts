@@ -4,8 +4,8 @@ import type {
   RawAlertsResponse,
   RawFaresResponse,
   RawFleetConsistResponse,
+  RawFleetOccupancyVehiclePositionsResponse,
   RawGtfsTripUpdatesResponse,
-  RawGtfsVehiclePositionsResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawNextServiceResponse,
@@ -84,7 +84,7 @@ export interface MetrolinxClient {
     tripNumber: string,
   ): Promise<RawTripStatusResponse>;
   getServiceGlance(mode: ServiceGlanceMode): Promise<RawServiceGlanceResponse>;
-  getVehiclePositions(): Promise<RawGtfsVehiclePositionsResponse>;
+  getVehiclePositions(): Promise<RawFleetOccupancyVehiclePositionsResponse>;
   getTripUpdates(): Promise<RawGtfsTripUpdatesResponse>;
 }
 
@@ -254,9 +254,13 @@ export class MetrolinxHttpClient implements MetrolinxClient {
     );
   }
 
-  async getVehiclePositions(): Promise<RawGtfsVehiclePositionsResponse> {
-    return this.get<RawGtfsVehiclePositionsResponse>(
-      "/Gtfs/Feed/VehiclePositions",
+  // Fleet-Occupancy-branded twin of Gtfs/Feed/VehiclePosition, not the
+  // plain feed: this is the one documented (research handoff §2.7) as
+  // actually populating occupancy_status/occupancy_percentage, which is the
+  // entire reason get_vehicle_positions merges in a second feed at all.
+  async getVehiclePositions(): Promise<RawFleetOccupancyVehiclePositionsResponse> {
+    return this.get<RawFleetOccupancyVehiclePositionsResponse>(
+      "/Fleet/Occupancy/GtfsRT/Feed/VehiclePosition",
     );
   }
 

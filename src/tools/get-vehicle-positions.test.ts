@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { MetrolinxError } from "../errors.js";
 import type {
-  RawGtfsVehiclePositionsResponse,
+  RawFleetOccupancyVehiclePositionsResponse,
   RawServiceGlanceResponse,
   RawStopAllResponse,
 } from "../metrolinx/types.js";
@@ -19,10 +19,13 @@ const glanceFixture = JSON.parse(
 
 const positionsFixture = JSON.parse(
   readFileSync(
-    new URL("../../test/fixtures/gtfs-vehicle-positions.json", import.meta.url),
+    new URL(
+      "../../test/fixtures/fleet-occupancy-vehicle-position.json",
+      import.meta.url,
+    ),
     "utf8",
   ),
-) as RawGtfsVehiclePositionsResponse;
+) as RawFleetOccupancyVehiclePositionsResponse;
 
 const stopAllFixture = JSON.parse(
   readFileSync(

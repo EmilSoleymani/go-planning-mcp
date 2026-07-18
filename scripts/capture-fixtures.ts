@@ -179,8 +179,8 @@ async function main(): Promise<void> {
   );
   await save("gtfs-trip-updates", await fetchJson("/Gtfs/Feed/TripUpdates"));
   await save(
-    "gtfs-vehicle-positions",
-    await fetchJson("/Gtfs/Feed/VehiclePositions"),
+    "fleet-occupancy-vehicle-position",
+    await fetchJson("/Fleet/Occupancy/GtfsRT/Feed/VehiclePosition"),
   );
   await save("fares", await fetchJson(`/Fares/UN/${oakville.LocationCode}`));
   await save("fleet-consist", await fetchJson("/Fleet/Consist/All"));

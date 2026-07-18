@@ -459,38 +459,43 @@ export interface RawGtfsTripUpdatesResponse {
   entity: RawGtfsTripUpdateEntity[];
 }
 
-// VehiclePositions — NOT live-captured (no METROLINX_API_KEY/network
-// available this session); hand-written from the public gtfs-realtime.proto
-// VehiclePosition message (same standard already confirmed working for
-// TripUpdates above), per the test-architecture spec's carve-out for shapes
-// live capture can't produce on demand. `occupancy_percentage` is a
-// documented standard field (uint32, 0-100) distinct from the categorical
-// `occupancy_status` enum; unconfirmed against real Metrolinx data — revisit
-// once a real capture is available.
-export interface RawGtfsVehiclePosition {
+// Fleet/Occupancy/GtfsRT/Feed/VehiclePosition — NOT the plain
+// Gtfs/Feed/VehiclePosition (that endpoint's occupancy fields are not
+// reliably populated per the research handoff, §2.7); this Fleet-branded
+// twin is documented as "the one where occupancy_status/occupancy_percentage
+// is populated" (handoff-001, §2.7, Help-page sourced). Field list is that
+// endpoint's documented shape, same entity[] FeedMessage envelope as
+// TripUpdates. NOT live-captured (no METROLINX_API_KEY/network available
+// this session), per the test-architecture spec's carve-out for shapes live
+// capture can't produce on demand. `occupancy_percentage` is the standard
+// gtfs-realtime.proto field name (uint32, 0-100); its exact casing on this
+// endpoint is unconfirmed against a real response — revisit once a real
+// capture is available.
+export interface RawFleetOccupancyVehiclePosition {
   trip: RawGtfsTrip;
   vehicle?: RawGtfsVehicleDescriptor | null;
   position: {
     latitude: number;
     longitude: number;
     bearing?: number | null;
+    odometer?: number | null;
     speed?: number | null;
   };
-  current_stop_sequence?: number | null;
   stop_id?: string | null;
   current_status?: string | null;
+  congestion_level?: string | null;
   timestamp: number;
   occupancy_status?: string | null;
   occupancy_percentage?: number | null;
 }
 
-export interface RawGtfsVehiclePositionEntity {
+export interface RawFleetOccupancyVehiclePositionEntity {
   id: string;
   is_deleted: boolean;
-  vehicle?: RawGtfsVehiclePosition | null;
+  vehicle?: RawFleetOccupancyVehiclePosition | null;
 }
 
-export interface RawGtfsVehiclePositionsResponse {
+export interface RawFleetOccupancyVehiclePositionsResponse {
   // No Metadata envelope on GTFS-RT feeds — see RawGtfsTripUpdatesResponse.
   Metadata?: RawMetadata | null;
   header: {
@@ -498,5 +503,5 @@ export interface RawGtfsVehiclePositionsResponse {
     incrementality: string;
     timestamp: number;
   };
-  entity: RawGtfsVehiclePositionEntity[];
+  entity: RawFleetOccupancyVehiclePositionEntity[];
 }

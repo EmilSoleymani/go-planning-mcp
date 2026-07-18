@@ -8,8 +8,8 @@ import { MetrolinxError } from "../errors.js";
 import { MetrolinxHttpClient } from "./client.js";
 import type {
   RawAlertsResponse,
+  RawFleetOccupancyVehiclePositionsResponse,
   RawGtfsTripUpdatesResponse,
-  RawGtfsVehiclePositionsResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawServiceExceptionsResponse,
@@ -44,7 +44,7 @@ const TRIP_STATUS_URL = `${BASE_URL}/Schedule/Trip/20260717/1039`;
 const SERVICE_GLANCE_TRAINS_URL = `${BASE_URL}/ServiceataGlance/Trains/All`;
 const SERVICE_GLANCE_BUSES_URL = `${BASE_URL}/ServiceataGlance/Buses/All`;
 const SERVICE_GLANCE_UPX_URL = `${BASE_URL}/ServiceataGlance/UPX/All`;
-const VEHICLE_POSITIONS_URL = `${BASE_URL}/Gtfs/Feed/VehiclePositions`;
+const VEHICLE_POSITIONS_URL = `${BASE_URL}/Fleet/Occupancy/GtfsRT/Feed/VehiclePosition`;
 const TRIP_UPDATES_URL = `${BASE_URL}/Gtfs/Feed/TripUpdates`;
 
 const fixture = JSON.parse(
@@ -121,10 +121,13 @@ const tripStatusFixture = JSON.parse(
 
 const vehiclePositionsFixture = JSON.parse(
   readFileSync(
-    new URL("../../test/fixtures/gtfs-vehicle-positions.json", import.meta.url),
+    new URL(
+      "../../test/fixtures/fleet-occupancy-vehicle-position.json",
+      import.meta.url,
+    ),
     "utf8",
   ),
-) as RawGtfsVehiclePositionsResponse;
+) as RawFleetOccupancyVehiclePositionsResponse;
 
 const tripUpdatesFixture = JSON.parse(
   readFileSync(
@@ -662,7 +665,7 @@ describe("MetrolinxHttpClient", () => {
     expect(calls).toBe(2);
   });
 
-  it("requests Gtfs/Feed/VehiclePositions and parses the GTFS-RT envelope", async () => {
+  it("requests Fleet/Occupancy/GtfsRT/Feed/VehiclePosition and parses the GTFS-RT envelope", async () => {
     mswServer.use(
       http.get(VEHICLE_POSITIONS_URL, () =>
         HttpResponse.json(vehiclePositionsFixture),
