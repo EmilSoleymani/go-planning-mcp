@@ -14,5 +14,12 @@
     "types": ["node"],
     "noEmit": true
   },
-  "include": ["src", "test", "scripts", "api", "vitest.config.ts"]
+  "include": [
+    "src",
+    "test",
+    "scripts",
+    "api",
+    "vitest.config.ts",
+    "vitest.smoke.config.ts"
+  ]
 }
