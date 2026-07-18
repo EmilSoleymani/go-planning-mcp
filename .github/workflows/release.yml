@@ -1,0 +1,87 @@
+# Tag-triggered release pipeline per docs/spec/docker-deployment.md §5.
+#
+# Fires ONLY on `v*` tags — never on push to main, so doc merges can't churn
+# the `latest` image/dist-tag. Cutting a release: `npm version <bump> && git
+# push --follow-tags`. The full checks job (mirrors ci.yml) must pass before
+# either publish job runs.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm test -- --coverage
+
+  publish-ghcr:
+    needs: checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/emilsoleymani/go-planning-mcp
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  publish-npm:
+    needs: checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Trusted publishing exchanges this OIDC token for a short-lived npm
+      # publish token — no NPM_TOKEN secret, ever.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm run build
+      # Trusted publishing requires npm CLI >= 11.5.1; the CLI bundled with
+      # setup-node's Node runtime may be older.
+      - run: npm install -g npm@latest
+      - run: npm publish --provenance
