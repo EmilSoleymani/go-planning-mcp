@@ -22,7 +22,7 @@ const NEXT_SERVICE_URL = `${BASE_URL}/Stop/NextService/UN`;
 const DESTINATIONS_URL = `${BASE_URL}/Stop/Destinations/UN/0900/1300`;
 const LINE_ALL_URL = `${BASE_URL}/Schedule/Line/All/20260717`;
 const LINE_SCHEDULE_URL = `${BASE_URL}/Schedule/Line/20260717/LW/E`;
-const TRIP_STATUS_URL = `${BASE_URL}/Schedule/Trip/20260717/1004`;
+const TRIP_STATUS_URL = `${BASE_URL}/Schedule/Trip/20260717/1039`;
 
 const fixture = JSON.parse(
   readFileSync(
@@ -411,8 +411,8 @@ describe("MetrolinxHttpClient", () => {
       http.get(TRIP_STATUS_URL, () => HttpResponse.json(tripStatusFixture)),
     );
 
-    const body = await makeClient().getTripStatus("20260717", "1004");
-    expect(body.Trips?.[0]?.Number).toBe("1004");
+    const body = await makeClient().getTripStatus("20260717", "1039");
+    expect(body.Trips?.[0]?.Number).toBe("1039");
   });
 
   it("never caches Schedule/Trip (live stop-by-stop status)", async () => {
@@ -425,8 +425,8 @@ describe("MetrolinxHttpClient", () => {
     );
 
     const client = makeClient();
-    await client.getTripStatus("20260717", "1004");
-    await client.getTripStatus("20260717", "1004");
+    await client.getTripStatus("20260717", "1039");
+    await client.getTripStatus("20260717", "1039");
 
     expect(calls).toBe(2);
   });

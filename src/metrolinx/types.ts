@@ -155,13 +155,16 @@ export interface RawLineScheduleResponse {
 }
 
 // Schedule/Trip/{Date}/{TripNumber} — one trip's live stop-by-stop status.
-// Shape per the documented Help-page field list (research handoff §2.4):
-// `Trips[]{Number, Destination, Longitude, Latitude, Status, TimeStamp,
-// Stops[]{ArrivalTime{Scheduled,Computed,Status}, DepartureTime{Scheduled,
-// Computed,Status}, Track{Scheduled,Actual}, Code, Status, Remark}}`. Not yet
-// captured live — issue #3's capture script doesn't cover this endpoint and
-// no key/network was available to add it here; revisit against a real
-// capture (e.g. the weekly smoke run) if fields disagree.
+// Shape confirmed live (issue #8 follow-up), which corrected several
+// assumptions from the documented Help-page field list (research handoff
+// §2.4): `ArrivalTime`/`DepartureTime.Scheduled`/`Computed` are bare
+// "HH:MM" with no date component (not a full naive datetime like
+// Schedule/Line — see time.ts's combineDateAndHhmm); `Status` fields are
+// single-letter codes from the same S/M vocabulary confirmed for
+// Stop/NextService (tool-schemas spec §5); `Longitude`/`Latitude` are
+// `0`/`0` when the trip isn't currently tracked (NextService's -1/-1
+// placeholder doesn't apply here); `Destination` is a bare stop code, not
+// a name; `Track.Actual` can be `null`.
 export interface RawTripStatusTime {
   Scheduled: string;
   Computed: string;
@@ -169,8 +172,8 @@ export interface RawTripStatusTime {
 }
 
 export interface RawTripStatusTrack {
-  Scheduled: string;
-  Actual: string;
+  Scheduled: string | null;
+  Actual: string | null;
 }
 
 export interface RawTripStatusStop {

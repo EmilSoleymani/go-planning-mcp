@@ -35,21 +35,21 @@ describe("get_trip_status", () => {
         getStopAll: () => Promise.resolve(stopAllFixture),
       }),
       "get_trip_status",
-      { trip_number: "1004", date: "2026-07-17" },
+      { trip_number: "1039", date: "2026-07-17" },
     );
 
     expect(result.isError).toBe(false);
-    expect(capturedArgs).toEqual(["20260717", "1004"]);
+    expect(capturedArgs).toEqual(["20260717", "1039"]);
     expect(result.structuredContent).toMatchObject({
-      trip_number: "1004",
-      destination: "Union Station",
-      status: "En Route",
+      trip_number: "1039",
+      destination: "Aldershot GO",
+      status: "scheduled",
     });
     const structured = result.structuredContent as {
       stops: { stop_code: string; stop_name: string }[];
     };
-    expect(structured.stops.find((s) => s.stop_code === "AL")?.stop_name).toBe(
-      "Aldershot GO",
+    expect(structured.stops.find((s) => s.stop_code === "UN")?.stop_name).toBe(
+      "Union Station GO",
     );
   });
 

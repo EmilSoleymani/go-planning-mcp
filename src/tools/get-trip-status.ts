@@ -25,12 +25,12 @@ export function registerGetTripStatus(
     },
     async ({ trip_number, date }): Promise<CallToolResult> => {
       try {
-        const dateWire = dateToWire(date ?? nowInToronto().date);
+        const effectiveDate = date ?? nowInToronto().date;
         const [tripStatus, stopAll] = await Promise.all([
-          client.getTripStatus(dateWire, trip_number),
+          client.getTripStatus(dateToWire(effectiveDate), trip_number),
           client.getStopAll(),
         ]);
-        const dto = normalizeTripStatus(tripStatus, stopAll);
+        const dto = normalizeTripStatus(tripStatus, stopAll, effectiveDate);
         return {
           content: [{ type: "text", text: JSON.stringify(dto) }],
           structuredContent: dto,
