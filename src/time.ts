@@ -88,6 +88,31 @@ export function toIsoWithTorontoOffset(naive: string): string {
   return `${String(y).padStart(4, "0")}-${pad2(mo)}-${pad2(d)}T${pad2(h)}:${pad2(mi)}:${pad2(s)}${formatOffset(offset)}`;
 }
 
+/**
+ * Converts a GTFS-RT Unix epoch (seconds) into full ISO 8601 with the
+ * DST-aware Toronto offset attached (tool-schemas spec §1.3: "GTFS-RT Unix
+ * epochs are converted").
+ */
+export function toIsoFromEpochSeconds(epochSeconds: number): string {
+  const instant = new Date(epochSeconds * 1000);
+  const dtf = new Intl.DateTimeFormat("en-US", {
+    timeZone: TORONTO_TZ,
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  const parts = Object.fromEntries(
+    dtf.formatToParts(instant).map((p) => [p.type, p.value]),
+  );
+  const hour = parts.hour === "24" ? "00" : parts.hour;
+  const offset = offsetMinutesAt(instant, TORONTO_TZ);
+  return `${parts.year}-${parts.month}-${parts.day}T${hour}:${parts.minute}:${parts.second}${formatOffset(offset)}`;
+}
+
 /** Minutes between two naive same-timezone Metrolinx timestamps (later − earlier). */
 export function diffMinutes(laterNaive: string, earlierNaive: string): number {
   const a = parseNaiveParts(laterNaive);

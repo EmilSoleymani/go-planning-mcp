@@ -368,3 +368,135 @@ export interface RawTripStatusResponse {
   Metadata: RawMetadata;
   Trips?: RawTripStatusEntry[] | null;
 }
+
+// ServiceataGlance/{Trains,Buses,UPX}/All — live positions for one mode.
+// Confirmed live against Trains (issue #3); Buses/UPX are the same
+// documented shape, not yet independently captured.
+export interface RawServiceGlanceTrip {
+  Cars: string;
+  TripNumber: string;
+  StartTime: string;
+  EndTime: string;
+  LineCode: string;
+  RouteNumber: string;
+  VariantDir: string;
+  Display: string;
+  Latitude: number;
+  Longitude: number;
+  IsInMotion: boolean;
+  DelaySeconds: number;
+  Course: number;
+  FirstStopCode: string;
+  LastStopCode: string;
+  PrevStopCode: string;
+  NextStopCode: string | null;
+  AtStationCode: string | null;
+  ModifiedDate: string;
+}
+
+export interface RawServiceGlanceResponse {
+  Metadata: RawMetadata;
+  Trips?: { Trip?: RawServiceGlanceTrip[] | null } | null;
+}
+
+// GTFS-RT feeds (Gtfs/Feed/*) — consumed as JSON via the Accept header, no
+// protobuf dependency (project-architecture spec §4). No Metadata envelope;
+// these are raw gtfs-realtime.proto FeedMessages, snake_case as delivered.
+export interface RawGtfsTrip {
+  trip_id: string;
+  route_id: string;
+  direction_id: number;
+  start_time: string;
+  start_date: string;
+  schedule_relationship: string;
+}
+
+export interface RawGtfsVehicleDescriptor {
+  id?: string | null;
+  label?: string | null;
+  license_plate?: string | null;
+}
+
+export interface RawGtfsStopTimeEvent {
+  delay?: number | null;
+  time?: number | null;
+  uncertainty?: number | null;
+}
+
+// TripUpdates — confirmed live (issue #3): `arrival` is always null,
+// `departure` always populated for GO rail trip updates.
+export interface RawGtfsStopTimeUpdate {
+  stop_id: string;
+  arrival?: RawGtfsStopTimeEvent | null;
+  departure?: RawGtfsStopTimeEvent | null;
+  schedule_relationship: string;
+}
+
+export interface RawGtfsTripUpdate {
+  trip: RawGtfsTrip;
+  vehicle?: RawGtfsVehicleDescriptor | null;
+  stop_time_update: RawGtfsStopTimeUpdate[];
+  timestamp: number;
+  delay?: number | null;
+}
+
+export interface RawGtfsTripUpdateEntity {
+  id: string;
+  is_deleted: boolean;
+  trip_update?: RawGtfsTripUpdate | null;
+}
+
+export interface RawGtfsTripUpdatesResponse {
+  // No Metadata envelope on GTFS-RT feeds — declared (never populated) so
+  // this type structurally satisfies MetrolinxHttpClient's shared
+  // RawEnvelope constraint; the tunneled-error check is a no-op here.
+  Metadata?: RawMetadata | null;
+  header: {
+    gtfs_realtime_version: string;
+    incrementality: string;
+    timestamp: number;
+  };
+  entity: RawGtfsTripUpdateEntity[];
+}
+
+// VehiclePositions — NOT live-captured (no METROLINX_API_KEY/network
+// available this session); hand-written from the public gtfs-realtime.proto
+// VehiclePosition message (same standard already confirmed working for
+// TripUpdates above), per the test-architecture spec's carve-out for shapes
+// live capture can't produce on demand. `occupancy_percentage` is a
+// documented standard field (uint32, 0-100) distinct from the categorical
+// `occupancy_status` enum; unconfirmed against real Metrolinx data — revisit
+// once a real capture is available.
+export interface RawGtfsVehiclePosition {
+  trip: RawGtfsTrip;
+  vehicle?: RawGtfsVehicleDescriptor | null;
+  position: {
+    latitude: number;
+    longitude: number;
+    bearing?: number | null;
+    speed?: number | null;
+  };
+  current_stop_sequence?: number | null;
+  stop_id?: string | null;
+  current_status?: string | null;
+  timestamp: number;
+  occupancy_status?: string | null;
+  occupancy_percentage?: number | null;
+}
+
+export interface RawGtfsVehiclePositionEntity {
+  id: string;
+  is_deleted: boolean;
+  vehicle?: RawGtfsVehiclePosition | null;
+}
+
+export interface RawGtfsVehiclePositionsResponse {
+  // No Metadata envelope on GTFS-RT feeds — see RawGtfsTripUpdatesResponse.
+  Metadata?: RawMetadata | null;
+  header: {
+    gtfs_realtime_version: string;
+    incrementality: string;
+    timestamp: number;
+  };
+  entity: RawGtfsVehiclePositionEntity[];
+}
