@@ -39,17 +39,29 @@ jobs:
       - name: Run smoke suite
         id: smoke
         run: npm run test:smoke -- --reporter=json --outputFile=smoke-results.json
+      - name: Upload smoke report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-results
+          path: smoke-results.json
+          retention-days: 14
+          if-no-files-found: warn
       - name: File or update smoke-failure issue
         if: failure() && steps.smoke.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           FAILING=$(jq -r '
-            [.testResults[].assertionResults[]? | select(.status == "failed") | .fullName]
-            | if length > 0 then join("\n- ") else "(suite failed before any check ran — see run log)" end
+            if .numTotalTests == 0 then
+              "(suite failed to start — 0 tests ran; check that METROLINX_API_KEY is set correctly, then see the run log and the smoke-results artifact)"
+            else
+              [.testResults[].assertionResults[]? | select(.status == "failed") | .fullName]
+              | if length > 0 then join("\n- ") else "(tests ran but the reporter had no per-check detail — see the smoke-results artifact)" end
+            end
           ' smoke-results.json 2>/dev/null || echo "(smoke-results.json missing or unparseable — see run log)")
           RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          BODY=$(printf 'The weekly live-API smoke suite failed.\n\nFailing checks:\n- %s\n\nRun: %s\n' "$FAILING" "$RUN_URL")
+          BODY=$(printf 'The weekly live-API smoke suite failed.\n\nFailing checks:\n- %s\n\nRun (full report in the smoke-results artifact): %s\n' "$FAILING" "$RUN_URL")
 
           # Idempotent: creates the label on first run, no-ops after.
           gh label create smoke-failure --repo "$GITHUB_REPOSITORY" --color "B60205" --description "Weekly live-API smoke suite failure" --force
