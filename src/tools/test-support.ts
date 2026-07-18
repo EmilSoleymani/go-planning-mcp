@@ -62,6 +62,9 @@ export function fakeClient(
     getUnionDepartures: unimplemented,
     getServiceExceptions: unimplemented,
     getServiceGuarantee: unimplemented,
+    getLineAll: unimplemented,
+    getLineSchedule: unimplemented,
+    getTripStatus: unimplemented,
     ...overrides,
   };
 }

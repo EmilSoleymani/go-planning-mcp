@@ -208,4 +208,97 @@ export interface RawGuaranteeStop {
 export interface RawServiceGuaranteeResponse {
   Metadata: RawMetadata;
   Stops?: { Stop?: RawGuaranteeStop[] | null } | null;
+// Schedule/Line/All/{Date} — the full line/variant roster for a service day.
+export interface RawLineVariant {
+  Code: string;
+  Display: string;
+  Direction: string;
+}
+
+export interface RawLineAllEntry {
+  Name: string;
+  Code: string;
+  IsBus: boolean;
+  IsTrain: boolean;
+  Variant: RawLineVariant[] | null;
+}
+
+export interface RawLineAllResponse {
+  Metadata: RawMetadata;
+  AllLines?: { Line?: RawLineAllEntry[] | null } | null;
+}
+
+// Schedule/Line/{Date}/{LineCode}/{LineDirection} — one line/direction's full
+// service day, every trip x every stop (tool-schemas spec §2.11: never
+// returned as-is, get_line_schedule is anti-dump by design).
+export interface RawLineScheduleStop {
+  Code: string;
+  Order: number;
+  Time: string;
+  sortingTime: string | null;
+  IsMajor: boolean;
+}
+
+export interface RawLineScheduleTrip {
+  Number: string;
+  Display: string;
+  Stops: RawLineScheduleStop[] | null;
+}
+
+export interface RawLineScheduleEntry {
+  Code: string;
+  Direction: string;
+  Type: string;
+  Trip: RawLineScheduleTrip[] | null;
+}
+
+export interface RawLineScheduleResponse {
+  Metadata: RawMetadata;
+  Lines?: { Line?: RawLineScheduleEntry[] | null } | null;
+}
+
+// Schedule/Trip/{Date}/{TripNumber} — one trip's live stop-by-stop status.
+// Shape confirmed live (issue #8 follow-up), which corrected several
+// assumptions from the documented Help-page field list (research handoff
+// §2.4): `ArrivalTime`/`DepartureTime.Scheduled`/`Computed` are bare
+// "HH:MM" with no date component (not a full naive datetime like
+// Schedule/Line — see time.ts's combineDateAndHhmm); `Status` fields are
+// single-letter codes from the same S/M vocabulary confirmed for
+// Stop/NextService (tool-schemas spec §5); `Longitude`/`Latitude` are
+// `0`/`0` when the trip isn't currently tracked (NextService's -1/-1
+// placeholder doesn't apply here); `Destination` is a bare stop code, not
+// a name; `Track.Actual` can be `null`.
+export interface RawTripStatusTime {
+  Scheduled: string;
+  Computed: string;
+  Status: string;
+}
+
+export interface RawTripStatusTrack {
+  Scheduled: string | null;
+  Actual: string | null;
+}
+
+export interface RawTripStatusStop {
+  Code: string;
+  ArrivalTime?: RawTripStatusTime | null;
+  DepartureTime?: RawTripStatusTime | null;
+  Track?: RawTripStatusTrack | null;
+  Status: string;
+  Remark?: string | null;
+}
+
+export interface RawTripStatusEntry {
+  Number: string;
+  Destination: string;
+  Longitude: number | string;
+  Latitude: number | string;
+  Status: string;
+  TimeStamp: string;
+  Stops?: RawTripStatusStop[] | null;
+}
+
+export interface RawTripStatusResponse {
+  Metadata: RawMetadata;
+  Trips?: RawTripStatusEntry[] | null;
 }

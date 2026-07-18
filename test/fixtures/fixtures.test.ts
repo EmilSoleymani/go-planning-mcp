@@ -47,4 +47,17 @@ describe("fixtures", () => {
     expect(fixture.Stop.Code).toBe("UN");
     expect(fixture.Stop.StopName).toBe("Union Station GO");
   });
+
+  // Live-captured manually (issue #8 follow-up, PR #22 review) — the
+  // original hand-written guess for this endpoint had the wrong time
+  // format (bare "HH:MM", not a full naive datetime); this fixture is the
+  // real payload that caught it. scripts/capture-fixtures.ts still doesn't
+  // cover this endpoint (see issue #25).
+  it("schedule-trip.json (live-captured) has bare HH:MM stop times, not full datetimes", () => {
+    const fixture = loadFixture("schedule-trip.json") as {
+      Trips: { Number: string; Stops: { Code: string }[] }[];
+    };
+    expect(fixture.Trips[0]?.Number).toBe("1039");
+    expect(fixture.Trips[0]?.Stops.length).toBeGreaterThan(0);
+  });
 });
