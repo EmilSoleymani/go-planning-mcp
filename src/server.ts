@@ -1,6 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import type { MetrolinxClient } from "./metrolinx/client.js";
+import { registerGetFares } from "./tools/get-fares.js";
+import { registerGetFleetConsist } from "./tools/get-fleet-consist.js";
 import { registerGetNextService } from "./tools/get-next-service.js";
 import { registerGetStopDestinations } from "./tools/get-stop-destinations.js";
 import { registerGetStopDetails } from "./tools/get-stop-details.js";
@@ -22,6 +24,8 @@ export function registerTools(
   registerSearchStops(server, client);
   registerGetNextService(server, client);
   registerGetStopDestinations(server, client);
+  registerGetFares(server, client);
+  registerGetFleetConsist(server, client);
 }
 
 /**

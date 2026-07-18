@@ -56,6 +56,9 @@ export function fakeClient(
     getStopAll: unimplemented,
     getNextService: unimplemented,
     getStopDestinations: unimplemented,
+    getFares: unimplemented,
+    getFleetConsistAll: unimplemented,
+    getFleetConsistByEngine: unimplemented,
     ...overrides,
   };
 }

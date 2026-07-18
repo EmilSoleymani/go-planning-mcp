@@ -134,3 +134,8 @@ export function addHoursToTime(time: string, hours: number): string {
 export function hhmmToWire(time: string): string {
   return time.replace(":", "");
 }
+
+/** "YYYY-MM-DD" -> Metrolinx's "yyyymmdd" wire format. */
+export function dateToWire(date: string): string {
+  return date.replace(/-/g, "");
+}

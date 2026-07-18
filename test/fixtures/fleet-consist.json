@@ -1,8 +1,61 @@
 {
   "Metadata": {
     "TimeStamp": "2026-07-17 16:46:53",
-    "ErrorCode": "403",
-    "ErrorMessage": "Forbidden"
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
   },
-  "AllConsists": null
+  "AllConsists": {
+    "Consists": [
+      {
+        "Number": "203",
+        "CoachCount": 3,
+        "EngineNumber": "639",
+        "Lineup": [
+          { "Type": "Cab Car", "Order": 1, "Number": "301" },
+          { "Type": "Coach", "Order": 2, "Number": "302" },
+          { "Type": "Locomotive", "Order": 3, "Number": "639" }
+        ],
+        "RemainingTrip": [
+          {
+            "Number": "1234",
+            "Corridor": "LW",
+            "StartTime": "16:45",
+            "EndTime": "17:50",
+            "FirstStop": "UN",
+            "LastStop": "AL",
+            "InService": true
+          },
+          {
+            "Number": "1236",
+            "Corridor": "LW",
+            "StartTime": "18:15",
+            "EndTime": "19:20",
+            "FirstStop": "AL",
+            "LastStop": "UN",
+            "InService": true
+          }
+        ]
+      },
+      {
+        "Number": "204",
+        "CoachCount": 2,
+        "EngineNumber": "651",
+        "Lineup": [
+          { "Type": "Cab Car", "Order": 1, "Number": "401" },
+          { "Type": "Locomotive", "Order": 2, "Number": "651" }
+        ],
+        "RemainingTrip": [
+          {
+            "Number": "2011",
+            "Corridor": "MI",
+            "StartTime": "17:05",
+            "EndTime": "18:10",
+            "FirstStop": "UN",
+            "LastStop": "MI",
+            "InService": true
+          }
+        ]
+      }
+    ]
+  }
 }
