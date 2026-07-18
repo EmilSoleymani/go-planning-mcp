@@ -7,9 +7,12 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { MetrolinxError } from "../errors.js";
 import { MetrolinxHttpClient } from "./client.js";
 import type {
+  RawLineAllResponse,
+  RawLineScheduleResponse,
   RawStopAllResponse,
   RawStopDestinationsResponse,
   RawStopDetailsResponse,
+  RawTripStatusResponse,
 } from "./types.js";
 
 const BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
@@ -17,6 +20,9 @@ const DETAILS_URL = `${BASE_URL}/Stop/Details/UN`;
 const STOP_ALL_URL = `${BASE_URL}/Stop/All`;
 const NEXT_SERVICE_URL = `${BASE_URL}/Stop/NextService/UN`;
 const DESTINATIONS_URL = `${BASE_URL}/Stop/Destinations/UN/0900/1300`;
+const LINE_ALL_URL = `${BASE_URL}/Schedule/Line/All/20260717`;
+const LINE_SCHEDULE_URL = `${BASE_URL}/Schedule/Line/20260717/LW/E`;
+const TRIP_STATUS_URL = `${BASE_URL}/Schedule/Trip/20260717/1039`;
 
 const fixture = JSON.parse(
   readFileSync(
@@ -41,6 +47,27 @@ const destinationsFixture = JSON.parse(
     "utf8",
   ),
 ) as RawStopDestinationsResponse;
+
+const lineAllFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-line-all.json", import.meta.url),
+    "utf8",
+  ),
+) as RawLineAllResponse;
+
+const lineScheduleFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-line.json", import.meta.url),
+    "utf8",
+  ),
+) as RawLineScheduleResponse;
+
+const tripStatusFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-trip.json", import.meta.url),
+    "utf8",
+  ),
+) as RawTripStatusResponse;
 
 function tunneled(code: string): RawStopDetailsResponse {
   return {
@@ -325,6 +352,81 @@ describe("MetrolinxHttpClient", () => {
     const client = makeClient();
     await client.getNextService("UN");
     await client.getNextService("UN");
+
+    expect(calls).toBe(2);
+  });
+
+  it("requests Schedule/Line/All/{Date}", async () => {
+    mswServer.use(
+      http.get(LINE_ALL_URL, () => HttpResponse.json(lineAllFixture)),
+    );
+
+    const body = await makeClient().getLineAll("20260717");
+    expect(body.AllLines?.Line?.length).toBeGreaterThan(0);
+  });
+
+  it("caches Schedule/Line/All/{Date} for 6h — a second call within TTL hits the cache", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(LINE_ALL_URL, () => {
+        calls += 1;
+        return HttpResponse.json(lineAllFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getLineAll("20260717");
+    await client.getLineAll("20260717");
+
+    expect(calls).toBe(1);
+  });
+
+  it("requests Schedule/Line/{Date}/{LineCode}/{LineDirection}", async () => {
+    mswServer.use(
+      http.get(LINE_SCHEDULE_URL, () => HttpResponse.json(lineScheduleFixture)),
+    );
+
+    const body = await makeClient().getLineSchedule("20260717", "LW", "E");
+    expect(body.Lines?.Line?.[0]?.Code).toBe("LW");
+  });
+
+  it("caches Schedule/Line/{Date}/{LineCode}/{LineDirection} for 6h", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(LINE_SCHEDULE_URL, () => {
+        calls += 1;
+        return HttpResponse.json(lineScheduleFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getLineSchedule("20260717", "LW", "E");
+    await client.getLineSchedule("20260717", "LW", "E");
+
+    expect(calls).toBe(1);
+  });
+
+  it("requests Schedule/Trip/{Date}/{TripNumber}", async () => {
+    mswServer.use(
+      http.get(TRIP_STATUS_URL, () => HttpResponse.json(tripStatusFixture)),
+    );
+
+    const body = await makeClient().getTripStatus("20260717", "1039");
+    expect(body.Trips?.[0]?.Number).toBe("1039");
+  });
+
+  it("never caches Schedule/Trip (live stop-by-stop status)", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(TRIP_STATUS_URL, () => {
+        calls += 1;
+        return HttpResponse.json(tripStatusFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getTripStatus("20260717", "1039");
+    await client.getTripStatus("20260717", "1039");
 
     expect(calls).toBe(2);
   });

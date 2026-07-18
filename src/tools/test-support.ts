@@ -56,6 +56,9 @@ export function fakeClient(
     getStopAll: unimplemented,
     getNextService: unimplemented,
     getStopDestinations: unimplemented,
+    getLineAll: unimplemented,
+    getLineSchedule: unimplemented,
+    getTripStatus: unimplemented,
     ...overrides,
   };
 }

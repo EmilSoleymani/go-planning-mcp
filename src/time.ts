@@ -134,3 +134,47 @@ export function addHoursToTime(time: string, hours: number): string {
 export function hhmmToWire(time: string): string {
   return time.replace(":", "");
 }
+
+/** "YYYY-MM-DD" -> Metrolinx's "yyyymmdd" wire format. */
+export function dateToWire(date: string): string {
+  return date.replaceAll("-", "");
+}
+
+/**
+ * Combines an operational-day date with a bare "HH:MM" wall-clock time
+ * (Schedule/Trip sends times with no date component at all — confirmed
+ * live, unlike Schedule/Line's full naive datetimes) into full ISO 8601
+ * with the Toronto offset. HH may exceed 23 for a stop past midnight on
+ * the same service day (e.g. "24:27" = 00:27 the next calendar day) — the
+ * same past-midnight convention documented for Schedule/Line, just without
+ * a date pre-attached for us.
+ *
+ * Confirmed live (issue #8 follow-up): Metrolinx doesn't apply this
+ * wraparound consistently — on one captured overnight trip, most
+ * past-midnight stops were still sent as "00:MM" rather than "24:MM"+, and
+ * only the very last stop used the wraparound. There is no reliable signal
+ * in the payload to distinguish an under-wrapped post-midnight stop from a
+ * stop genuinely early on the requested day, so this function takes HH
+ * literally (only >=24 rolls forward) — a known upstream data quirk, not
+ * something correctable from the fields alone.
+ */
+export function combineDateAndHhmm(date: string, hhmm: string): string {
+  const match = /^(\d{1,2}):(\d{2})$/.exec(hhmm);
+  if (!match) throw new Error(`Unrecognized Metrolinx HH:MM time: ${hhmm}`);
+  const [, hh, mm] = match as unknown as [string, string, string];
+  const totalMinutes = Number(hh) * 60 + Number(mm);
+  const minutesInDay = 24 * 60;
+  const dayOffset = Math.floor(totalMinutes / minutesInDay);
+  const hour = Math.floor((totalMinutes % minutesInDay) / 60);
+  const minute = totalMinutes % 60;
+
+  const [y, mo, d] = date.split("-").map(Number);
+  const rolled = new Date(
+    Date.UTC(y ?? 0, (mo ?? 1) - 1, (d ?? 1) + dayOffset),
+  );
+  const rolledDate = `${String(rolled.getUTCFullYear()).padStart(4, "0")}-${pad2(rolled.getUTCMonth() + 1)}-${pad2(rolled.getUTCDate())}`;
+
+  return toIsoWithTorontoOffset(
+    `${rolledDate} ${pad2(hour)}:${pad2(minute)}:00`,
+  );
+}
