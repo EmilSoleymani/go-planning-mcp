@@ -164,6 +164,8 @@ export interface RawConsist {
 export interface RawFleetConsistResponse {
   Metadata: RawMetadata;
   AllConsists?: { Consists?: RawConsist[] | null } | null;
+}
+
 // ServiceUpdate/{ServiceAlert,InformationAlert,MarketingAlert}/All — the
 // three feeds share this exact shape (confirmed live for ServiceAlert,
 // issue #9; ticket 001 documents Information/Marketing as identical).

@@ -137,7 +137,6 @@ export function hhmmToWire(time: string): string {
 
 /** "YYYY-MM-DD" -> Metrolinx's "yyyymmdd" wire format. */
 export function dateToWire(date: string): string {
-  // return date.replace(/-/g, "");
   return date.replaceAll("-", "");
 }
 

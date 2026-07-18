@@ -425,6 +425,43 @@ describe("MetrolinxHttpClient", () => {
           Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
           AllFares: { FareCategory: [] },
         });
+      }),
+    );
+
+    const client = makeClient();
+    await client.getFares("UN", "OA");
+    await client.getFares("UN", "OA");
+
+    expect(calls).toBe(1);
+  });
+
+  it("requests Fleet/Consist/All and Fleet/Consist/Engine/{EngineNumber}, uncached", async () => {
+    let allCalls = 0;
+    let engineCalls = 0;
+    const emptyConsists = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      AllConsists: { Consists: [] },
+    };
+    mswServer.use(
+      http.get(FLEET_ALL_URL, () => {
+        allCalls += 1;
+        return HttpResponse.json(emptyConsists);
+      }),
+      http.get(FLEET_ENGINE_URL, () => {
+        engineCalls += 1;
+        return HttpResponse.json(emptyConsists);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getFleetConsistAll();
+    await client.getFleetConsistAll();
+    await client.getFleetConsistByEngine("651");
+
+    expect(allCalls).toBe(2);
+    expect(engineCalls).toBe(1);
+  });
+
   it("requests ServiceUpdate/ServiceAlert/All", async () => {
     mswServer.use(
       http.get(SERVICE_ALERT_URL, () => HttpResponse.json(alertsFixture)),
@@ -508,29 +545,12 @@ describe("MetrolinxHttpClient", () => {
     );
 
     const client = makeClient();
-    await client.getFares("UN", "OA");
-    await client.getFares("UN", "OA");
     await client.getLineAll("20260717");
     await client.getLineAll("20260717");
 
     expect(calls).toBe(1);
   });
 
-  it("requests Fleet/Consist/All and Fleet/Consist/Engine/{EngineNumber}, uncached", async () => {
-    let allCalls = 0;
-    let engineCalls = 0;
-    const emptyConsists = {
-      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
-      AllConsists: { Consists: [] },
-    };
-    mswServer.use(
-      http.get(FLEET_ALL_URL, () => {
-        allCalls += 1;
-        return HttpResponse.json(emptyConsists);
-      }),
-      http.get(FLEET_ENGINE_URL, () => {
-        engineCalls += 1;
-        return HttpResponse.json(emptyConsists);
   it("requests Schedule/Line/{Date}/{LineCode}/{LineDirection}", async () => {
     mswServer.use(
       http.get(LINE_SCHEDULE_URL, () => HttpResponse.json(lineScheduleFixture)),
@@ -575,12 +595,6 @@ describe("MetrolinxHttpClient", () => {
     );
 
     const client = makeClient();
-    await client.getFleetConsistAll();
-    await client.getFleetConsistAll();
-    await client.getFleetConsistByEngine("651");
-
-    expect(allCalls).toBe(2);
-    expect(engineCalls).toBe(1);
     await client.getTripStatus("20260717", "1039");
     await client.getTripStatus("20260717", "1039");
 

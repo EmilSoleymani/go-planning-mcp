@@ -1,9 +1,9 @@
 import { MetrolinxError } from "../errors.js";
 import { TtlCache } from "./cache.js";
 import type {
+  RawAlertsResponse,
   RawFaresResponse,
   RawFleetConsistResponse,
-  RawAlertsResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawNextServiceResponse,
@@ -12,8 +12,8 @@ import type {
   RawStopAllResponse,
   RawStopDestinationsResponse,
   RawStopDetailsResponse,
-  RawUnionDeparturesResponse,
   RawTripStatusResponse,
+  RawUnionDeparturesResponse,
 } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
@@ -21,15 +21,13 @@ const MAX_RETRIES = 2;
 const BACKOFF_BASE_MS = 500;
 const BACKOFF_CAP_MS = 5000;
 
-// Caching spec (ticket 005): stops are slow-changing (24h); fares are a
-// published schedule-adjacent table (6h); next-service, destinations, and
-// fleet consist (live physical makeup, research handoff §2.7) are real-time
-// and never cached. published schedules are effectively static once a service 
-// day is published (6h);
+// Caching spec (ticket 005): stops are slow-changing (24h); fares and
+// published schedules are effectively static once a service day is
+// published (6h); next-service, destinations, and fleet consist (live
+// physical makeup, research handoff §2.7) are real-time and never cached.
 const STOP_ALL_TTL_MS = 24 * 60 * 60 * 1000;
 const FARES_TTL_MS = 6 * 60 * 60 * 1000;
 const SCHEDULE_TTL_MS = 6 * 60 * 60 * 1000;
-
 
 /**
  * The surface tools depend on. Tool tests inject a hand-built fake
@@ -161,6 +159,9 @@ export class MetrolinxHttpClient implements MetrolinxClient {
   ): Promise<RawFleetConsistResponse> {
     return this.get<RawFleetConsistResponse>(
       `/Fleet/Consist/Engine/${encodeURIComponent(engineNumber)}`,
+    );
+  }
+
   // Alerts change through the day and have no caching tier assigned by the
   // caching spec (ticket 005 only names stops/schedules/fares) — left
   // uncached rather than guessing a TTL.
