@@ -1,0 +1,62 @@
+# Weekly live-API smoke suite per docs/spec/cicd-pipeline.md §3 and
+# docs/spec/test-architecture.md §2.
+#
+# Never PR-gating: separate workflow, weekly schedule + workflow_dispatch,
+# excluded from the default `test` script (vitest.config.ts). Upstream drift
+# must not block unrelated merges — failures are surfaced as an idempotent
+# GitHub issue instead.
+name: Smoke
+
+on:
+  schedule:
+    # Mondays 11:17 UTC ≈ 6:17/7:17 a.m. Toronto — Monday-morning service
+    # peak gives real-time endpoints rich data; the off-hour minute avoids
+    # GitHub's congested top-of-hour cron slots.
+    - cron: "17 11 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: smoke
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      METROLINX_API_KEY: ${{ secrets.METROLINX_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run smoke suite
+        id: smoke
+        run: npm run test:smoke -- --reporter=json --outputFile=smoke-results.json
+      - name: File or update smoke-failure issue
+        if: failure() && steps.smoke.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FAILING=$(jq -r '
+            [.testResults[].assertionResults[]? | select(.status == "failed") | .fullName]
+            | if length > 0 then join("\n- ") else "(suite failed before any check ran — see run log)" end
+          ' smoke-results.json 2>/dev/null || echo "(smoke-results.json missing or unparseable — see run log)")
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          BODY=$(printf 'The weekly live-API smoke suite failed.\n\nFailing checks:\n- %s\n\nRun: %s\n' "$FAILING" "$RUN_URL")
+
+          # Idempotent: creates the label on first run, no-ops after.
+          gh label create smoke-failure --repo "$GITHUB_REPOSITORY" --color "B60205" --description "Weekly live-API smoke suite failure" --force
+
+          ISSUE_NUMBER=$(gh issue list --repo "$GITHUB_REPOSITORY" --label smoke-failure --state open --json number --jq '.[0].number // empty')
+          if [ -n "$ISSUE_NUMBER" ]; then
+            gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$BODY"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "Weekly smoke suite failure" --label smoke-failure --body "$BODY"
+          fi
