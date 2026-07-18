@@ -3,6 +3,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { MetrolinxClient } from "./metrolinx/client.js";
 import { registerPrompts } from "./prompts.js";
 import { registerResources } from "./resources.js";
+import { registerGetFares } from "./tools/get-fares.js";
+import { registerGetFleetConsist } from "./tools/get-fleet-consist.js";
 import { registerGetLineSchedule } from "./tools/get-line-schedule.js";
 import { registerGetNextService } from "./tools/get-next-service.js";
 import { registerGetServiceAlerts } from "./tools/get-service-alerts.js";
@@ -10,9 +12,13 @@ import { registerGetServiceExceptions } from "./tools/get-service-exceptions.js"
 import { registerGetServiceGuarantee } from "./tools/get-service-guarantee.js";
 import { registerGetStopDestinations } from "./tools/get-stop-destinations.js";
 import { registerGetStopDetails } from "./tools/get-stop-details.js";
-import { registerGetUnionDepartures } from "./tools/get-union-departures.js";
 import { registerGetTripStatus } from "./tools/get-trip-status.js";
+import { registerGetTripUpdates } from "./tools/get-trip-updates.js";
+import { registerGetUnionDepartures } from "./tools/get-union-departures.js";
+import { registerGetVehiclePositions } from "./tools/get-vehicle-positions.js";
 import { registerListLines } from "./tools/list-lines.js";
+import { registerPlanJourney } from "./tools/plan-journey.js";
+import { registerPlanTrip } from "./tools/plan-trip.js";
 import { registerSearchStops } from "./tools/search-stops.js";
 
 export const SERVER_INFO = { name: "go-transit-mcp", version: "0.0.0" };
@@ -31,6 +37,8 @@ export function registerTools(
   registerSearchStops(server, client);
   registerGetNextService(server, client);
   registerGetStopDestinations(server, client);
+  registerGetFares(server, client);
+  registerGetFleetConsist(server, client);
   registerGetServiceAlerts(server, client);
   registerGetServiceExceptions(server, client);
   registerGetServiceGuarantee(server, client);
@@ -40,6 +48,10 @@ export function registerTools(
   registerGetTripStatus(server, client);
   registerResources(server, client);
   registerPrompts(server);
+  registerGetVehiclePositions(server, client);
+  registerGetTripUpdates(server, client);
+  registerPlanTrip(server, client);
+  registerPlanJourney(server, client);
 }
 
 /**

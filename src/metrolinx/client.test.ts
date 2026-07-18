@@ -8,6 +8,9 @@ import { MetrolinxError } from "../errors.js";
 import { MetrolinxHttpClient } from "./client.js";
 import type {
   RawAlertsResponse,
+  RawGtfsTripUpdatesResponse,
+  RawGtfsVehiclePositionsResponse,
+  RawJourneyResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawServiceExceptionsResponse,
@@ -24,6 +27,10 @@ const DETAILS_URL = `${BASE_URL}/Stop/Details/UN`;
 const STOP_ALL_URL = `${BASE_URL}/Stop/All`;
 const NEXT_SERVICE_URL = `${BASE_URL}/Stop/NextService/UN`;
 const DESTINATIONS_URL = `${BASE_URL}/Stop/Destinations/UN/0900/1300`;
+const FARES_URL = `${BASE_URL}/Fares/UN/OA`;
+const FARES_DATED_URL = `${BASE_URL}/Fares/UN/OA/20260720`;
+const FLEET_ALL_URL = `${BASE_URL}/Fleet/Consist/All`;
+const FLEET_ENGINE_URL = `${BASE_URL}/Fleet/Consist/Engine/651`;
 const SERVICE_ALERT_URL = `${BASE_URL}/ServiceUpdate/ServiceAlert/All`;
 const INFORMATION_ALERT_URL = `${BASE_URL}/ServiceUpdate/InformationAlert/All`;
 const MARKETING_ALERT_URL = `${BASE_URL}/ServiceUpdate/MarketingAlert/All`;
@@ -35,6 +42,12 @@ const SERVICE_GUARANTEE_URL = `${BASE_URL}/ServiceUpdate/ServiceGuarantee/1029/2
 const LINE_ALL_URL = `${BASE_URL}/Schedule/Line/All/20260717`;
 const LINE_SCHEDULE_URL = `${BASE_URL}/Schedule/Line/20260717/LW/E`;
 const TRIP_STATUS_URL = `${BASE_URL}/Schedule/Trip/20260717/1039`;
+const SERVICE_GLANCE_TRAINS_URL = `${BASE_URL}/ServiceataGlance/Trains/All`;
+const SERVICE_GLANCE_BUSES_URL = `${BASE_URL}/ServiceataGlance/Buses/All`;
+const SERVICE_GLANCE_UPX_URL = `${BASE_URL}/ServiceataGlance/UPX/All`;
+const VEHICLE_POSITIONS_URL = `${BASE_URL}/Gtfs/Feed/VehiclePosition`;
+const TRIP_UPDATES_URL = `${BASE_URL}/Gtfs/Feed/TripUpdates`;
+const JOURNEY_URL = `${BASE_URL}/Schedule/Journey/20260717/UN/00137/0900/3`;
 
 const fixture = JSON.parse(
   readFileSync(
@@ -107,6 +120,27 @@ const tripStatusFixture = JSON.parse(
     "utf8",
   ),
 ) as RawTripStatusResponse;
+
+const vehiclePositionsFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/gtfs-vehicle-position.json", import.meta.url),
+    "utf8",
+  ),
+) as RawGtfsVehiclePositionsResponse;
+
+const tripUpdatesFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/gtfs-trip-updates.json", import.meta.url),
+    "utf8",
+  ),
+) as RawGtfsTripUpdatesResponse;
+
+const journeyFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-journey.json", import.meta.url),
+    "utf8",
+  ),
+) as RawJourneyResponse;
 
 function tunneled(code: string): RawStopDetailsResponse {
   return {
@@ -395,6 +429,69 @@ describe("MetrolinxHttpClient", () => {
     expect(calls).toBe(2);
   });
 
+  it("requests Fares/{From}/{To} without a date, and with one appended when given", async () => {
+    const emptyFares = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      AllFares: { FareCategory: [] },
+    };
+    mswServer.use(
+      http.get(FARES_URL, () => HttpResponse.json(emptyFares)),
+      http.get(FARES_DATED_URL, () => HttpResponse.json(emptyFares)),
+    );
+
+    const undated = await makeClient().getFares("UN", "OA");
+    const dated = await makeClient().getFares("UN", "OA", "20260720");
+
+    expect(undated.AllFares).toEqual({ FareCategory: [] });
+    expect(dated.AllFares).toEqual({ FareCategory: [] });
+  });
+
+  it("caches Fares for 6h — a second identical call within TTL hits the cache", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(FARES_URL, () => {
+        calls += 1;
+        return HttpResponse.json({
+          Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+          AllFares: { FareCategory: [] },
+        });
+      }),
+    );
+
+    const client = makeClient();
+    await client.getFares("UN", "OA");
+    await client.getFares("UN", "OA");
+
+    expect(calls).toBe(1);
+  });
+
+  it("requests Fleet/Consist/All and Fleet/Consist/Engine/{EngineNumber}, uncached", async () => {
+    let allCalls = 0;
+    let engineCalls = 0;
+    const emptyConsists = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      AllConsists: { Consists: [] },
+    };
+    mswServer.use(
+      http.get(FLEET_ALL_URL, () => {
+        allCalls += 1;
+        return HttpResponse.json(emptyConsists);
+      }),
+      http.get(FLEET_ENGINE_URL, () => {
+        engineCalls += 1;
+        return HttpResponse.json(emptyConsists);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getFleetConsistAll();
+    await client.getFleetConsistAll();
+    await client.getFleetConsistByEngine("651");
+
+    expect(allCalls).toBe(2);
+    expect(engineCalls).toBe(1);
+  });
+
   it("requests ServiceUpdate/ServiceAlert/All", async () => {
     mswServer.use(
       http.get(SERVICE_ALERT_URL, () => HttpResponse.json(alertsFixture)),
@@ -530,6 +627,113 @@ describe("MetrolinxHttpClient", () => {
     const client = makeClient();
     await client.getTripStatus("20260717", "1039");
     await client.getTripStatus("20260717", "1039");
+
+    expect(calls).toBe(2);
+  });
+
+  it.each([
+    ["train", SERVICE_GLANCE_TRAINS_URL],
+    ["bus", SERVICE_GLANCE_BUSES_URL],
+    ["upx", SERVICE_GLANCE_UPX_URL],
+  ] as const)(
+    "requests ServiceataGlance/{Segment}/All for mode %s",
+    async (mode, url) => {
+      mswServer.use(
+        http.get(url, () =>
+          HttpResponse.json({
+            Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+            Trips: { Trip: [] },
+          }),
+        ),
+      );
+
+      const body = await makeClient().getServiceGlance(mode);
+      expect(body.Trips?.Trip).toEqual([]);
+    },
+  );
+
+  it("never caches ServiceataGlance (real-time)", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(SERVICE_GLANCE_TRAINS_URL, () => {
+        calls += 1;
+        return HttpResponse.json({
+          Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+          Trips: { Trip: [] },
+        });
+      }),
+    );
+
+    const client = makeClient();
+    await client.getServiceGlance("train");
+    await client.getServiceGlance("train");
+
+    expect(calls).toBe(2);
+  });
+
+  it("requests Gtfs/Feed/VehiclePosition and parses the GTFS-RT envelope", async () => {
+    mswServer.use(
+      http.get(VEHICLE_POSITIONS_URL, () =>
+        HttpResponse.json(vehiclePositionsFixture),
+      ),
+    );
+
+    const body = await makeClient().getVehiclePositions();
+    expect(body.entity).toHaveLength(3);
+  });
+
+  it("requests Gtfs/Feed/TripUpdates and parses the real captured feed", async () => {
+    mswServer.use(
+      http.get(TRIP_UPDATES_URL, () => HttpResponse.json(tripUpdatesFixture)),
+    );
+
+    const body = await makeClient().getTripUpdates();
+    expect(body.entity.length).toBeGreaterThan(0);
+  });
+
+  it("never caches GTFS-RT feeds (real-time)", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(TRIP_UPDATES_URL, () => {
+        calls += 1;
+        return HttpResponse.json(tripUpdatesFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getTripUpdates();
+    await client.getTripUpdates();
+
+    expect(calls).toBe(2);
+  });
+
+  it("requests Schedule/Journey/{Date}/{From}/{To}/{StartTime}/{MaxJourney}", async () => {
+    mswServer.use(
+      http.get(JOURNEY_URL, () => HttpResponse.json(journeyFixture)),
+    );
+
+    const body = await makeClient().getJourney(
+      "20260717",
+      "UN",
+      "00137",
+      "0900",
+      3,
+    );
+    expect(body.SchJourneys?.[0]?.From).toBe("UN");
+  });
+
+  it("never caches Schedule/Journey (real-time journey plans)", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(JOURNEY_URL, () => {
+        calls += 1;
+        return HttpResponse.json(journeyFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getJourney("20260717", "UN", "00137", "0900", 3);
+    await client.getJourney("20260717", "UN", "00137", "0900", 3);
 
     expect(calls).toBe(2);
   });

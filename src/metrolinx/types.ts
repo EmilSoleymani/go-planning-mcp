@@ -105,6 +105,67 @@ export interface RawStopDestinationsResponse {
   } | null;
 }
 
+// Fares — triple-nested category -> ticket -> fare rows (research handoff
+// §2.8, cross-confirmed by a live capture, issue #3). Live-confirmed
+// FareCategory.Type values include "Group Pass" alongside the four
+// individual-rider types; it carries no per-rider concept and is filtered
+// out during normalization (see normalize/fares.ts).
+export interface RawFareEntry {
+  Type: string;
+  Amount: number;
+  Category: string;
+}
+
+export interface RawFareTicket {
+  Type: string;
+  Fares: RawFareEntry[] | null;
+}
+
+export interface RawFareCategory {
+  Type: string;
+  Tickets: RawFareTicket[] | null;
+}
+
+export interface RawFaresResponse {
+  Metadata: RawMetadata;
+  AllFares?: { FareCategory?: RawFareCategory[] | null } | null;
+}
+
+// Fleet/Consist — physical train-consist makeup. Field list from the
+// research handoff (§2.7, Help-page sourced); this session's
+// METROLINX_API_KEY returned Metadata.ErrorCode "403" on both Consist
+// endpoints (no live capture available — see test/fixtures/fleet-consist.json),
+// so these shapes are hand-derived from documentation rather than confirmed
+// against a real response. Revisit if a future capture run has Fleet access.
+export interface RawConsistCar {
+  Type: string;
+  Order: number;
+  Number: string;
+}
+
+export interface RawRemainingTrip {
+  Number: string;
+  Corridor: string;
+  StartTime: string;
+  EndTime: string;
+  FirstStop: string;
+  LastStop: string;
+  InService: boolean;
+}
+
+export interface RawConsist {
+  Number: string;
+  CoachCount: number;
+  EngineNumber: string;
+  Lineup: RawConsistCar[] | null;
+  RemainingTrip: RawRemainingTrip[] | null;
+}
+
+export interface RawFleetConsistResponse {
+  Metadata: RawMetadata;
+  AllConsists?: { Consists?: RawConsist[] | null } | null;
+}
+
 // ServiceUpdate/{ServiceAlert,InformationAlert,MarketingAlert}/All — the
 // three feeds share this exact shape (confirmed live for ServiceAlert,
 // issue #9; ticket 001 documents Information/Marketing as identical).
@@ -306,4 +367,222 @@ export interface RawTripStatusEntry {
 export interface RawTripStatusResponse {
   Metadata: RawMetadata;
   Trips?: RawTripStatusEntry[] | null;
+}
+
+// ServiceataGlance/{Trains,Buses,UPX}/All — live positions for one mode.
+// Confirmed live against Trains (issue #3); Buses/UPX are the same
+// documented shape, not yet independently captured.
+export interface RawServiceGlanceTrip {
+  Cars: string;
+  TripNumber: string;
+  StartTime: string;
+  EndTime: string;
+  LineCode: string;
+  RouteNumber: string;
+  VariantDir: string;
+  Display: string;
+  Latitude: number;
+  Longitude: number;
+  IsInMotion: boolean;
+  DelaySeconds: number;
+  Course: number;
+  FirstStopCode: string;
+  LastStopCode: string;
+  PrevStopCode: string;
+  NextStopCode: string | null;
+  AtStationCode: string | null;
+  ModifiedDate: string;
+}
+
+export interface RawServiceGlanceResponse {
+  Metadata: RawMetadata;
+  Trips?: { Trip?: RawServiceGlanceTrip[] | null } | null;
+}
+
+// GTFS-RT feeds (Gtfs/Feed/*) — consumed as JSON via the Accept header, no
+// protobuf dependency (project-architecture spec §4). No Metadata envelope;
+// these are raw gtfs-realtime.proto FeedMessages, snake_case as delivered.
+export interface RawGtfsTrip {
+  trip_id: string;
+  route_id: string;
+  direction_id: number;
+  start_time: string;
+  start_date: string;
+  schedule_relationship: string;
+}
+
+export interface RawGtfsVehicleDescriptor {
+  id?: string | null;
+  label?: string | null;
+  license_plate?: string | null;
+}
+
+export interface RawGtfsStopTimeEvent {
+  delay?: number | null;
+  time?: number | null;
+  uncertainty?: number | null;
+}
+
+// TripUpdates — confirmed live (issue #3): `arrival` is always null,
+// `departure` always populated for GO rail trip updates.
+export interface RawGtfsStopTimeUpdate {
+  stop_id: string;
+  arrival?: RawGtfsStopTimeEvent | null;
+  departure?: RawGtfsStopTimeEvent | null;
+  schedule_relationship: string;
+}
+
+export interface RawGtfsTripUpdate {
+  trip: RawGtfsTrip;
+  vehicle?: RawGtfsVehicleDescriptor | null;
+  stop_time_update: RawGtfsStopTimeUpdate[];
+  timestamp: number;
+  delay?: number | null;
+}
+
+export interface RawGtfsTripUpdateEntity {
+  id: string;
+  is_deleted: boolean;
+  trip_update?: RawGtfsTripUpdate | null;
+}
+
+export interface RawGtfsTripUpdatesResponse {
+  // No Metadata envelope on GTFS-RT feeds — declared (never populated) so
+  // this type structurally satisfies MetrolinxHttpClient's shared
+  // RawEnvelope constraint; the tunneled-error check is a no-op here.
+  Metadata?: RawMetadata | null;
+  header: {
+    gtfs_realtime_version: string;
+    incrementality: string;
+    timestamp: number;
+  };
+  entity: RawGtfsTripUpdateEntity[];
+}
+
+// Gtfs/Feed/VehiclePosition — the plain feed, same section as TripUpdates
+// above. NOT Fleet/Occupancy/GtfsRT/Feed/VehiclePosition: that Fleet-branded
+// twin is where occupancy_status/occupancy_percentage is documented as
+// populated (handoff-001, §2.7), but it empirically returns a genuine HTTP
+// 401 for a standard registered key (confirmed live against issue #11/PR
+// #26, 2026-07-18) — contradicting how this API signals auth failures
+// everywhere else (body-tunneled Metadata.ErrorCode over HTTP 200, per
+// handoff-001 §4), meaning it needs elevated access this project's key
+// doesn't have. Recorded in docs/spec/tool-schemas.md §5. The plain feed
+// works with a standard key (same as TripUpdates) but its occupancy fields
+// are consequently expected to be absent in practice; kept as optional
+// fields so occupancy_percent still populates automatically if Metrolinx
+// ever starts filling them in here too. NOT live-captured (no
+// METROLINX_API_KEY/network available in the session that authored this
+// file), per the test-architecture spec's carve-out for shapes live capture
+// can't produce on demand. `occupancy_percentage` is the standard
+// gtfs-realtime.proto field name (uint32, 0-100); its exact casing on this
+// endpoint is unconfirmed against a real response — revisit once a real
+// capture is available.
+export interface RawGtfsVehiclePosition {
+  trip: RawGtfsTrip;
+  vehicle?: RawGtfsVehicleDescriptor | null;
+  position: {
+    latitude: number;
+    longitude: number;
+    bearing?: number | null;
+    odometer?: number | null;
+    speed?: number | null;
+  };
+  stop_id?: string | null;
+  current_status?: string | null;
+  congestion_level?: string | null;
+  timestamp: number;
+  occupancy_status?: string | null;
+  occupancy_percentage?: number | null;
+}
+
+export interface RawGtfsVehiclePositionEntity {
+  id: string;
+  is_deleted: boolean;
+  vehicle?: RawGtfsVehiclePosition | null;
+}
+
+export interface RawGtfsVehiclePositionsResponse {
+  // No Metadata envelope on GTFS-RT feeds — see RawGtfsTripUpdatesResponse.
+  Metadata?: RawMetadata | null;
+  header: {
+    gtfs_realtime_version: string;
+    incrementality: string;
+    timestamp: number;
+  };
+  entity: RawGtfsVehiclePositionEntity[];
+}
+
+// Schedule/Journey/{Date}/{FromStopCode}/{ToStopCode}/{StartTime}/{MaxJourney}
+// — the trip planner. Shape confirmed live (issue #3 fixture capture,
+// test/fixtures/schedule-journey.json): a Trip's Stops carry the same
+// Code/Order/Time/sortingTime/IsMajor shape as Schedule/Line (bare "HH:MM",
+// no date — combine with the journey entry's own Date field). Stops carry
+// no stop name of their own, same gap as Schedule/Trip — resolved via the
+// cached Stop/All dataset (same pattern as get_trip_status).
+export interface RawJourneyStop {
+  Code: string;
+  Order: number;
+  Time: string;
+  sortingTime: string | null;
+  IsMajor: boolean;
+}
+
+export interface RawJourneyTrip {
+  Number: string;
+  Display: string;
+  Line: string;
+  Direction: string;
+  LineVariant: string;
+  Type: string;
+  Stops?: { Stop?: RawJourneyStop[] | null } | null;
+  destinationStopCode: string;
+  departFromCode: string;
+  departFromAlternativeCode: string | null;
+  departFromTimingPoint: string;
+  tripPatternId: number;
+}
+
+export interface RawJourneyTransfer {
+  Code: string;
+  Order: number;
+  Time: string;
+}
+
+export interface RawJourneyTransferLink {
+  FromTrip: string;
+  FromStopCode: string;
+  ToTrip: string;
+  ToStopCode: string;
+  TransferDuration: string;
+}
+
+export interface RawJourneyService {
+  Colour: string;
+  Type: string;
+  Direction: string;
+  Code: string;
+  StartTime: string;
+  EndTime: string;
+  Duration: string;
+  // "" / "R" / "B" / "RB" per the research handoff; every live-captured
+  // sample so far is "" (no accessible service on that journey) — the
+  // R/B/RB-present case is unconfirmed (tool-schemas spec §5 pattern).
+  Accessible: string;
+  Trips?: { Trip?: RawJourneyTrip[] | null } | null;
+  Transfers?: { Transfer?: RawJourneyTransfer[] | null } | null;
+  TransferLinks?: { Link?: RawJourneyTransferLink[] | null } | null;
+}
+
+export interface RawJourneyEntry {
+  Date: string;
+  Time: string;
+  To: string;
+  From: string;
+  Services?: RawJourneyService[] | null;
+}
+
+export interface RawJourneyResponse {
+  Metadata: RawMetadata;
+  SchJourneys?: RawJourneyEntry[] | null;
 }

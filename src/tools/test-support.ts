@@ -108,6 +108,9 @@ export function fakeClient(
     getStopAll: unimplemented,
     getNextService: unimplemented,
     getStopDestinations: unimplemented,
+    getFares: unimplemented,
+    getFleetConsistAll: unimplemented,
+    getFleetConsistByEngine: unimplemented,
     getServiceAlerts: unimplemented,
     getInformationAlerts: unimplemented,
     getMarketingAlerts: unimplemented,
@@ -117,6 +120,10 @@ export function fakeClient(
     getLineAll: unimplemented,
     getLineSchedule: unimplemented,
     getTripStatus: unimplemented,
+    getServiceGlance: unimplemented,
+    getVehiclePositions: unimplemented,
+    getTripUpdates: unimplemented,
+    getJourney: unimplemented,
     ...overrides,
   };
 }

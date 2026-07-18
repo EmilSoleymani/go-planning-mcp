@@ -4,6 +4,7 @@ import {
   addHoursToTime,
   diffMinutes,
   hhmmToWire,
+  toIsoFromEpochSeconds,
   toIsoWithTorontoOffset,
 } from "./time.js";
 
@@ -22,6 +23,16 @@ describe("toIsoWithTorontoOffset", () => {
 
   it("throws on an unrecognized timestamp shape", () => {
     expect(() => toIsoWithTorontoOffset("not-a-timestamp")).toThrow();
+  });
+});
+
+describe("toIsoFromEpochSeconds", () => {
+  it("converts a summer (EDT) epoch to the -04:00 offset", () => {
+    expect(toIsoFromEpochSeconds(1784321119)).toBe("2026-07-17T16:45:19-04:00");
+  });
+
+  it("converts a winter (EST) epoch to the -05:00 offset", () => {
+    expect(toIsoFromEpochSeconds(1767000000)).toBe("2025-12-29T04:20:00-05:00");
   });
 });
 

@@ -1,0 +1,31 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:46:53",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "AllConsists": {
+    "Consists": [
+      {
+        "Number": "204",
+        "CoachCount": 2,
+        "EngineNumber": "651",
+        "Lineup": [
+          { "Type": "Cab Car", "Order": 1, "Number": "401" },
+          { "Type": "Locomotive", "Order": 2, "Number": "651" }
+        ],
+        "RemainingTrip": [
+          {
+            "Number": "2011",
+            "Corridor": "MI",
+            "StartTime": "17:05",
+            "EndTime": "18:10",
+            "FirstStop": "UN",
+            "LastStop": "MI",
+            "InService": true
+          }
+        ]
+      }
+    ]
+  }
+}

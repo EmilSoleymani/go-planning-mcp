@@ -141,6 +141,15 @@ async function main(): Promise<void> {
   );
   await save("schedule-journey", journey);
 
+  // A cross-line pair (Stouffville -> transfer at Union -> Lakeshore West)
+  // to capture the multi-leg journey shape: journey-level
+  // departFromCode/destinationStopCode semantics and per-leg trimmed Stops
+  // (see normalize/journey.ts's leg-boundary note).
+  const transferJourney = await fetchJson(
+    `/Schedule/Journey/${date}/UI/EX/0800/3`,
+  );
+  await save("schedule-journey-transfer", transferJourney);
+
   await save(
     "service-alerts",
     await fetchJson("/ServiceUpdate/ServiceAlert/All"),
@@ -169,7 +178,36 @@ async function main(): Promise<void> {
     "service-glance-trains",
     await fetchJson("/ServiceataGlance/Trains/All"),
   );
+  await save(
+    "service-glance-buses",
+    await fetchJson("/ServiceataGlance/Buses/All"),
+  );
+  await save(
+    "service-glance-upx",
+    await fetchJson("/ServiceataGlance/UPX/All"),
+  );
   await save("gtfs-trip-updates", await fetchJson("/Gtfs/Feed/TripUpdates"));
+  await save(
+    "gtfs-vehicle-position",
+    await fetchJson("/Gtfs/Feed/VehiclePosition"),
+  );
+  // Fleet/Occupancy/GtfsRT/Feed/VehiclePosition — the endpoint documented
+  // (research handoff §2.7) as where occupancy_percentage is populated —
+  // empirically returned HTTP 401 for this project's registered key
+  // (confirmed live, issue #11/PR #26): it needs access this key doesn't
+  // have. Attempted but not fatal to the run, so a key that *does* have
+  // access can still produce a real capture.
+  try {
+    await save(
+      "fleet-occupancy-vehicle-position",
+      await fetchJson("/Fleet/Occupancy/GtfsRT/Feed/VehiclePosition"),
+    );
+  } catch (error) {
+    console.warn(
+      "Fleet/Occupancy/GtfsRT/Feed/VehiclePosition not accessible with this key — skipped (see docs/spec/tool-schemas.md §5):",
+      error,
+    );
+  }
   await save("fares", await fetchJson(`/Fares/UN/${oakville.LocationCode}`));
   await save("fleet-consist", await fetchJson("/Fleet/Consist/All"));
 
