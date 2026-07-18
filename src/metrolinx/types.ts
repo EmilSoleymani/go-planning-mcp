@@ -459,19 +459,26 @@ export interface RawGtfsTripUpdatesResponse {
   entity: RawGtfsTripUpdateEntity[];
 }
 
-// Fleet/Occupancy/GtfsRT/Feed/VehiclePosition — NOT the plain
-// Gtfs/Feed/VehiclePosition (that endpoint's occupancy fields are not
-// reliably populated per the research handoff, §2.7); this Fleet-branded
-// twin is documented as "the one where occupancy_status/occupancy_percentage
-// is populated" (handoff-001, §2.7, Help-page sourced). Field list is that
-// endpoint's documented shape, same entity[] FeedMessage envelope as
-// TripUpdates. NOT live-captured (no METROLINX_API_KEY/network available
-// this session), per the test-architecture spec's carve-out for shapes live
-// capture can't produce on demand. `occupancy_percentage` is the standard
+// Gtfs/Feed/VehiclePosition — the plain feed, same section as TripUpdates
+// above. NOT Fleet/Occupancy/GtfsRT/Feed/VehiclePosition: that Fleet-branded
+// twin is where occupancy_status/occupancy_percentage is documented as
+// populated (handoff-001, §2.7), but it empirically returns a genuine HTTP
+// 401 for a standard registered key (confirmed live against issue #11/PR
+// #26, 2026-07-18) — contradicting how this API signals auth failures
+// everywhere else (body-tunneled Metadata.ErrorCode over HTTP 200, per
+// handoff-001 §4), meaning it needs elevated access this project's key
+// doesn't have. Recorded in docs/spec/tool-schemas.md §5. The plain feed
+// works with a standard key (same as TripUpdates) but its occupancy fields
+// are consequently expected to be absent in practice; kept as optional
+// fields so occupancy_percent still populates automatically if Metrolinx
+// ever starts filling them in here too. NOT live-captured (no
+// METROLINX_API_KEY/network available in the session that authored this
+// file), per the test-architecture spec's carve-out for shapes live capture
+// can't produce on demand. `occupancy_percentage` is the standard
 // gtfs-realtime.proto field name (uint32, 0-100); its exact casing on this
 // endpoint is unconfirmed against a real response — revisit once a real
 // capture is available.
-export interface RawFleetOccupancyVehiclePosition {
+export interface RawGtfsVehiclePosition {
   trip: RawGtfsTrip;
   vehicle?: RawGtfsVehicleDescriptor | null;
   position: {
@@ -489,13 +496,13 @@ export interface RawFleetOccupancyVehiclePosition {
   occupancy_percentage?: number | null;
 }
 
-export interface RawFleetOccupancyVehiclePositionEntity {
+export interface RawGtfsVehiclePositionEntity {
   id: string;
   is_deleted: boolean;
-  vehicle?: RawFleetOccupancyVehiclePosition | null;
+  vehicle?: RawGtfsVehiclePosition | null;
 }
 
-export interface RawFleetOccupancyVehiclePositionsResponse {
+export interface RawGtfsVehiclePositionsResponse {
   // No Metadata envelope on GTFS-RT feeds — see RawGtfsTripUpdatesResponse.
   Metadata?: RawMetadata | null;
   header: {
@@ -503,5 +510,5 @@ export interface RawFleetOccupancyVehiclePositionsResponse {
     incrementality: string;
     timestamp: number;
   };
-  entity: RawFleetOccupancyVehiclePositionEntity[];
+  entity: RawGtfsVehiclePositionEntity[];
 }

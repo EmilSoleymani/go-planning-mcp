@@ -1,5 +1,5 @@
 import type {
-  RawFleetOccupancyVehiclePositionsResponse,
+  RawGtfsVehiclePositionsResponse,
   RawServiceGlanceResponse,
   RawServiceGlanceTrip,
   RawStopAllResponse,
@@ -37,7 +37,7 @@ function lastSegment(id: string): string {
 }
 
 function buildOccupancyMap(
-  positions: RawFleetOccupancyVehiclePositionsResponse,
+  positions: RawGtfsVehiclePositionsResponse,
 ): Map<string, number> {
   const map = new Map<string, number>();
   for (const entity of positions.entity) {
@@ -81,7 +81,7 @@ function normalizeVehicle(
 
 export function normalizeVehiclePositions(
   glance: RawServiceGlanceResponse,
-  positions: RawFleetOccupancyVehiclePositionsResponse,
+  positions: RawGtfsVehiclePositionsResponse,
   stopAll: RawStopAllResponse,
   mode: VehicleMode,
   filters: VehiclePositionFilters,

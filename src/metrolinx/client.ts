@@ -4,8 +4,8 @@ import type {
   RawAlertsResponse,
   RawFaresResponse,
   RawFleetConsistResponse,
-  RawFleetOccupancyVehiclePositionsResponse,
   RawGtfsTripUpdatesResponse,
+  RawGtfsVehiclePositionsResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawNextServiceResponse,
@@ -84,7 +84,7 @@ export interface MetrolinxClient {
     tripNumber: string,
   ): Promise<RawTripStatusResponse>;
   getServiceGlance(mode: ServiceGlanceMode): Promise<RawServiceGlanceResponse>;
-  getVehiclePositions(): Promise<RawFleetOccupancyVehiclePositionsResponse>;
+  getVehiclePositions(): Promise<RawGtfsVehiclePositionsResponse>;
   getTripUpdates(): Promise<RawGtfsTripUpdatesResponse>;
 }
 
@@ -254,13 +254,17 @@ export class MetrolinxHttpClient implements MetrolinxClient {
     );
   }
 
-  // Fleet-Occupancy-branded twin of Gtfs/Feed/VehiclePosition, not the
-  // plain feed: this is the one documented (research handoff §2.7) as
-  // actually populating occupancy_status/occupancy_percentage, which is the
-  // entire reason get_vehicle_positions merges in a second feed at all.
-  async getVehiclePositions(): Promise<RawFleetOccupancyVehiclePositionsResponse> {
-    return this.get<RawFleetOccupancyVehiclePositionsResponse>(
-      "/Fleet/Occupancy/GtfsRT/Feed/VehiclePosition",
+  // Plain feed, same section as getTripUpdates below. NOT
+  // Fleet/Occupancy/GtfsRT/Feed/VehiclePosition: that Fleet-branded twin is
+  // documented (research handoff §2.7) as where occupancy_percentage is
+  // actually populated, but it empirically returns a genuine HTTP 401 for a
+  // standard registered key (confirmed live, issue #11/PR #26) — see
+  // docs/spec/tool-schemas.md §5. occupancy_percent is consequently
+  // expected to be absent in practice; kept optional in the DTO rather than
+  // dropped, so it starts populating automatically if that ever changes.
+  async getVehiclePositions(): Promise<RawGtfsVehiclePositionsResponse> {
+    return this.get<RawGtfsVehiclePositionsResponse>(
+      "/Gtfs/Feed/VehiclePosition",
     );
   }
 

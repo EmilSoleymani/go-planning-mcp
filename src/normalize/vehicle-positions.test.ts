@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import type {
-  RawFleetOccupancyVehiclePositionsResponse,
+  RawGtfsVehiclePositionsResponse,
   RawServiceGlanceResponse,
   RawStopAllResponse,
 } from "../metrolinx/types.js";
@@ -18,13 +18,10 @@ const glance = JSON.parse(
 
 const positions = JSON.parse(
   readFileSync(
-    new URL(
-      "../../test/fixtures/fleet-occupancy-vehicle-position.json",
-      import.meta.url,
-    ),
+    new URL("../../test/fixtures/gtfs-vehicle-position.json", import.meta.url),
     "utf8",
   ),
-) as RawFleetOccupancyVehiclePositionsResponse;
+) as RawGtfsVehiclePositionsResponse;
 
 const stopAll = JSON.parse(
   readFileSync(
@@ -55,7 +52,7 @@ describe("normalizeVehiclePositions", () => {
     });
   });
 
-  it("merges occupancy_percent from the Fleet-Occupancy VehiclePosition feed by trip number", () => {
+  it("merges occupancy_percent from the GTFS-RT VehiclePosition feed by trip number", () => {
     const result = normalizeVehiclePositions(
       glance,
       positions,
