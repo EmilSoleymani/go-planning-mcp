@@ -1,0 +1,75 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 05:10:00",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Trips": [
+    {
+      "Number": "1004",
+      "Destination": "Union Station",
+      "Longitude": -79.86,
+      "Latitude": 43.3,
+      "Status": "En Route",
+      "TimeStamp": "2026-07-17 05:10:00",
+      "Stops": [
+        {
+          "Code": "AL",
+          "ArrivalTime": null,
+          "DepartureTime": {
+            "Scheduled": "2026-07-17 04:52:00",
+            "Computed": "2026-07-17 04:52:00",
+            "Status": "Departed"
+          },
+          "Track": { "Scheduled": "1", "Actual": "1" },
+          "Status": "Departed",
+          "Remark": null
+        },
+        {
+          "Code": "BU",
+          "ArrivalTime": {
+            "Scheduled": "2026-07-17 04:59:00",
+            "Computed": "2026-07-17 04:59:00",
+            "Status": "Departed"
+          },
+          "DepartureTime": {
+            "Scheduled": "2026-07-17 04:59:00",
+            "Computed": "2026-07-17 05:00:00",
+            "Status": "Departed"
+          },
+          "Track": { "Scheduled": "2", "Actual": "2" },
+          "Status": "Departed",
+          "Remark": null
+        },
+        {
+          "Code": "AP",
+          "ArrivalTime": {
+            "Scheduled": "2026-07-17 05:05:00",
+            "Computed": "2026-07-17 05:06:00",
+            "Status": "Scheduled"
+          },
+          "DepartureTime": {
+            "Scheduled": "2026-07-17 05:05:00",
+            "Computed": "2026-07-17 05:06:00",
+            "Status": "Scheduled"
+          },
+          "Track": { "Scheduled": "1", "Actual": "" },
+          "Status": "Scheduled",
+          "Remark": null
+        },
+        {
+          "Code": "UN",
+          "ArrivalTime": {
+            "Scheduled": "2026-07-17 06:00:00",
+            "Computed": "2026-07-17 06:02:00",
+            "Status": "Scheduled"
+          },
+          "DepartureTime": null,
+          "Track": { "Scheduled": "", "Actual": "" },
+          "Status": "Scheduled",
+          "Remark": "Final stop"
+        }
+      ]
+    }
+  ]
+}

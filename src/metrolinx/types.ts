@@ -104,3 +104,95 @@ export interface RawStopDestinationsResponse {
     Line?: RawDestinationLine[] | null;
   } | null;
 }
+
+// Schedule/Line/All/{Date} — the full line/variant roster for a service day.
+export interface RawLineVariant {
+  Code: string;
+  Display: string;
+  Direction: string;
+}
+
+export interface RawLineAllEntry {
+  Name: string;
+  Code: string;
+  IsBus: boolean;
+  IsTrain: boolean;
+  Variant: RawLineVariant[] | null;
+}
+
+export interface RawLineAllResponse {
+  Metadata: RawMetadata;
+  AllLines?: { Line?: RawLineAllEntry[] | null } | null;
+}
+
+// Schedule/Line/{Date}/{LineCode}/{LineDirection} — one line/direction's full
+// service day, every trip x every stop (tool-schemas spec §2.11: never
+// returned as-is, get_line_schedule is anti-dump by design).
+export interface RawLineScheduleStop {
+  Code: string;
+  Order: number;
+  Time: string;
+  sortingTime: string | null;
+  IsMajor: boolean;
+}
+
+export interface RawLineScheduleTrip {
+  Number: string;
+  Display: string;
+  Stops: RawLineScheduleStop[] | null;
+}
+
+export interface RawLineScheduleEntry {
+  Code: string;
+  Direction: string;
+  Type: string;
+  Trip: RawLineScheduleTrip[] | null;
+}
+
+export interface RawLineScheduleResponse {
+  Metadata: RawMetadata;
+  Lines?: { Line?: RawLineScheduleEntry[] | null } | null;
+}
+
+// Schedule/Trip/{Date}/{TripNumber} — one trip's live stop-by-stop status.
+// Shape per the documented Help-page field list (research handoff §2.4):
+// `Trips[]{Number, Destination, Longitude, Latitude, Status, TimeStamp,
+// Stops[]{ArrivalTime{Scheduled,Computed,Status}, DepartureTime{Scheduled,
+// Computed,Status}, Track{Scheduled,Actual}, Code, Status, Remark}}`. Not yet
+// captured live — issue #3's capture script doesn't cover this endpoint and
+// no key/network was available to add it here; revisit against a real
+// capture (e.g. the weekly smoke run) if fields disagree.
+export interface RawTripStatusTime {
+  Scheduled: string;
+  Computed: string;
+  Status: string;
+}
+
+export interface RawTripStatusTrack {
+  Scheduled: string;
+  Actual: string;
+}
+
+export interface RawTripStatusStop {
+  Code: string;
+  ArrivalTime?: RawTripStatusTime | null;
+  DepartureTime?: RawTripStatusTime | null;
+  Track?: RawTripStatusTrack | null;
+  Status: string;
+  Remark?: string | null;
+}
+
+export interface RawTripStatusEntry {
+  Number: string;
+  Destination: string;
+  Longitude: number | string;
+  Latitude: number | string;
+  Status: string;
+  TimeStamp: string;
+  Stops?: RawTripStatusStop[] | null;
+}
+
+export interface RawTripStatusResponse {
+  Metadata: RawMetadata;
+  Trips?: RawTripStatusEntry[] | null;
+}
