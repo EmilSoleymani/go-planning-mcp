@@ -2,6 +2,8 @@ import { MetrolinxError } from "../errors.js";
 import { TtlCache } from "./cache.js";
 import type {
   RawAlertsResponse,
+  RawFaresResponse,
+  RawFleetConsistResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawNextServiceResponse,
@@ -10,8 +12,8 @@ import type {
   RawStopAllResponse,
   RawStopDestinationsResponse,
   RawStopDetailsResponse,
-  RawUnionDeparturesResponse,
   RawTripStatusResponse,
+  RawUnionDeparturesResponse,
 } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
@@ -19,10 +21,12 @@ const MAX_RETRIES = 2;
 const BACKOFF_BASE_MS = 500;
 const BACKOFF_CAP_MS = 5000;
 
-// Caching spec (ticket 005): stops are slow-changing (24h); published
-// schedules are effectively static once a service day is published (6h);
-// next-service, destinations, and trip status are real-time and never cached.
+// Caching spec (ticket 005): stops are slow-changing (24h); fares and
+// published schedules are effectively static once a service day is
+// published (6h); next-service, destinations, and fleet consist (live
+// physical makeup, research handoff §2.7) are real-time and never cached.
 const STOP_ALL_TTL_MS = 24 * 60 * 60 * 1000;
+const FARES_TTL_MS = 6 * 60 * 60 * 1000;
 const SCHEDULE_TTL_MS = 6 * 60 * 60 * 1000;
 
 /**
@@ -38,6 +42,15 @@ export interface MetrolinxClient {
     fromTimeWire: string,
     toTimeWire: string,
   ): Promise<RawStopDestinationsResponse>;
+  getFares(
+    fromStopCode: string,
+    toStopCode: string,
+    dateWire?: string,
+  ): Promise<RawFaresResponse>;
+  getFleetConsistAll(): Promise<RawFleetConsistResponse>;
+  getFleetConsistByEngine(
+    engineNumber: string,
+  ): Promise<RawFleetConsistResponse>;
   getServiceAlerts(): Promise<RawAlertsResponse>;
   getInformationAlerts(): Promise<RawAlertsResponse>;
   getMarketingAlerts(): Promise<RawAlertsResponse>;
@@ -117,6 +130,35 @@ export class MetrolinxHttpClient implements MetrolinxClient {
   ): Promise<RawStopDestinationsResponse> {
     return this.get<RawStopDestinationsResponse>(
       `/Stop/Destinations/${encodeURIComponent(stopCode)}/${fromTimeWire}/${toTimeWire}`,
+    );
+  }
+
+  async getFares(
+    fromStopCode: string,
+    toStopCode: string,
+    dateWire?: string,
+  ): Promise<RawFaresResponse> {
+    const from = encodeURIComponent(fromStopCode);
+    const to = encodeURIComponent(toStopCode);
+    const path = dateWire
+      ? `/Fares/${from}/${to}/${dateWire}`
+      : `/Fares/${from}/${to}`;
+    return this.cache.getOrFetch(
+      `fares:${fromStopCode}:${toStopCode}:${dateWire ?? ""}`,
+      FARES_TTL_MS,
+      () => this.get<RawFaresResponse>(path),
+    );
+  }
+
+  async getFleetConsistAll(): Promise<RawFleetConsistResponse> {
+    return this.get<RawFleetConsistResponse>("/Fleet/Consist/All");
+  }
+
+  async getFleetConsistByEngine(
+    engineNumber: string,
+  ): Promise<RawFleetConsistResponse> {
+    return this.get<RawFleetConsistResponse>(
+      `/Fleet/Consist/Engine/${encodeURIComponent(engineNumber)}`,
     );
   }
 

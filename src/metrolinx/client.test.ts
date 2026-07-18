@@ -24,6 +24,10 @@ const DETAILS_URL = `${BASE_URL}/Stop/Details/UN`;
 const STOP_ALL_URL = `${BASE_URL}/Stop/All`;
 const NEXT_SERVICE_URL = `${BASE_URL}/Stop/NextService/UN`;
 const DESTINATIONS_URL = `${BASE_URL}/Stop/Destinations/UN/0900/1300`;
+const FARES_URL = `${BASE_URL}/Fares/UN/OA`;
+const FARES_DATED_URL = `${BASE_URL}/Fares/UN/OA/20260720`;
+const FLEET_ALL_URL = `${BASE_URL}/Fleet/Consist/All`;
+const FLEET_ENGINE_URL = `${BASE_URL}/Fleet/Consist/Engine/651`;
 const SERVICE_ALERT_URL = `${BASE_URL}/ServiceUpdate/ServiceAlert/All`;
 const INFORMATION_ALERT_URL = `${BASE_URL}/ServiceUpdate/InformationAlert/All`;
 const MARKETING_ALERT_URL = `${BASE_URL}/ServiceUpdate/MarketingAlert/All`;
@@ -393,6 +397,69 @@ describe("MetrolinxHttpClient", () => {
     await client.getNextService("UN");
 
     expect(calls).toBe(2);
+  });
+
+  it("requests Fares/{From}/{To} without a date, and with one appended when given", async () => {
+    const emptyFares = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      AllFares: { FareCategory: [] },
+    };
+    mswServer.use(
+      http.get(FARES_URL, () => HttpResponse.json(emptyFares)),
+      http.get(FARES_DATED_URL, () => HttpResponse.json(emptyFares)),
+    );
+
+    const undated = await makeClient().getFares("UN", "OA");
+    const dated = await makeClient().getFares("UN", "OA", "20260720");
+
+    expect(undated.AllFares).toEqual({ FareCategory: [] });
+    expect(dated.AllFares).toEqual({ FareCategory: [] });
+  });
+
+  it("caches Fares for 6h — a second identical call within TTL hits the cache", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(FARES_URL, () => {
+        calls += 1;
+        return HttpResponse.json({
+          Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+          AllFares: { FareCategory: [] },
+        });
+      }),
+    );
+
+    const client = makeClient();
+    await client.getFares("UN", "OA");
+    await client.getFares("UN", "OA");
+
+    expect(calls).toBe(1);
+  });
+
+  it("requests Fleet/Consist/All and Fleet/Consist/Engine/{EngineNumber}, uncached", async () => {
+    let allCalls = 0;
+    let engineCalls = 0;
+    const emptyConsists = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      AllConsists: { Consists: [] },
+    };
+    mswServer.use(
+      http.get(FLEET_ALL_URL, () => {
+        allCalls += 1;
+        return HttpResponse.json(emptyConsists);
+      }),
+      http.get(FLEET_ENGINE_URL, () => {
+        engineCalls += 1;
+        return HttpResponse.json(emptyConsists);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getFleetConsistAll();
+    await client.getFleetConsistAll();
+    await client.getFleetConsistByEngine("651");
+
+    expect(allCalls).toBe(2);
+    expect(engineCalls).toBe(1);
   });
 
   it("requests ServiceUpdate/ServiceAlert/All", async () => {

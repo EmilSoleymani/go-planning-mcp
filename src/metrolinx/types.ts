@@ -105,6 +105,67 @@ export interface RawStopDestinationsResponse {
   } | null;
 }
 
+// Fares — triple-nested category -> ticket -> fare rows (research handoff
+// §2.8, cross-confirmed by a live capture, issue #3). Live-confirmed
+// FareCategory.Type values include "Group Pass" alongside the four
+// individual-rider types; it carries no per-rider concept and is filtered
+// out during normalization (see normalize/fares.ts).
+export interface RawFareEntry {
+  Type: string;
+  Amount: number;
+  Category: string;
+}
+
+export interface RawFareTicket {
+  Type: string;
+  Fares: RawFareEntry[] | null;
+}
+
+export interface RawFareCategory {
+  Type: string;
+  Tickets: RawFareTicket[] | null;
+}
+
+export interface RawFaresResponse {
+  Metadata: RawMetadata;
+  AllFares?: { FareCategory?: RawFareCategory[] | null } | null;
+}
+
+// Fleet/Consist — physical train-consist makeup. Field list from the
+// research handoff (§2.7, Help-page sourced); this session's
+// METROLINX_API_KEY returned Metadata.ErrorCode "403" on both Consist
+// endpoints (no live capture available — see test/fixtures/fleet-consist.json),
+// so these shapes are hand-derived from documentation rather than confirmed
+// against a real response. Revisit if a future capture run has Fleet access.
+export interface RawConsistCar {
+  Type: string;
+  Order: number;
+  Number: string;
+}
+
+export interface RawRemainingTrip {
+  Number: string;
+  Corridor: string;
+  StartTime: string;
+  EndTime: string;
+  FirstStop: string;
+  LastStop: string;
+  InService: boolean;
+}
+
+export interface RawConsist {
+  Number: string;
+  CoachCount: number;
+  EngineNumber: string;
+  Lineup: RawConsistCar[] | null;
+  RemainingTrip: RawRemainingTrip[] | null;
+}
+
+export interface RawFleetConsistResponse {
+  Metadata: RawMetadata;
+  AllConsists?: { Consists?: RawConsist[] | null } | null;
+}
+
 // ServiceUpdate/{ServiceAlert,InformationAlert,MarketingAlert}/All — the
 // three feeds share this exact shape (confirmed live for ServiceAlert,
 // issue #9; ticket 001 documents Information/Marketing as identical).
