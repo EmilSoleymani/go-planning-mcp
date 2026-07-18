@@ -59,6 +59,14 @@ export function toStopMatch(entry: RawStopListEntry): StopMatch {
   };
 }
 
+// Full stop dataset in the search_stops match shape (tool-schemas spec §3,
+// gotransit://stops resource) — every stop, unfiltered, sharing the same
+// per-entry mapping as normalizeSearchStops so the two paths cannot drift.
+export function normalizeAllStops(raw: RawStopAllResponse): SearchStopsResult {
+  const matches = (raw.Stations?.Station ?? []).map(toStopMatch);
+  return { matches, truncated: false, total_matched: matches.length };
+}
+
 function scoredMatches(
   entries: RawStopListEntry[],
   query: string,
