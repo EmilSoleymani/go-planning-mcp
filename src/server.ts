@@ -15,6 +15,8 @@ import { registerGetTripUpdates } from "./tools/get-trip-updates.js";
 import { registerGetUnionDepartures } from "./tools/get-union-departures.js";
 import { registerGetVehiclePositions } from "./tools/get-vehicle-positions.js";
 import { registerListLines } from "./tools/list-lines.js";
+import { registerPlanJourney } from "./tools/plan-journey.js";
+import { registerPlanTrip } from "./tools/plan-trip.js";
 import { registerSearchStops } from "./tools/search-stops.js";
 
 export const SERVER_INFO = { name: "go-transit-mcp", version: "0.0.0" };
@@ -44,6 +46,8 @@ export function registerTools(
   registerGetTripStatus(server, client);
   registerGetVehiclePositions(server, client);
   registerGetTripUpdates(server, client);
+  registerPlanTrip(server, client);
+  registerPlanJourney(server, client);
 }
 
 /**

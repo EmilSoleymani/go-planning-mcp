@@ -512,3 +512,77 @@ export interface RawGtfsVehiclePositionsResponse {
   };
   entity: RawGtfsVehiclePositionEntity[];
 }
+
+// Schedule/Journey/{Date}/{FromStopCode}/{ToStopCode}/{StartTime}/{MaxJourney}
+// — the trip planner. Shape confirmed live (issue #3 fixture capture,
+// test/fixtures/schedule-journey.json): a Trip's Stops carry the same
+// Code/Order/Time/sortingTime/IsMajor shape as Schedule/Line (bare "HH:MM",
+// no date — combine with the journey entry's own Date field). Stops carry
+// no stop name of their own, same gap as Schedule/Trip — resolved via the
+// cached Stop/All dataset (same pattern as get_trip_status).
+export interface RawJourneyStop {
+  Code: string;
+  Order: number;
+  Time: string;
+  sortingTime: string | null;
+  IsMajor: boolean;
+}
+
+export interface RawJourneyTrip {
+  Number: string;
+  Display: string;
+  Line: string;
+  Direction: string;
+  LineVariant: string;
+  Type: string;
+  Stops?: { Stop?: RawJourneyStop[] | null } | null;
+  destinationStopCode: string;
+  departFromCode: string;
+  departFromAlternativeCode: string | null;
+  departFromTimingPoint: string;
+  tripPatternId: number;
+}
+
+export interface RawJourneyTransfer {
+  Code: string;
+  Order: number;
+  Time: string;
+}
+
+export interface RawJourneyTransferLink {
+  FromTrip: string;
+  FromStopCode: string;
+  ToTrip: string;
+  ToStopCode: string;
+  TransferDuration: string;
+}
+
+export interface RawJourneyService {
+  Colour: string;
+  Type: string;
+  Direction: string;
+  Code: string;
+  StartTime: string;
+  EndTime: string;
+  Duration: string;
+  // "" / "R" / "B" / "RB" per the research handoff; every live-captured
+  // sample so far is "" (no accessible service on that journey) — the
+  // R/B/RB-present case is unconfirmed (tool-schemas spec §5 pattern).
+  Accessible: string;
+  Trips?: { Trip?: RawJourneyTrip[] | null } | null;
+  Transfers?: { Transfer?: RawJourneyTransfer[] | null } | null;
+  TransferLinks?: { Link?: RawJourneyTransferLink[] | null } | null;
+}
+
+export interface RawJourneyEntry {
+  Date: string;
+  Time: string;
+  To: string;
+  From: string;
+  Services?: RawJourneyService[] | null;
+}
+
+export interface RawJourneyResponse {
+  Metadata: RawMetadata;
+  SchJourneys?: RawJourneyEntry[] | null;
+}

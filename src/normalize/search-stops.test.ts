@@ -3,7 +3,11 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import type { RawStopAllResponse } from "../metrolinx/types.js";
-import { normalizeSearchStops } from "./search-stops.js";
+import {
+  buildStopNameIndex,
+  normalizeSearchStops,
+  resolveStopByName,
+} from "./search-stops.js";
 
 const stopAll = JSON.parse(
   readFileSync(
@@ -92,5 +96,67 @@ describe("normalizeSearchStops", () => {
     expect(result.matches).toEqual([]);
     expect(result.truncated).toBe(false);
     expect(result.total_matched).toBe(0);
+  });
+});
+
+describe("buildStopNameIndex", () => {
+  it("indexes every stop by its unified stop_code", () => {
+    const index = buildStopNameIndex(stopAll);
+    expect(index.get("UN")).toBe("Union Station GO");
+  });
+
+  it("indexes both entries of an ambiguous name collision separately", () => {
+    const index = buildStopNameIndex(ambiguous);
+    expect(index.get("OA")).toBe("Oakville GO");
+    expect(index.get("100137")).toBe("Oakville GO");
+  });
+});
+
+describe("resolveStopByName", () => {
+  it("resolves an unambiguous name to its unified stop_code", () => {
+    const result = resolveStopByName(stopAll, "Union Station GO");
+    expect(result).toEqual({
+      status: "resolved",
+      match: {
+        stop_code: "UN",
+        stop_name: "Union Station GO",
+        stop_type: "train",
+      },
+    });
+  });
+
+  it("resolves an exact stop code without fuzzy-matching its name", () => {
+    const result = resolveStopByName(stopAll, "UN");
+    expect(result).toMatchObject({
+      status: "resolved",
+      match: { stop_code: "UN" },
+    });
+  });
+
+  it("resolves a stop code case-insensitively", () => {
+    const result = resolveStopByName(stopAll, "un");
+    expect(result).toMatchObject({
+      status: "resolved",
+      match: { stop_code: "UN" },
+    });
+  });
+
+  it("returns ambiguous with both candidates for the Oakville GO name collision, reproducible via search_stops", () => {
+    const result = resolveStopByName(ambiguous, "Oakville GO");
+    expect(result.status).toBe("ambiguous");
+    if (result.status !== "ambiguous") throw new Error("expected ambiguous");
+    expect(new Set(result.candidates.map((c) => c.stop_code))).toEqual(
+      new Set(["100137", "OA"]),
+    );
+
+    const searchStopsResult = normalizeSearchStops(ambiguous, "Oakville GO");
+    expect(new Set(result.candidates.map((c) => c.stop_code))).toEqual(
+      new Set(searchStopsResult.matches.map((m) => m.stop_code)),
+    );
+  });
+
+  it("returns not_found for a query with no hits", () => {
+    const result = resolveStopByName(stopAll, "zzzznotarealstopzzzz");
+    expect(result).toEqual({ status: "not_found" });
   });
 });

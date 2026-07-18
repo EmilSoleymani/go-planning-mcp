@@ -10,6 +10,7 @@ import type {
   RawAlertsResponse,
   RawGtfsTripUpdatesResponse,
   RawGtfsVehiclePositionsResponse,
+  RawJourneyResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawServiceExceptionsResponse,
@@ -46,6 +47,7 @@ const SERVICE_GLANCE_BUSES_URL = `${BASE_URL}/ServiceataGlance/Buses/All`;
 const SERVICE_GLANCE_UPX_URL = `${BASE_URL}/ServiceataGlance/UPX/All`;
 const VEHICLE_POSITIONS_URL = `${BASE_URL}/Gtfs/Feed/VehiclePosition`;
 const TRIP_UPDATES_URL = `${BASE_URL}/Gtfs/Feed/TripUpdates`;
+const JOURNEY_URL = `${BASE_URL}/Schedule/Journey/20260717/UN/00137/0900/3`;
 
 const fixture = JSON.parse(
   readFileSync(
@@ -132,6 +134,13 @@ const tripUpdatesFixture = JSON.parse(
     "utf8",
   ),
 ) as RawGtfsTripUpdatesResponse;
+
+const journeyFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-journey.json", import.meta.url),
+    "utf8",
+  ),
+) as RawJourneyResponse;
 
 function tunneled(code: string): RawStopDetailsResponse {
   return {
@@ -694,6 +703,37 @@ describe("MetrolinxHttpClient", () => {
     const client = makeClient();
     await client.getTripUpdates();
     await client.getTripUpdates();
+
+    expect(calls).toBe(2);
+  });
+
+  it("requests Schedule/Journey/{Date}/{From}/{To}/{StartTime}/{MaxJourney}", async () => {
+    mswServer.use(
+      http.get(JOURNEY_URL, () => HttpResponse.json(journeyFixture)),
+    );
+
+    const body = await makeClient().getJourney(
+      "20260717",
+      "UN",
+      "00137",
+      "0900",
+      3,
+    );
+    expect(body.SchJourneys?.[0]?.From).toBe("UN");
+  });
+
+  it("never caches Schedule/Journey (real-time journey plans)", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(JOURNEY_URL, () => {
+        calls += 1;
+        return HttpResponse.json(journeyFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getJourney("20260717", "UN", "00137", "0900", 3);
+    await client.getJourney("20260717", "UN", "00137", "0900", 3);
 
     expect(calls).toBe(2);
   });

@@ -71,6 +71,7 @@ export function fakeClient(
     getServiceGlance: unimplemented,
     getVehiclePositions: unimplemented,
     getTripUpdates: unimplemented,
+    getJourney: unimplemented,
     ...overrides,
   };
 }
