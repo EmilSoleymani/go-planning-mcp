@@ -1,6 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import type { MetrolinxClient } from "./metrolinx/client.js";
+import { registerPrompts } from "./prompts.js";
+import { registerResources } from "./resources.js";
 import { registerGetLineSchedule } from "./tools/get-line-schedule.js";
 import { registerGetNextService } from "./tools/get-next-service.js";
 import { registerGetServiceAlerts } from "./tools/get-service-alerts.js";
@@ -36,6 +38,8 @@ export function registerTools(
   registerListLines(server, client);
   registerGetLineSchedule(server, client);
   registerGetTripStatus(server, client);
+  registerResources(server, client);
+  registerPrompts(server);
 }
 
 /**

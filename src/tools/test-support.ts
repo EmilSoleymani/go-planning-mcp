@@ -45,6 +45,58 @@ export async function callTool(
   }
 }
 
+/** Reads an MCP resource over a real in-memory client/server pair. */
+export async function readResource(
+  fake: MetrolinxClient,
+  uri: string,
+): Promise<{ uri: string; mimeType?: string; text: string }[]> {
+  const server = buildServer(fake);
+  const client = new Client({ name: "test-client", version: "0.0.0" });
+  const [clientTransport, serverTransport] =
+    InMemoryTransport.createLinkedPair();
+  await Promise.all([
+    server.connect(serverTransport),
+    client.connect(clientTransport),
+  ]);
+  try {
+    const result = await client.readResource({ uri });
+    return result.contents as {
+      uri: string;
+      mimeType?: string;
+      text: string;
+    }[];
+  } finally {
+    await client.close();
+    await server.close();
+  }
+}
+
+/** Renders an MCP prompt over a real in-memory client/server pair. */
+export async function getPrompt(
+  fake: MetrolinxClient,
+  name: string,
+  args: Record<string, string>,
+): Promise<{ role: string; content: { type: string; text: string } }[]> {
+  const server = buildServer(fake);
+  const client = new Client({ name: "test-client", version: "0.0.0" });
+  const [clientTransport, serverTransport] =
+    InMemoryTransport.createLinkedPair();
+  await Promise.all([
+    server.connect(serverTransport),
+    client.connect(clientTransport),
+  ]);
+  try {
+    const result = await client.getPrompt({ name, arguments: args });
+    return result.messages as {
+      role: string;
+      content: { type: string; text: string };
+    }[];
+  } finally {
+    await client.close();
+    await server.close();
+  }
+}
+
 /** A MetrolinxClient fake with every method stubbed to reject — override what a test needs. */
 export function fakeClient(
   overrides: Partial<MetrolinxClient>,
