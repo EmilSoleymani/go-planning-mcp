@@ -149,6 +149,120 @@ async function fetchItineraries(
   return normalizeJourney(raw, stopNames);
 }
 
+// Via-Union transfer composition (ADR 0002): Schedule/Journey only returns
+// single-service journeys — both documented endpoint variants confirmed live
+// (2026-07-18) to return SchJourneys: [] for a cross-line pair the official
+// planner routes via a transfer. Union is GO's hub, so when a direct query
+// comes back empty, plan_trip composes one transfer there from two journey
+// calls. Each leg is upstream-attested; only the pairing is ours. The
+// transfer buffer is a starting heuristic (same spirit as the arrive_by
+// window, spec §5); bus-hub composition is a separate grilled decision.
+const UNION_STOP_CODE = "UN";
+const MIN_TRANSFER_MINUTES = 10;
+
+function isoToMs(iso: string): number {
+  return new Date(iso).getTime();
+}
+
+// Toronto-local clock of one of our own ISO outputs
+// ("2026-07-20T08:50:00-04:00" -> "08:50") — safe to slice because every
+// itinerary timestamp is produced by combineDateAndHhmm/toIsoWithTorontoOffset.
+function hhmmOfIso(iso: string): string {
+  return iso.slice(11, 16);
+}
+
+function combine(first: Itinerary, second: Itinerary): Itinerary {
+  const legs = [...first.legs, ...second.legs];
+  return {
+    departure_time: first.departure_time,
+    arrival_time: second.arrival_time,
+    duration_minutes: Math.round(
+      (isoToMs(second.arrival_time) - isoToMs(first.departure_time)) / 60_000,
+    ),
+    transfers: legs.length - 1,
+    accessible: first.accessible && second.accessible,
+    legs,
+  };
+}
+
+async function composeViaUnion(
+  client: MetrolinxClient,
+  fromStopCode: string,
+  toStopCode: string,
+  date: string,
+  time: string,
+  maxResults: number,
+  stopNames: Map<string, string>,
+): Promise<Itinerary[]> {
+  const inbound = await fetchItineraries(
+    client,
+    fromStopCode,
+    UNION_STOP_CODE,
+    date,
+    time,
+    maxResults,
+    stopNames,
+  );
+  if (inbound.length === 0) return [];
+
+  const earliest = inbound.reduce((a, b) =>
+    isoToMs(a.arrival_time) <= isoToMs(b.arrival_time) ? a : b,
+  );
+  const onward = await fetchItineraries(
+    client,
+    UNION_STOP_CODE,
+    toStopCode,
+    date,
+    hhmmOfIso(earliest.arrival_time),
+    maxResults,
+    stopNames,
+  );
+
+  const combined: Itinerary[] = [];
+  for (const first of inbound) {
+    const readyMs = isoToMs(first.arrival_time) + MIN_TRANSFER_MINUTES * 60_000;
+    const second = onward.find(
+      (candidate) => isoToMs(candidate.departure_time) >= readyMs,
+    );
+    if (second) combined.push(combine(first, second));
+  }
+  return combined.slice(0, maxResults);
+}
+
+// Direct query first; the via-Union fallback only runs when it comes back
+// empty and neither endpoint already is Union, so every currently-working
+// direct journey is untouched. Worst case 3 upstream calls (6 under
+// arrive_by's widening retry).
+async function fetchDirectOrComposed(
+  client: MetrolinxClient,
+  query: JourneyQuery,
+  time: string,
+  stopNames: Map<string, string>,
+): Promise<Itinerary[]> {
+  const direct = await fetchItineraries(
+    client,
+    query.from,
+    query.to,
+    query.date,
+    time,
+    query.maxResults,
+    stopNames,
+  );
+  if (direct.length > 0 || !query.viaUnionFallback) return direct;
+  if (query.from === UNION_STOP_CODE || query.to === UNION_STOP_CODE) {
+    return direct;
+  }
+  return composeViaUnion(
+    client,
+    query.from,
+    query.to,
+    query.date,
+    time,
+    query.maxResults,
+    stopNames,
+  );
+}
+
 // arrive_by is emulated (tool-schemas spec §2.1): one Schedule/Journey call
 // with StartTime back-shifted, filtered on arrival <= target, one retry with
 // a wider window if empty. Both windows are starting heuristics to tune
@@ -158,59 +272,48 @@ const ARRIVE_BY_WIDE_BACKSHIFT_HOURS = 4;
 
 async function itinerariesArrivingBy(
   client: MetrolinxClient,
-  fromStopCode: string,
-  toStopCode: string,
-  date: string,
-  targetTime: string,
-  maxResults: number,
+  query: JourneyQuery,
   stopNames: Map<string, string>,
   backshiftHours: number,
 ): Promise<Itinerary[]> {
-  const startTime = addHoursToTime(targetTime, -backshiftHours);
-  const itineraries = await fetchItineraries(
+  const startTime = addHoursToTime(query.time, -backshiftHours);
+  const itineraries = await fetchDirectOrComposed(
     client,
-    fromStopCode,
-    toStopCode,
-    date,
+    query,
     startTime,
-    maxResults,
     stopNames,
   );
-  const targetMs = new Date(combineDateAndHhmm(date, targetTime)).getTime();
+  const targetMs = new Date(
+    combineDateAndHhmm(query.date, query.time),
+  ).getTime();
   return itineraries.filter(
     (itinerary) => new Date(itinerary.arrival_time).getTime() <= targetMs,
   );
 }
 
+export interface JourneyQuery {
+  from: string;
+  to: string;
+  date: string;
+  time: string;
+  timeMode: "depart_after" | "arrive_by";
+  maxResults: number;
+  /** plan_trip composes via-Union transfers; plan_journey stays a raw mirror. */
+  viaUnionFallback: boolean;
+}
+
 export async function planItineraries(
   client: MetrolinxClient,
-  fromStopCode: string,
-  toStopCode: string,
-  date: string,
-  time: string,
-  timeMode: "depart_after" | "arrive_by",
-  maxResults: number,
+  query: JourneyQuery,
   stopNames: Map<string, string>,
 ): Promise<Itinerary[]> {
-  if (timeMode === "depart_after") {
-    return fetchItineraries(
-      client,
-      fromStopCode,
-      toStopCode,
-      date,
-      time,
-      maxResults,
-      stopNames,
-    );
+  if (query.timeMode === "depart_after") {
+    return fetchDirectOrComposed(client, query, query.time, stopNames);
   }
 
   const narrow = await itinerariesArrivingBy(
     client,
-    fromStopCode,
-    toStopCode,
-    date,
-    time,
-    maxResults,
+    query,
     stopNames,
     ARRIVE_BY_BACKSHIFT_HOURS,
   );
@@ -218,11 +321,7 @@ export async function planItineraries(
 
   return itinerariesArrivingBy(
     client,
-    fromStopCode,
-    toStopCode,
-    date,
-    time,
-    maxResults,
+    query,
     stopNames,
     ARRIVE_BY_WIDE_BACKSHIFT_HOURS,
   );

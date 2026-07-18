@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import type { RawJourneyResponse } from "../metrolinx/types.js";
 import { fakeClient } from "../tools/test-support.js";
+import type { JourneyQuery } from "./journey.js";
 import { normalizeJourney, planItineraries } from "./journey.js";
 
 const journeyFixture = JSON.parse(
@@ -338,6 +339,97 @@ describe("normalizeJourney", () => {
   });
 });
 
+function query(overrides: Partial<JourneyQuery>): JourneyQuery {
+  return {
+    from: "UN",
+    to: "00137",
+    date: "2026-07-17",
+    time: "09:00",
+    timeMode: "depart_after",
+    maxResults: 3,
+    viaUnionFallback: false,
+    ...overrides,
+  };
+}
+
+// Minimal raw Schedule/Journey response: one single-trip service per entry,
+// stops trimmed to the ridden portion (the confirmed live shape).
+function rawJourney(
+  date: string,
+  services: {
+    dep: string;
+    arr: string;
+    line: string;
+    trip: string;
+    fromCode: string;
+    toCode: string;
+  }[],
+): RawJourneyResponse {
+  return {
+    Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+    SchJourneys: [
+      {
+        Date: date,
+        Time: "08:00",
+        To: "",
+        From: "",
+        Services: services.map((s) => ({
+          Colour: "#000",
+          Type: "R",
+          Direction: "S",
+          Code: s.line,
+          StartTime: `${date} ${s.dep}:00`,
+          EndTime: `${date} ${s.arr}:00`,
+          Duration: "",
+          Accessible: "",
+          Trips: {
+            Trip: [
+              {
+                Number: s.trip,
+                Display: `${s.line} - test`,
+                Line: s.line,
+                Direction: "S",
+                LineVariant: s.line,
+                Type: "T",
+                Stops: {
+                  Stop: [
+                    {
+                      Code: s.fromCode,
+                      Order: 1,
+                      Time: s.dep,
+                      sortingTime: null,
+                      IsMajor: true,
+                    },
+                    {
+                      Code: s.toCode,
+                      Order: 2,
+                      Time: s.arr,
+                      sortingTime: null,
+                      IsMajor: true,
+                    },
+                  ],
+                },
+                destinationStopCode: s.toCode,
+                departFromCode: s.fromCode,
+                departFromAlternativeCode: null,
+                departFromTimingPoint: "",
+                tripPatternId: 0,
+              },
+            ],
+          },
+          Transfers: { Transfer: [] },
+          TransferLinks: { Link: [] },
+        })),
+      },
+    ],
+  };
+}
+
+const emptyJourney: RawJourneyResponse = {
+  Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+  SchJourneys: [],
+};
+
 describe("planItineraries", () => {
   it("depart_after: fetches once for the given time and normalizes the result", async () => {
     let captured: unknown;
@@ -348,16 +440,7 @@ describe("planItineraries", () => {
       },
     });
 
-    const result = await planItineraries(
-      client,
-      "UN",
-      "00137",
-      "2026-07-17",
-      "09:00",
-      "depart_after",
-      3,
-      stopNames,
-    );
+    const result = await planItineraries(client, query({}), stopNames);
 
     expect(captured).toEqual(["20260717", "UN", "00137", "0900", 3]);
     expect(result).toHaveLength(3);
@@ -375,12 +458,7 @@ describe("planItineraries", () => {
     // Fixture's last arrival is 10:29 -> target 10:30 keeps all 3.
     const result = await planItineraries(
       client,
-      "UN",
-      "00137",
-      "2026-07-17",
-      "10:30",
-      "arrive_by",
-      3,
+      query({ time: "10:30", timeMode: "arrive_by" }),
       stopNames,
     );
 
@@ -402,16 +480,204 @@ describe("planItineraries", () => {
     // filters to empty since the fixture's earliest arrival is still 09:42.
     const result = await planItineraries(
       client,
-      "UN",
-      "00137",
-      "2026-07-17",
-      "09:00",
-      "arrive_by",
-      3,
+      query({ timeMode: "arrive_by" }),
       stopNames,
     );
 
     expect(calls).toEqual(["0700", "0500"]);
     expect(result).toEqual([]);
+  });
+});
+
+// ADR 0002: when the direct query is empty and viaUnionFallback is on,
+// compose one transfer at Union from two journey calls.
+describe("planItineraries via-Union composition", () => {
+  // Routes the fake by (from, to) pair: UI->EX direct is empty (the
+  // confirmed live behavior for cross-line pairs), the two segments exist.
+  function stitchingClient(calls: string[][]) {
+    return fakeClient({
+      getJourney: (dateWire, from, to, startWire, maxJourneys) => {
+        calls.push([dateWire, from, to, startWire, String(maxJourneys)]);
+        if (from === "UI" && to === "UN") {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // prettier-ignore
+              { dep: "08:13", arr: "08:50", line: "ST", trip: "7107", fromCode: "UI", toCode: "UN" },
+              // prettier-ignore
+              { dep: "08:43", arr: "09:20", line: "ST", trip: "7109", fromCode: "UI", toCode: "UN" },
+            ]),
+          );
+        }
+        if (from === "UN" && to === "EX") {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // 08:55 violates the 10-min buffer for an 08:50 arrival and
+              // must be skipped in favor of 09:05.
+              // prettier-ignore
+              { dep: "08:55", arr: "09:03", line: "LW", trip: "1021", fromCode: "UN", toCode: "EX" },
+              // prettier-ignore
+              { dep: "09:05", arr: "09:13", line: "LW", trip: "1023", fromCode: "UN", toCode: "EX" },
+              // prettier-ignore
+              { dep: "09:35", arr: "09:43", line: "LW", trip: "1025", fromCode: "UN", toCode: "EX" },
+            ]),
+          );
+        }
+        return Promise.resolve(emptyJourney);
+      },
+    });
+  }
+
+  it("composes a via-Union itinerary when the direct query is empty", async () => {
+    const calls: string[][] = [];
+    const result = await planItineraries(
+      stitchingClient(calls),
+      query({
+        from: "UI",
+        to: "EX",
+        date: "2026-07-20",
+        time: "08:00",
+        viaUnionFallback: true,
+      }),
+      stopNames,
+    );
+
+    // Direct attempt, then the two segments; onward requested from the
+    // earliest inbound arrival's clock time.
+    expect(calls).toEqual([
+      ["20260720", "UI", "EX", "0800", "3"],
+      ["20260720", "UI", "UN", "0800", "3"],
+      ["20260720", "UN", "EX", "0850", "3"],
+    ]);
+
+    expect(result).toHaveLength(2);
+    const [first, second] = result;
+    // 08:50 arrival + 10-min buffer skips the 08:55 onward for 09:05.
+    expect(first).toMatchObject({
+      departure_time: "2026-07-20T08:13:00-04:00",
+      arrival_time: "2026-07-20T09:13:00-04:00",
+      duration_minutes: 60,
+      transfers: 1,
+    });
+    expect(first?.legs.map((l) => l.trip_number)).toEqual(["7107", "1023"]);
+    expect(first?.legs[1]?.from.stop_code).toBe("UN");
+    // 09:20 arrival pairs with the 09:35 onward.
+    expect(second?.legs.map((l) => l.trip_number)).toEqual(["7109", "1025"]);
+    expect(second?.duration_minutes).toBe(60);
+  });
+
+  it("does not compose when the direct query already has itineraries", async () => {
+    const calls: string[][] = [];
+    const client = fakeClient({
+      getJourney: (dateWire, from, to, startWire, maxJourneys) => {
+        calls.push([dateWire, from, to, startWire, String(maxJourneys)]);
+        return Promise.resolve(journeyFixture);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({ viaUnionFallback: true }),
+      stopNames,
+    );
+
+    expect(calls).toHaveLength(1);
+    expect(result).toHaveLength(3);
+  });
+
+  it("does not compose when an endpoint already is Union", async () => {
+    const calls: string[][] = [];
+    const client = fakeClient({
+      getJourney: (dateWire, from, to, startWire, maxJourneys) => {
+        calls.push([dateWire, from, to, startWire, String(maxJourneys)]);
+        return Promise.resolve(emptyJourney);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({ from: "UN", to: "EX", viaUnionFallback: true }),
+      stopNames,
+    );
+
+    expect(calls).toHaveLength(1);
+    expect(result).toEqual([]);
+  });
+
+  it("never composes with viaUnionFallback off (plan_journey's raw mirror)", async () => {
+    const calls: string[][] = [];
+    const client = fakeClient({
+      getJourney: (dateWire, from, to, startWire, maxJourneys) => {
+        calls.push([dateWire, from, to, startWire, String(maxJourneys)]);
+        return Promise.resolve(emptyJourney);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({ from: "UI", to: "EX" }),
+      stopNames,
+    );
+
+    expect(calls).toHaveLength(1);
+    expect(result).toEqual([]);
+  });
+
+  it("returns empty when no onward departure clears the transfer buffer", async () => {
+    const client = fakeClient({
+      getJourney: (_dateWire, from, to) => {
+        if (from === "UI" && to === "UN") {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // prettier-ignore
+              { dep: "08:13", arr: "08:50", line: "ST", trip: "7107", fromCode: "UI", toCode: "UN" },
+            ]),
+          );
+        }
+        if (from === "UN" && to === "EX") {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // prettier-ignore
+              { dep: "08:55", arr: "09:03", line: "LW", trip: "1021", fromCode: "UN", toCode: "EX" },
+            ]),
+          );
+        }
+        return Promise.resolve(emptyJourney);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({
+        from: "UI",
+        to: "EX",
+        date: "2026-07-20",
+        time: "08:00",
+        viaUnionFallback: true,
+      }),
+      stopNames,
+    );
+
+    expect(result).toEqual([]);
+  });
+
+  it("arrive_by composes via Union inside the back-shifted window", async () => {
+    const calls: string[][] = [];
+    const result = await planItineraries(
+      stitchingClient(calls),
+      query({
+        from: "UI",
+        to: "EX",
+        date: "2026-07-20",
+        time: "10:00",
+        timeMode: "arrive_by",
+        viaUnionFallback: true,
+      }),
+      stopNames,
+    );
+
+    // Back-shifted to 08:00; both composed arrivals (09:13, 09:43) <= 10:00.
+    expect(calls[0]).toEqual(["20260720", "UI", "EX", "0800", "3"]);
+    expect(result).toHaveLength(2);
+    expect(result[0]?.transfers).toBe(1);
   });
 });

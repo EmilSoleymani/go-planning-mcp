@@ -21,7 +21,7 @@ export function registerPlanTrip(
     {
       title: "Plan a trip",
       description:
-        "Plan a GO Transit trip between two stations/stops by name (fuzzy-resolved) or stop code, returning itineraries with legs, transfers, and accessibility. Ambiguous names return candidates instead of an error.",
+        "Plan a GO Transit trip between two stations/stops by name (fuzzy-resolved) or stop code, returning itineraries with legs, transfers, and accessibility. Cross-line trips are composed automatically via a Union Station transfer. Ambiguous names return candidates instead of an error.",
       inputSchema: planTripInputShape,
       outputSchema: planTripOutputShape,
     },
@@ -85,17 +85,17 @@ export function registerPlanTrip(
         const toMatch = toResolution.match;
 
         const stopNames = buildStopNameIndex(stopAll);
-        const resolvedDate = date ?? nowInToronto().date;
-        const resolvedTime = time ?? nowInToronto().time;
-
         const itineraries = await planItineraries(
           client,
-          fromMatch.stop_code,
-          toMatch.stop_code,
-          resolvedDate,
-          resolvedTime,
-          time_mode ?? "depart_after",
-          max_results ?? 3,
+          {
+            from: fromMatch.stop_code,
+            to: toMatch.stop_code,
+            date: date ?? nowInToronto().date,
+            time: time ?? nowInToronto().time,
+            timeMode: time_mode ?? "depart_after",
+            maxResults: max_results ?? 3,
+            viaUnionFallback: true,
+          },
           stopNames,
         );
 

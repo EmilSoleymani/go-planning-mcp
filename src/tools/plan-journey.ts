@@ -51,17 +51,19 @@ export function registerPlanJourney(
           );
         }
 
-        const resolvedDate = date ?? nowInToronto().date;
-        const resolvedTime = time ?? nowInToronto().time;
-
         const itineraries = await planItineraries(
           client,
-          from_stop_code,
-          to_stop_code,
-          resolvedDate,
-          resolvedTime,
-          "depart_after",
-          max_results ?? 3,
+          {
+            from: from_stop_code,
+            to: to_stop_code,
+            date: date ?? nowInToronto().date,
+            time: time ?? nowInToronto().time,
+            timeMode: "depart_after",
+            maxResults: max_results ?? 3,
+            // Raw mirror of one Schedule/Journey call — no via-Union
+            // composition here (ADR 0002); that's plan_trip's value-add.
+            viaUnionFallback: false,
+          },
           stopNames,
         );
 

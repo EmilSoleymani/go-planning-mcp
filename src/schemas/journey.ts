@@ -107,11 +107,11 @@ export const planTripOutputSchema = z.object({
     .array(itinerarySchema)
     .optional()
     .describe(
-      "Only present when status is 'ok'. Empty means Metrolinx's journey " +
-        "planner found no single-service journey — it does not compose " +
-        "cross-line transfers. Do not tell the user no service exists; " +
-        "offer to plan the trip in segments instead (e.g. plan_trip to " +
-        "Union Station 'UN', then plan_trip from 'UN' onward).",
+      "Only present when status is 'ok'. Cross-line trips are composed " +
+        "automatically via a Union Station transfer when no direct journey " +
+        "exists. Empty means nothing was found in the requested window even " +
+        "via Union — suggest a different time/date, or a bus-terminal " +
+        "transfer the server does not compose yet.",
     ),
   ambiguities: z
     .array(ambiguitySchema)
@@ -158,10 +158,10 @@ export const planJourneyOutputSchema = z.object({
   itineraries: z
     .array(itinerarySchema)
     .describe(
-      "Empty means Metrolinx's journey planner found no single-service " +
-        "journey — it does not compose cross-line transfers. Do not tell " +
-        "the user no service exists; offer to plan the trip in segments " +
-        "instead (e.g. via Union Station 'UN').",
+      "Raw single-call mirror: Metrolinx's journey planner only returns " +
+        "single-service journeys, and this tool does not compose " +
+        "transfers. Empty on a cross-line pair is expected — use plan_trip, " +
+        "which composes a via-Union transfer automatically.",
     ),
 });
 

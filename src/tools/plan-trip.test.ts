@@ -135,6 +135,117 @@ describe("plan_trip", () => {
     expect(structured.itineraries).toHaveLength(3);
   });
 
+  it("composes a via-Union transfer when the direct journey query is empty (ADR 0002)", async () => {
+    const empty = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      SchJourneys: [],
+    };
+    const segment = (
+      dep: string,
+      arr: string,
+      trip: string,
+      fromCode: string,
+      toCode: string,
+    ): RawJourneyResponse => ({
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      SchJourneys: [
+        {
+          Date: "2026-07-20",
+          Time: "08:00",
+          To: toCode,
+          From: fromCode,
+          Services: [
+            {
+              Colour: "#000",
+              Type: "R",
+              Direction: "S",
+              Code: "01",
+              StartTime: `2026-07-20 ${dep}:00`,
+              EndTime: `2026-07-20 ${arr}:00`,
+              Duration: "",
+              Accessible: "",
+              Trips: {
+                Trip: [
+                  {
+                    Number: trip,
+                    Display: "test",
+                    Line: "ST",
+                    Direction: "S",
+                    LineVariant: "ST",
+                    Type: "T",
+                    Stops: {
+                      Stop: [
+                        {
+                          Code: fromCode,
+                          Order: 1,
+                          Time: dep,
+                          sortingTime: null,
+                          IsMajor: true,
+                        },
+                        {
+                          Code: toCode,
+                          Order: 2,
+                          Time: arr,
+                          sortingTime: null,
+                          IsMajor: true,
+                        },
+                      ],
+                    },
+                    destinationStopCode: toCode,
+                    departFromCode: fromCode,
+                    departFromAlternativeCode: null,
+                    departFromTimingPoint: "",
+                    tripPatternId: 0,
+                  },
+                ],
+              },
+              Transfers: { Transfer: [] },
+              TransferLinks: { Link: [] },
+            },
+          ],
+        },
+      ],
+    });
+
+    const result = await callTool(
+      fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
+        getJourney: (_dateWire, from, to) => {
+          if (from === "UI" && to === "UN") {
+            return Promise.resolve(
+              segment("08:13", "08:50", "7107", "UI", "UN"),
+            );
+          }
+          if (from === "UN" && to === "EX") {
+            return Promise.resolve(
+              segment("09:05", "09:13", "1023", "UN", "EX"),
+            );
+          }
+          return Promise.resolve(empty);
+        },
+      }),
+      "plan_trip",
+      { from: "UI", to: "EX", date: "2026-07-20", time: "08:00" },
+    );
+
+    expect(result.isError).toBe(false);
+    const structured = result.structuredContent as {
+      status: string;
+      itineraries: {
+        transfers: number;
+        legs: { trip_number: string; from: { stop_code: string } }[];
+      }[];
+    };
+    expect(structured.status).toBe("ok");
+    expect(structured.itineraries).toHaveLength(1);
+    expect(structured.itineraries[0]?.transfers).toBe(1);
+    expect(structured.itineraries[0]?.legs.map((l) => l.trip_number)).toEqual([
+      "7107",
+      "1023",
+    ]);
+    expect(structured.itineraries[0]?.legs[1]?.from.stop_code).toBe("UN");
+  });
+
   it("surfaces client failures through the error taxonomy", async () => {
     const result = await callTool(
       fakeClient({
