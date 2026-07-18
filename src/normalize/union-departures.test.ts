@@ -41,6 +41,25 @@ describe("normalizeUnionDepartures", () => {
     expect(result.total_matched).toBe(fixture.AllDepartures?.Trip?.length);
   });
 
+  it("resolves the train-side code for stations with a separate Bus Stop entry, not the bus code", () => {
+    // Oakville, Port Credit, Bronte, Appleby, Burlington, and Aldershot each
+    // have two Stop/All entries (a standalone Bus Stop and a Train & Bus
+    // Station) that tie at the same fuzzy-match tier; unfiltered matching
+    // picked the bus stop_code for these train departures (regression).
+    const result = normalizeUnionDepartures(fixture, stopAll);
+    const first = result.departures[0];
+    const byName = Object.fromEntries(
+      first!.stops_served.map((s) => [s.stop_name, s.stop_code]),
+    );
+
+    expect(byName["Port Credit"]).toBe("PO");
+    expect(byName["Oakville"]).toBe("OA");
+    expect(byName["Bronte"]).toBe("BO");
+    expect(byName["Appleby"]).toBe("AP");
+    expect(byName["Burlington"]).toBe("BU");
+    expect(byName["Aldershot"]).toBe("AL");
+  });
+
   it("omits the '-' placeholder platform but keeps a real one", () => {
     const result = normalizeUnionDepartures(fixture, stopAll);
     const withPlatform = result.departures.find(

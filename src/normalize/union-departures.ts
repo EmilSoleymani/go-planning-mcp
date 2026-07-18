@@ -20,8 +20,20 @@ function normalizeMode(serviceType: string): "train" | "bus" {
 // (issue #9): every Code observed across a full capture was null. Resolved
 // via the same fuzzy matcher search_stops uses, since these names are short
 // forms of the full Stop/All LocationName ("Exhibition" vs "Exhibition GO").
-function resolveStopCode(stopAll: RawStopAllResponse, name: string): string {
-  const match = normalizeSearchStops(stopAll, name, "any", 1).matches[0];
+//
+// Filtered to the departure's own mode, not "any": several stations (e.g.
+// Oakville, Port Credit) have *two* Stop/All entries — a standalone Bus Stop
+// and a Train & Bus Station — that tie at the same fuzzy-match tier. The Bus
+// Stop entry happens to sort first, so an unfiltered match silently returned
+// the 6-digit bus stop_code for a train departure's stops. Filtering by mode
+// excludes the bus-only entry (the Train & Bus Station entry still matches
+// under "train" since its stop_type is "both").
+function resolveStopCode(
+  stopAll: RawStopAllResponse,
+  name: string,
+  mode: "train" | "bus",
+): string {
+  const match = normalizeSearchStops(stopAll, name, mode, 1).matches[0];
   return match?.stop_code ?? "";
 }
 
@@ -29,13 +41,14 @@ function normalizeTrip(
   trip: RawUnionTrip,
   stopAll: RawStopAllResponse,
 ): UnionDeparture {
+  const mode = normalizeMode(trip.ServiceType);
   const dto: UnionDeparture = {
     trip_number: trip.TripNumber,
-    mode: normalizeMode(trip.ServiceType),
+    mode,
     service: trip.Service,
     time: toIsoWithTorontoOffset(trip.Time),
     stops_served: (trip.Stops ?? []).map((s) => ({
-      stop_code: s.Code ?? resolveStopCode(stopAll, s.Name),
+      stop_code: s.Code ?? resolveStopCode(stopAll, s.Name, mode),
       stop_name: s.Name,
     })),
   };
