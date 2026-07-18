@@ -14,7 +14,12 @@ export const getTripStatusInputShape = {
     .string()
     .regex(DATE_PATTERN)
     .optional()
-    .describe("Service day, YYYY-MM-DD. Defaults to today (Toronto)."),
+    .describe(
+      "Operational day, YYYY-MM-DD — the day the trip departed its first " +
+        "stop. Trips that run past midnight keep their origin day even " +
+        "though later stops show the next calendar date (confirmed live). " +
+        "Defaults to today (Toronto).",
+    ),
 };
 
 export const tripStatusStopSchema = z.object({

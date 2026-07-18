@@ -12,7 +12,14 @@ export const getServiceGuaranteeInputShape = {
   date: z
     .string()
     .regex(YYYYMMDD_PATTERN)
-    .describe("Service date, YYYY-MM-DD, for the trip being checked."),
+    .describe(
+      "Operational day, YYYY-MM-DD — the day the trip departed its first " +
+        "stop, not necessarily the calendar date of the stop you're " +
+        "checking. Trips that run past midnight keep their origin day " +
+        "even though later stops show the next calendar date (confirmed " +
+        "live). Get this from get_line_schedule's departs_first_stop or " +
+        "get_trip_status, not by reading a later stop's timestamp.",
+    ),
   lang: z
     .enum(["en", "fr"])
     .optional()
