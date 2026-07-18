@@ -6,6 +6,7 @@ import type {
   RawFleetConsistResponse,
   RawGtfsTripUpdatesResponse,
   RawGtfsVehiclePositionsResponse,
+  RawJourneyResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawNextServiceResponse,
@@ -86,6 +87,13 @@ export interface MetrolinxClient {
   getServiceGlance(mode: ServiceGlanceMode): Promise<RawServiceGlanceResponse>;
   getVehiclePositions(): Promise<RawGtfsVehiclePositionsResponse>;
   getTripUpdates(): Promise<RawGtfsTripUpdatesResponse>;
+  getJourney(
+    dateWire: string,
+    fromStopCode: string,
+    toStopCode: string,
+    startTimeWire: string,
+    maxJourneys: number,
+  ): Promise<RawJourneyResponse>;
 }
 
 interface RawEnvelope {
@@ -270,6 +278,19 @@ export class MetrolinxHttpClient implements MetrolinxClient {
 
   async getTripUpdates(): Promise<RawGtfsTripUpdatesResponse> {
     return this.get<RawGtfsTripUpdatesResponse>("/Gtfs/Feed/TripUpdates");
+  }
+
+  // Journey plans are real-time (caching spec, ticket 005) — never cached.
+  async getJourney(
+    dateWire: string,
+    fromStopCode: string,
+    toStopCode: string,
+    startTimeWire: string,
+    maxJourneys: number,
+  ): Promise<RawJourneyResponse> {
+    return this.get<RawJourneyResponse>(
+      `/Schedule/Journey/${dateWire}/${encodeURIComponent(fromStopCode)}/${encodeURIComponent(toStopCode)}/${startTimeWire}/${String(maxJourneys)}`,
+    );
   }
 
   // ADR 0001: at most 2 retries, only on retryable failures — network errors
