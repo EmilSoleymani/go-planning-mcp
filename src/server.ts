@@ -2,8 +2,12 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import type { MetrolinxClient } from "./metrolinx/client.js";
 import { registerGetNextService } from "./tools/get-next-service.js";
+import { registerGetServiceAlerts } from "./tools/get-service-alerts.js";
+import { registerGetServiceExceptions } from "./tools/get-service-exceptions.js";
+import { registerGetServiceGuarantee } from "./tools/get-service-guarantee.js";
 import { registerGetStopDestinations } from "./tools/get-stop-destinations.js";
 import { registerGetStopDetails } from "./tools/get-stop-details.js";
+import { registerGetUnionDepartures } from "./tools/get-union-departures.js";
 import { registerSearchStops } from "./tools/search-stops.js";
 
 export const SERVER_INFO = { name: "go-transit-mcp", version: "0.0.0" };
@@ -22,6 +26,10 @@ export function registerTools(
   registerSearchStops(server, client);
   registerGetNextService(server, client);
   registerGetStopDestinations(server, client);
+  registerGetServiceAlerts(server, client);
+  registerGetServiceExceptions(server, client);
+  registerGetServiceGuarantee(server, client);
+  registerGetUnionDepartures(server, client);
 }
 
 /**

@@ -90,6 +90,9 @@ interface NextServiceResponse {
     }[];
   };
 }
+interface UnionDeparturesResponse {
+  AllDepartures?: { Trip?: { TripNumber: string }[] };
+}
 
 async function main(): Promise<void> {
   await mkdir(FIXTURES_DIR, { recursive: true });
@@ -142,10 +145,26 @@ async function main(): Promise<void> {
     "service-alerts",
     await fetchJson("/ServiceUpdate/ServiceAlert/All"),
   );
-  await save(
-    "union-departures",
-    await fetchJson("/ServiceUpdate/UnionDepartures/All"),
+  const unionDepartures = await fetchJson<UnionDeparturesResponse>(
+    "/ServiceUpdate/UnionDepartures/All",
   );
+  await save("union-departures", unionDepartures);
+  await save(
+    "service-exceptions",
+    await fetchJson("/ServiceUpdate/Exceptions/All"),
+  );
+
+  const firstTrip = unionDepartures.AllDepartures?.Trip?.[0]?.TripNumber;
+  if (firstTrip) {
+    await save(
+      "service-guarantee",
+      await fetchJson(`/ServiceUpdate/ServiceGuarantee/${firstTrip}/${date}`),
+    );
+  } else {
+    console.warn(
+      "No Union departure trip number found — skipped service-guarantee.json",
+    );
+  }
   await save(
     "service-glance-trains",
     await fetchJson("/ServiceataGlance/Trains/All"),
