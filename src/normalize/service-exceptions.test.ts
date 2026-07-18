@@ -51,6 +51,41 @@ describe("normalizeServiceExceptions", () => {
     expect(trip?.affected_stops.every((s) => s.cancelled)).toBe(true);
   });
 
+  it("coerces IsCancelled/IsOverride case-insensitively regardless of wire type (live-confirmed: strings, not booleans)", () => {
+    const result = normalizeServiceExceptions({
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      Trip: [
+        {
+          TripNumber: "1",
+          TripName: "mixed-casing trip",
+          IsCancelled: "TRUE",
+          IsOverride: false,
+          Stop: [
+            {
+              Order: 1,
+              ID: "1",
+              SchArrival: null,
+              SchDeparture: "2026-07-17 10:00:00",
+              Name: "A",
+              IsStopping: "True",
+              IsCancelled: true,
+              IsOverride: "false",
+              Code: "A",
+              ActualTime: null,
+              ServiceType: "T",
+            },
+          ],
+        },
+      ],
+    });
+
+    const trip = result.exceptions[0];
+    expect(trip?.cancelled).toBe(true);
+    expect(typeof trip?.cancelled).toBe("boolean");
+    expect(trip?.affected_stops[0]?.cancelled).toBe(true);
+    expect(typeof trip?.affected_stops[0]?.cancelled).toBe("boolean");
+  });
+
   it("returns an empty exceptions list when Trip is absent", () => {
     const result = normalizeServiceExceptions({
       Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },

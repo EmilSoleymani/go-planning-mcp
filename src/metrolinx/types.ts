@@ -168,15 +168,18 @@ export interface RawUnionDeparturesResponse {
 // ServiceUpdate/Exceptions/{Train,Bus,All} — not part of issue #3's capture
 // batch; shape sourced from the ticket 001 Help-page research, not yet
 // empirically re-verified against a live capture.
+// IsCancelled/IsOverride/IsStopping confirmed live (issue #9 follow-up) as
+// JSON strings ("True"/"False"), not native booleans — the Help-page
+// research this shape was originally sourced from didn't show this.
 export interface RawExceptionStop {
   Order: number;
   ID: string;
   SchArrival: string | null;
   SchDeparture: string | null;
   Name: string;
-  IsStopping: boolean;
-  IsCancelled: boolean;
-  IsOverride: boolean;
+  IsStopping: boolean | string;
+  IsCancelled: boolean | string;
+  IsOverride: boolean | string;
   Code: string;
   ActualTime: string | null;
   ServiceType: string;
@@ -185,8 +188,8 @@ export interface RawExceptionStop {
 export interface RawExceptionTrip {
   TripNumber: string;
   TripName: string;
-  IsCancelled: boolean;
-  IsOverride: boolean;
+  IsCancelled: boolean | string;
+  IsOverride: boolean | string;
   Stop: RawExceptionStop[] | null;
 }
 

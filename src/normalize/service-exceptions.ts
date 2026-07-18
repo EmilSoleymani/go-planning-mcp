@@ -19,12 +19,23 @@ function scheduledTime(stop: RawExceptionStop): string {
   return naive ? toIsoWithTorontoOffset(naive) : "";
 }
 
+// Confirmed live (issue #9 follow-up): IsCancelled/IsOverride arrive as
+// JSON strings ("True"/"False"), not native booleans — contrary to the
+// ticket 001 Help-page shape this endpoint's types were sourced from (never
+// part of issue #3's capture batch). Coerced case-insensitively; anything
+// that isn't exactly "true" is treated as false, same as a real `false`.
+function toBool(value: boolean | string): boolean {
+  return typeof value === "boolean"
+    ? value
+    : value.trim().toLowerCase() === "true";
+}
+
 function normalizeStop(stop: RawExceptionStop): AffectedStop {
   const dto: AffectedStop = {
     stop_code: stop.Code,
     stop_name: stop.Name,
     scheduled_time: scheduledTime(stop),
-    cancelled: stop.IsCancelled,
+    cancelled: toBool(stop.IsCancelled),
   };
   if (stop.ActualTime)
     dto.actual_time = toIsoWithTorontoOffset(stop.ActualTime);
@@ -36,12 +47,12 @@ function normalizeTrip(trip: RawExceptionTrip): Exception {
   // cancelled or overridden, not every stop on the trip (anti-dump, same
   // spirit as get_line_schedule's two-mode design).
   const affected = (trip.Stop ?? []).filter(
-    (s) => s.IsCancelled || s.IsOverride,
+    (s) => toBool(s.IsCancelled) || toBool(s.IsOverride),
   );
   return {
     trip_number: trip.TripNumber,
     trip_name: trip.TripName,
-    cancelled: trip.IsCancelled,
+    cancelled: toBool(trip.IsCancelled),
     affected_stops: affected.map(normalizeStop),
   };
 }
