@@ -106,7 +106,13 @@ export const planTripOutputSchema = z.object({
   itineraries: z
     .array(itinerarySchema)
     .optional()
-    .describe("Only present when status is 'ok'."),
+    .describe(
+      "Only present when status is 'ok'. Empty means Metrolinx's journey " +
+        "planner found no single-service journey — it does not compose " +
+        "cross-line transfers. Do not tell the user no service exists; " +
+        "offer to plan the trip in segments instead (e.g. plan_trip to " +
+        "Union Station 'UN', then plan_trip from 'UN' onward).",
+    ),
   ambiguities: z
     .array(ambiguitySchema)
     .optional()
@@ -149,7 +155,14 @@ export const planJourneyInputShape = {
 };
 
 export const planJourneyOutputSchema = z.object({
-  itineraries: z.array(itinerarySchema),
+  itineraries: z
+    .array(itinerarySchema)
+    .describe(
+      "Empty means Metrolinx's journey planner found no single-service " +
+        "journey — it does not compose cross-line transfers. Do not tell " +
+        "the user no service exists; offer to plan the trip in segments " +
+        "instead (e.g. via Union Station 'UN').",
+    ),
 });
 
 export type PlanJourneyResult = z.infer<typeof planJourneyOutputSchema>;

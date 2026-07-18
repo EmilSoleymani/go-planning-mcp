@@ -53,12 +53,12 @@ function firstAndLastByOrder(
 // departFromCode/destinationStopCode. The captured fixture shows upstream
 // trims each trip's Stops to the ridden portion (trip 1961's Display says
 // "Niagara Falls GO" yet its Stops end at the journey destination OA) and
-// stamps departFromCode/destinationStopCode with journey-level endpoints —
-// on a transfer journey those codes don't appear in intermediate legs'
-// Stops at all, so requiring them dropped every leg and returned empty
-// itineraries for any cross-line trip (observed live, Unionville GO ->
-// Exhibition GO). First/last by Order is provably identical for the
-// captured direct-journey fixture.
+// stamps departFromCode/destinationStopCode with journey-level endpoints,
+// so those codes can't be trusted as per-leg boundaries on any multi-leg
+// journey. Note: no multi-leg journey has ever been observed live —
+// Schedule/Journey returned SchJourneys: [] for a cross-line pair the
+// official site routes via a transfer (tool-schemas spec §5) — this is
+// defensive correctness from the fixture evidence, not a confirmed shape.
 function normalizeLeg(
   trip: RawJourneyTrip,
   journeyDate: string,

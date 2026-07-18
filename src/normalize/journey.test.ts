@@ -192,11 +192,13 @@ describe("normalizeJourney", () => {
     expect(result[0]?.accessible).toBe(true);
   });
 
-  // Regression for the empty-itineraries bug observed live (Unionville GO ->
-  // Exhibition GO): on transfer journeys upstream stamps every trip with the
-  // JOURNEY-level departFromCode/destinationStopCode, which never appear in
-  // an intermediate leg's trimmed Stops list. Leg boundaries must come from
-  // the Stops list itself, not those codes.
+  // Defensive: if a multi-leg journey ever appears, departFromCode/
+  // destinationStopCode are journey-level (fixture evidence: trip 1961's
+  // Stops end at the journey destination, not the train's own terminus) and
+  // won't appear in intermediate legs' trimmed Stops — leg boundaries must
+  // come from the Stops list itself. No multi-leg journey has been observed
+  // live; Schedule/Journey returned SchJourneys: [] for a cross-line pair
+  // (tool-schemas spec §5), so this shape is modeled, not captured.
   it("builds legs from each trip's trimmed Stops even when departFromCode/destinationStopCode are journey-level", () => {
     const transferJourney = {
       Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
