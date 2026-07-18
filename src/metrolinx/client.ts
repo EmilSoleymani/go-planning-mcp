@@ -156,6 +156,9 @@ export class MetrolinxHttpClient implements MetrolinxClient {
   ): Promise<RawServiceGuaranteeResponse> {
     return this.get<RawServiceGuaranteeResponse>(
       `/ServiceUpdate/ServiceGuarantee/${encodeURIComponent(tripNumber)}/${dateWire}`,
+    );
+  }
+
   async getLineAll(dateWire: string): Promise<RawLineAllResponse> {
     return this.cache.getOrFetch(`line-all:${dateWire}`, SCHEDULE_TTL_MS, () =>
       this.get<RawLineAllResponse>(`/Schedule/Line/All/${dateWire}`),

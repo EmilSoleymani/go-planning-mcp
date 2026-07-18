@@ -8,18 +8,15 @@ import { MetrolinxError } from "../errors.js";
 import { MetrolinxHttpClient } from "./client.js";
 import type {
   RawAlertsResponse,
+  RawLineAllResponse,
+  RawLineScheduleResponse,
   RawServiceExceptionsResponse,
   RawServiceGuaranteeResponse,
   RawStopAllResponse,
   RawStopDestinationsResponse,
   RawStopDetailsResponse,
-  RawUnionDeparturesResponse,
-  RawLineAllResponse,
-  RawLineScheduleResponse,
-  RawStopAllResponse,
-  RawStopDestinationsResponse,
-  RawStopDetailsResponse,
   RawTripStatusResponse,
+  RawUnionDeparturesResponse,
 } from "./types.js";
 
 const BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
@@ -460,6 +457,8 @@ describe("MetrolinxHttpClient", () => {
 
     const body = await makeClient().getServiceGuarantee("1029", "20260717");
     expect(body.Stops?.Stop?.length).toBeGreaterThan(0);
+  });
+
   it("requests Schedule/Line/All/{Date}", async () => {
     mswServer.use(
       http.get(LINE_ALL_URL, () => HttpResponse.json(lineAllFixture)),

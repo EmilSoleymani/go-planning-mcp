@@ -208,6 +208,8 @@ export interface RawGuaranteeStop {
 export interface RawServiceGuaranteeResponse {
   Metadata: RawMetadata;
   Stops?: { Stop?: RawGuaranteeStop[] | null } | null;
+}
+
 // Schedule/Line/All/{Date} — the full line/variant roster for a service day.
 export interface RawLineVariant {
   Code: string;
