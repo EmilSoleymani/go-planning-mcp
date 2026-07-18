@@ -59,6 +59,15 @@ export function fakeClient(
     getFares: unimplemented,
     getFleetConsistAll: unimplemented,
     getFleetConsistByEngine: unimplemented,
+    getServiceAlerts: unimplemented,
+    getInformationAlerts: unimplemented,
+    getMarketingAlerts: unimplemented,
+    getUnionDepartures: unimplemented,
+    getServiceExceptions: unimplemented,
+    getServiceGuarantee: unimplemented,
+    getLineAll: unimplemented,
+    getLineSchedule: unimplemented,
+    getTripStatus: unimplemented,
     ...overrides,
   };
 }

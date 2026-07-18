@@ -3,10 +3,17 @@ import { TtlCache } from "./cache.js";
 import type {
   RawFaresResponse,
   RawFleetConsistResponse,
+  RawAlertsResponse,
+  RawLineAllResponse,
+  RawLineScheduleResponse,
   RawNextServiceResponse,
+  RawServiceExceptionsResponse,
+  RawServiceGuaranteeResponse,
   RawStopAllResponse,
   RawStopDestinationsResponse,
   RawStopDetailsResponse,
+  RawUnionDeparturesResponse,
+  RawTripStatusResponse,
 } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
@@ -17,9 +24,12 @@ const BACKOFF_CAP_MS = 5000;
 // Caching spec (ticket 005): stops are slow-changing (24h); fares are a
 // published schedule-adjacent table (6h); next-service, destinations, and
 // fleet consist (live physical makeup, research handoff §2.7) are real-time
-// and never cached.
+// and never cached. published schedules are effectively static once a service 
+// day is published (6h);
 const STOP_ALL_TTL_MS = 24 * 60 * 60 * 1000;
 const FARES_TTL_MS = 6 * 60 * 60 * 1000;
+const SCHEDULE_TTL_MS = 6 * 60 * 60 * 1000;
+
 
 /**
  * The surface tools depend on. Tool tests inject a hand-built fake
@@ -43,6 +53,27 @@ export interface MetrolinxClient {
   getFleetConsistByEngine(
     engineNumber: string,
   ): Promise<RawFleetConsistResponse>;
+  getServiceAlerts(): Promise<RawAlertsResponse>;
+  getInformationAlerts(): Promise<RawAlertsResponse>;
+  getMarketingAlerts(): Promise<RawAlertsResponse>;
+  getUnionDepartures(): Promise<RawUnionDeparturesResponse>;
+  getServiceExceptions(
+    mode: "train" | "bus" | "any",
+  ): Promise<RawServiceExceptionsResponse>;
+  getServiceGuarantee(
+    tripNumber: string,
+    dateWire: string,
+  ): Promise<RawServiceGuaranteeResponse>;
+  getLineAll(dateWire: string): Promise<RawLineAllResponse>;
+  getLineSchedule(
+    dateWire: string,
+    lineCode: string,
+    direction: string,
+  ): Promise<RawLineScheduleResponse>;
+  getTripStatus(
+    dateWire: string,
+    tripNumber: string,
+  ): Promise<RawTripStatusResponse>;
 }
 
 interface RawEnvelope {
@@ -130,6 +161,72 @@ export class MetrolinxHttpClient implements MetrolinxClient {
   ): Promise<RawFleetConsistResponse> {
     return this.get<RawFleetConsistResponse>(
       `/Fleet/Consist/Engine/${encodeURIComponent(engineNumber)}`,
+  // Alerts change through the day and have no caching tier assigned by the
+  // caching spec (ticket 005 only names stops/schedules/fares) — left
+  // uncached rather than guessing a TTL.
+  async getServiceAlerts(): Promise<RawAlertsResponse> {
+    return this.get<RawAlertsResponse>("/ServiceUpdate/ServiceAlert/All");
+  }
+
+  async getInformationAlerts(): Promise<RawAlertsResponse> {
+    return this.get<RawAlertsResponse>("/ServiceUpdate/InformationAlert/All");
+  }
+
+  async getMarketingAlerts(): Promise<RawAlertsResponse> {
+    return this.get<RawAlertsResponse>("/ServiceUpdate/MarketingAlert/All");
+  }
+
+  async getUnionDepartures(): Promise<RawUnionDeparturesResponse> {
+    return this.get<RawUnionDeparturesResponse>(
+      "/ServiceUpdate/UnionDepartures/All",
+    );
+  }
+
+  async getServiceExceptions(
+    mode: "train" | "bus" | "any",
+  ): Promise<RawServiceExceptionsResponse> {
+    const segment = mode === "train" ? "Train" : mode === "bus" ? "Bus" : "All";
+    return this.get<RawServiceExceptionsResponse>(
+      `/ServiceUpdate/Exceptions/${segment}`,
+    );
+  }
+
+  async getServiceGuarantee(
+    tripNumber: string,
+    dateWire: string,
+  ): Promise<RawServiceGuaranteeResponse> {
+    return this.get<RawServiceGuaranteeResponse>(
+      `/ServiceUpdate/ServiceGuarantee/${encodeURIComponent(tripNumber)}/${dateWire}`,
+    );
+  }
+
+  async getLineAll(dateWire: string): Promise<RawLineAllResponse> {
+    return this.cache.getOrFetch(`line-all:${dateWire}`, SCHEDULE_TTL_MS, () =>
+      this.get<RawLineAllResponse>(`/Schedule/Line/All/${dateWire}`),
+    );
+  }
+
+  async getLineSchedule(
+    dateWire: string,
+    lineCode: string,
+    direction: string,
+  ): Promise<RawLineScheduleResponse> {
+    return this.cache.getOrFetch(
+      `line-schedule:${dateWire}:${lineCode}:${direction}`,
+      SCHEDULE_TTL_MS,
+      () =>
+        this.get<RawLineScheduleResponse>(
+          `/Schedule/Line/${dateWire}/${encodeURIComponent(lineCode)}/${encodeURIComponent(direction)}`,
+        ),
+    );
+  }
+
+  async getTripStatus(
+    dateWire: string,
+    tripNumber: string,
+  ): Promise<RawTripStatusResponse> {
+    return this.get<RawTripStatusResponse>(
+      `/Schedule/Trip/${dateWire}/${encodeURIComponent(tripNumber)}`,
     );
   }
 

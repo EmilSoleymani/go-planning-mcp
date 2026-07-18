@@ -1,0 +1,23 @@
+{
+  "Metadata": {
+    "TimeStamp": "2026-07-17 16:46:52",
+    "ErrorCode": "200",
+    "ErrorMessage": "OK"
+  },
+  "Stops": {
+    "Stop": [
+      {
+        "Code": "OA",
+        "Scope": "One-way fare",
+        "ReasonEn": "Delay exceeded 15 minutes",
+        "ReasonFr": "Retard supérieur à 15 minutes"
+      },
+      {
+        "Code": "UN",
+        "Scope": "One-way fare",
+        "ReasonEn": "Delay exceeded 15 minutes",
+        "ReasonFr": ""
+      }
+    ]
+  }
+}

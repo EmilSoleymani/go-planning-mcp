@@ -7,9 +7,16 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { MetrolinxError } from "../errors.js";
 import { MetrolinxHttpClient } from "./client.js";
 import type {
+  RawAlertsResponse,
+  RawLineAllResponse,
+  RawLineScheduleResponse,
+  RawServiceExceptionsResponse,
+  RawServiceGuaranteeResponse,
   RawStopAllResponse,
   RawStopDestinationsResponse,
   RawStopDetailsResponse,
+  RawTripStatusResponse,
+  RawUnionDeparturesResponse,
 } from "./types.js";
 
 const BASE_URL = "https://api.openmetrolinx.com/OpenDataAPI/api/V1";
@@ -21,6 +28,17 @@ const FARES_URL = `${BASE_URL}/Fares/UN/OA`;
 const FARES_DATED_URL = `${BASE_URL}/Fares/UN/OA/20260720`;
 const FLEET_ALL_URL = `${BASE_URL}/Fleet/Consist/All`;
 const FLEET_ENGINE_URL = `${BASE_URL}/Fleet/Consist/Engine/651`;
+const SERVICE_ALERT_URL = `${BASE_URL}/ServiceUpdate/ServiceAlert/All`;
+const INFORMATION_ALERT_URL = `${BASE_URL}/ServiceUpdate/InformationAlert/All`;
+const MARKETING_ALERT_URL = `${BASE_URL}/ServiceUpdate/MarketingAlert/All`;
+const UNION_DEPARTURES_URL = `${BASE_URL}/ServiceUpdate/UnionDepartures/All`;
+const EXCEPTIONS_TRAIN_URL = `${BASE_URL}/ServiceUpdate/Exceptions/Train`;
+const EXCEPTIONS_BUS_URL = `${BASE_URL}/ServiceUpdate/Exceptions/Bus`;
+const EXCEPTIONS_ALL_URL = `${BASE_URL}/ServiceUpdate/Exceptions/All`;
+const SERVICE_GUARANTEE_URL = `${BASE_URL}/ServiceUpdate/ServiceGuarantee/1029/20260717`;
+const LINE_ALL_URL = `${BASE_URL}/Schedule/Line/All/20260717`;
+const LINE_SCHEDULE_URL = `${BASE_URL}/Schedule/Line/20260717/LW/E`;
+const TRIP_STATUS_URL = `${BASE_URL}/Schedule/Trip/20260717/1039`;
 
 const fixture = JSON.parse(
   readFileSync(
@@ -45,6 +63,54 @@ const destinationsFixture = JSON.parse(
     "utf8",
   ),
 ) as RawStopDestinationsResponse;
+
+const alertsFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/service-alerts.json", import.meta.url),
+    "utf8",
+  ),
+) as RawAlertsResponse;
+
+const unionDeparturesFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/union-departures.json", import.meta.url),
+    "utf8",
+  ),
+) as RawUnionDeparturesResponse;
+
+const exceptionsFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/service-exceptions.json", import.meta.url),
+    "utf8",
+  ),
+) as RawServiceExceptionsResponse;
+
+const guaranteeFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/service-guarantee.json", import.meta.url),
+    "utf8",
+  ),
+) as RawServiceGuaranteeResponse;
+const lineAllFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-line-all.json", import.meta.url),
+    "utf8",
+  ),
+) as RawLineAllResponse;
+
+const lineScheduleFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-line.json", import.meta.url),
+    "utf8",
+  ),
+) as RawLineScheduleResponse;
+
+const tripStatusFixture = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/schedule-trip.json", import.meta.url),
+    "utf8",
+  ),
+) as RawTripStatusResponse;
 
 function tunneled(code: string): RawStopDetailsResponse {
   return {
@@ -359,12 +425,93 @@ describe("MetrolinxHttpClient", () => {
           Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
           AllFares: { FareCategory: [] },
         });
+  it("requests ServiceUpdate/ServiceAlert/All", async () => {
+    mswServer.use(
+      http.get(SERVICE_ALERT_URL, () => HttpResponse.json(alertsFixture)),
+    );
+
+    const body = await makeClient().getServiceAlerts();
+    expect(body.Messages?.Message?.length).toBeGreaterThan(0);
+  });
+
+  it("requests ServiceUpdate/InformationAlert/All", async () => {
+    mswServer.use(
+      http.get(INFORMATION_ALERT_URL, () => HttpResponse.json(alertsFixture)),
+    );
+
+    const body = await makeClient().getInformationAlerts();
+    expect(body.Messages?.Message?.length).toBeGreaterThan(0);
+  });
+
+  it("requests ServiceUpdate/MarketingAlert/All", async () => {
+    mswServer.use(
+      http.get(MARKETING_ALERT_URL, () => HttpResponse.json(alertsFixture)),
+    );
+
+    const body = await makeClient().getMarketingAlerts();
+    expect(body.Messages?.Message?.length).toBeGreaterThan(0);
+  });
+
+  it("requests ServiceUpdate/UnionDepartures/All", async () => {
+    mswServer.use(
+      http.get(UNION_DEPARTURES_URL, () =>
+        HttpResponse.json(unionDeparturesFixture),
+      ),
+    );
+
+    const body = await makeClient().getUnionDepartures();
+    expect(body.AllDepartures?.Trip?.length).toBeGreaterThan(0);
+  });
+
+  it("requests ServiceUpdate/Exceptions/{Train,Bus,All} by mode", async () => {
+    mswServer.use(
+      http.get(EXCEPTIONS_TRAIN_URL, () =>
+        HttpResponse.json(exceptionsFixture),
+      ),
+      http.get(EXCEPTIONS_BUS_URL, () => HttpResponse.json(exceptionsFixture)),
+      http.get(EXCEPTIONS_ALL_URL, () => HttpResponse.json(exceptionsFixture)),
+    );
+
+    const client = makeClient();
+    await expect(client.getServiceExceptions("train")).resolves.toBeDefined();
+    await expect(client.getServiceExceptions("bus")).resolves.toBeDefined();
+    await expect(client.getServiceExceptions("any")).resolves.toBeDefined();
+  });
+
+  it("requests ServiceUpdate/ServiceGuarantee/{TripNumber}/{OperationalDay}", async () => {
+    mswServer.use(
+      http.get(SERVICE_GUARANTEE_URL, () =>
+        HttpResponse.json(guaranteeFixture),
+      ),
+    );
+
+    const body = await makeClient().getServiceGuarantee("1029", "20260717");
+    expect(body.Stops?.Stop?.length).toBeGreaterThan(0);
+  });
+
+  it("requests Schedule/Line/All/{Date}", async () => {
+    mswServer.use(
+      http.get(LINE_ALL_URL, () => HttpResponse.json(lineAllFixture)),
+    );
+
+    const body = await makeClient().getLineAll("20260717");
+    expect(body.AllLines?.Line?.length).toBeGreaterThan(0);
+  });
+
+  it("caches Schedule/Line/All/{Date} for 6h — a second call within TTL hits the cache", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(LINE_ALL_URL, () => {
+        calls += 1;
+        return HttpResponse.json(lineAllFixture);
       }),
     );
 
     const client = makeClient();
     await client.getFares("UN", "OA");
     await client.getFares("UN", "OA");
+    await client.getLineAll("20260717");
+    await client.getLineAll("20260717");
 
     expect(calls).toBe(1);
   });
@@ -384,6 +531,46 @@ describe("MetrolinxHttpClient", () => {
       http.get(FLEET_ENGINE_URL, () => {
         engineCalls += 1;
         return HttpResponse.json(emptyConsists);
+  it("requests Schedule/Line/{Date}/{LineCode}/{LineDirection}", async () => {
+    mswServer.use(
+      http.get(LINE_SCHEDULE_URL, () => HttpResponse.json(lineScheduleFixture)),
+    );
+
+    const body = await makeClient().getLineSchedule("20260717", "LW", "E");
+    expect(body.Lines?.Line?.[0]?.Code).toBe("LW");
+  });
+
+  it("caches Schedule/Line/{Date}/{LineCode}/{LineDirection} for 6h", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(LINE_SCHEDULE_URL, () => {
+        calls += 1;
+        return HttpResponse.json(lineScheduleFixture);
+      }),
+    );
+
+    const client = makeClient();
+    await client.getLineSchedule("20260717", "LW", "E");
+    await client.getLineSchedule("20260717", "LW", "E");
+
+    expect(calls).toBe(1);
+  });
+
+  it("requests Schedule/Trip/{Date}/{TripNumber}", async () => {
+    mswServer.use(
+      http.get(TRIP_STATUS_URL, () => HttpResponse.json(tripStatusFixture)),
+    );
+
+    const body = await makeClient().getTripStatus("20260717", "1039");
+    expect(body.Trips?.[0]?.Number).toBe("1039");
+  });
+
+  it("never caches Schedule/Trip (live stop-by-stop status)", async () => {
+    let calls = 0;
+    mswServer.use(
+      http.get(TRIP_STATUS_URL, () => {
+        calls += 1;
+        return HttpResponse.json(tripStatusFixture);
       }),
     );
 
@@ -394,5 +581,9 @@ describe("MetrolinxHttpClient", () => {
 
     expect(allCalls).toBe(2);
     expect(engineCalls).toBe(1);
+    await client.getTripStatus("20260717", "1039");
+    await client.getTripStatus("20260717", "1039");
+
+    expect(calls).toBe(2);
   });
 });
