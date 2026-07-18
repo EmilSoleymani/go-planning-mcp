@@ -1,0 +1,98 @@
+{
+  "header": {
+    "gtfs_realtime_version": "2.0",
+    "incrementality": "FULL_DATASET",
+    "timestamp": 1784321203
+  },
+  "entity": [
+    {
+      "id": "20260717-LW-1026",
+      "is_deleted": false,
+      "vehicle": {
+        "trip": {
+          "trip_id": "20260717-LW-1026",
+          "route_id": "06260926-LW",
+          "direction_id": 0,
+          "start_time": "16:07:00",
+          "start_date": "20260717",
+          "schedule_relationship": "SCHEDULED"
+        },
+        "vehicle": {
+          "id": "606",
+          "label": "LW - Union Station",
+          "license_plate": ""
+        },
+        "position": {
+          "latitude": 43.551859,
+          "longitude": -79.591621,
+          "bearing": 38,
+          "speed": 22.5
+        },
+        "stop_id": "PO",
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": 1784321165,
+        "occupancy_status": "FEW_SEATS_AVAILABLE",
+        "occupancy_percentage": 62,
+        "congestion_level": "RUNNING_SMOOTHLY"
+      }
+    },
+    {
+      "id": "20260717-LW-1028",
+      "is_deleted": false,
+      "vehicle": {
+        "trip": {
+          "trip_id": "20260717-LW-1028",
+          "route_id": "06260926-LW",
+          "direction_id": 0,
+          "start_time": "17:03:00",
+          "start_date": "20260717",
+          "schedule_relationship": "SCHEDULED"
+        },
+        "vehicle": {
+          "id": "604",
+          "label": "LW - Union Station",
+          "license_plate": ""
+        },
+        "position": {
+          "latitude": 43.314107,
+          "longitude": -79.853135,
+          "bearing": 0,
+          "speed": 0
+        },
+        "stop_id": "AL",
+        "current_status": "STOPPED_AT",
+        "timestamp": 1784321165
+      }
+    },
+    {
+      "id": "20260717-9999-90001",
+      "is_deleted": false,
+      "vehicle": {
+        "trip": {
+          "trip_id": "20260717-9999-90001",
+          "route_id": "06260926-9999",
+          "direction_id": 1,
+          "start_time": "16:00:00",
+          "start_date": "20260717",
+          "schedule_relationship": "SCHEDULED"
+        },
+        "vehicle": {
+          "id": "9999",
+          "label": "Not in the ServiceataGlance snapshot",
+          "license_plate": ""
+        },
+        "position": {
+          "latitude": 43.6,
+          "longitude": -79.6,
+          "bearing": 90,
+          "speed": 10
+        },
+        "stop_id": "UN",
+        "current_status": "IN_TRANSIT_TO",
+        "timestamp": 1784321165,
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "occupancy_percentage": 20
+      }
+    }
+  ]
+}

@@ -10,8 +10,10 @@ import { registerGetServiceExceptions } from "./tools/get-service-exceptions.js"
 import { registerGetServiceGuarantee } from "./tools/get-service-guarantee.js";
 import { registerGetStopDestinations } from "./tools/get-stop-destinations.js";
 import { registerGetStopDetails } from "./tools/get-stop-details.js";
-import { registerGetUnionDepartures } from "./tools/get-union-departures.js";
 import { registerGetTripStatus } from "./tools/get-trip-status.js";
+import { registerGetTripUpdates } from "./tools/get-trip-updates.js";
+import { registerGetUnionDepartures } from "./tools/get-union-departures.js";
+import { registerGetVehiclePositions } from "./tools/get-vehicle-positions.js";
 import { registerListLines } from "./tools/list-lines.js";
 import { registerSearchStops } from "./tools/search-stops.js";
 
@@ -40,6 +42,8 @@ export function registerTools(
   registerListLines(server, client);
   registerGetLineSchedule(server, client);
   registerGetTripStatus(server, client);
+  registerGetVehiclePositions(server, client);
+  registerGetTripUpdates(server, client);
 }
 
 /**

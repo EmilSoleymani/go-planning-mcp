@@ -4,10 +4,13 @@ import type {
   RawAlertsResponse,
   RawFaresResponse,
   RawFleetConsistResponse,
+  RawGtfsTripUpdatesResponse,
+  RawGtfsVehiclePositionsResponse,
   RawLineAllResponse,
   RawLineScheduleResponse,
   RawNextServiceResponse,
   RawServiceExceptionsResponse,
+  RawServiceGlanceResponse,
   RawServiceGuaranteeResponse,
   RawStopAllResponse,
   RawStopDestinationsResponse,
@@ -28,6 +31,14 @@ const BACKOFF_CAP_MS = 5000;
 const STOP_ALL_TTL_MS = 24 * 60 * 60 * 1000;
 const FARES_TTL_MS = 6 * 60 * 60 * 1000;
 const SCHEDULE_TTL_MS = 6 * 60 * 60 * 1000;
+
+export type ServiceGlanceMode = "train" | "bus" | "upx";
+
+const SERVICE_GLANCE_SEGMENT: Record<ServiceGlanceMode, string> = {
+  train: "Trains",
+  bus: "Buses",
+  upx: "UPX",
+};
 
 /**
  * The surface tools depend on. Tool tests inject a hand-built fake
@@ -72,6 +83,9 @@ export interface MetrolinxClient {
     dateWire: string,
     tripNumber: string,
   ): Promise<RawTripStatusResponse>;
+  getServiceGlance(mode: ServiceGlanceMode): Promise<RawServiceGlanceResponse>;
+  getVehiclePositions(): Promise<RawGtfsVehiclePositionsResponse>;
+  getTripUpdates(): Promise<RawGtfsTripUpdatesResponse>;
 }
 
 interface RawEnvelope {
@@ -229,6 +243,33 @@ export class MetrolinxHttpClient implements MetrolinxClient {
     return this.get<RawTripStatusResponse>(
       `/Schedule/Trip/${dateWire}/${encodeURIComponent(tripNumber)}`,
     );
+  }
+
+  // Real-time, never cached (caching spec, ticket 005).
+  async getServiceGlance(
+    mode: ServiceGlanceMode,
+  ): Promise<RawServiceGlanceResponse> {
+    return this.get<RawServiceGlanceResponse>(
+      `/ServiceataGlance/${SERVICE_GLANCE_SEGMENT[mode]}/All`,
+    );
+  }
+
+  // Plain feed, same section as getTripUpdates below. NOT
+  // Fleet/Occupancy/GtfsRT/Feed/VehiclePosition: that Fleet-branded twin is
+  // documented (research handoff §2.7) as where occupancy_percentage is
+  // actually populated, but it empirically returns a genuine HTTP 401 for a
+  // standard registered key (confirmed live, issue #11/PR #26) — see
+  // docs/spec/tool-schemas.md §5. occupancy_percent is consequently
+  // expected to be absent in practice; kept optional in the DTO rather than
+  // dropped, so it starts populating automatically if that ever changes.
+  async getVehiclePositions(): Promise<RawGtfsVehiclePositionsResponse> {
+    return this.get<RawGtfsVehiclePositionsResponse>(
+      "/Gtfs/Feed/VehiclePosition",
+    );
+  }
+
+  async getTripUpdates(): Promise<RawGtfsTripUpdatesResponse> {
+    return this.get<RawGtfsTripUpdatesResponse>("/Gtfs/Feed/TripUpdates");
   }
 
   // ADR 0001: at most 2 retries, only on retryable failures — network errors
