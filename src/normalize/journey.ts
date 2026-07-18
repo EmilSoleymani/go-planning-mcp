@@ -37,24 +37,36 @@ function normalizeLegMode(type: string): "train" | "bus" {
   return type === "B" ? "bus" : "train";
 }
 
-function findStopTime(
+function firstAndLastByOrder(
   stops: RawJourneyStop[],
-  code: string,
-): string | undefined {
-  return stops.find((stop) => stop.Code === code)?.Time;
+): [RawJourneyStop, RawJourneyStop] {
+  let first = stops[0]!;
+  let last = stops[0]!;
+  for (const stop of stops) {
+    if (stop.Order < first.Order) first = stop;
+    if (stop.Order > last.Order) last = stop;
+  }
+  return [first, last];
 }
 
+// Leg boundaries come from the trip's own Stops list, not from
+// departFromCode/destinationStopCode. The captured fixture shows upstream
+// trims each trip's Stops to the ridden portion (trip 1961's Display says
+// "Niagara Falls GO" yet its Stops end at the journey destination OA) and
+// stamps departFromCode/destinationStopCode with journey-level endpoints —
+// on a transfer journey those codes don't appear in intermediate legs'
+// Stops at all, so requiring them dropped every leg and returned empty
+// itineraries for any cross-line trip (observed live, Unionville GO ->
+// Exhibition GO). First/last by Order is provably identical for the
+// captured direct-journey fixture.
 function normalizeLeg(
   trip: RawJourneyTrip,
   journeyDate: string,
   stopNames: Map<string, string>,
 ): ItineraryLeg | undefined {
   const stops = trip.Stops?.Stop ?? [];
-  const fromCode = trip.departFromCode;
-  const toCode = trip.destinationStopCode;
-  const fromHhmm = findStopTime(stops, fromCode);
-  const toHhmm = findStopTime(stops, toCode);
-  if (!fromHhmm || !toHhmm) return undefined;
+  if (stops.length === 0) return undefined;
+  const [first, last] = firstAndLastByOrder(stops);
 
   return {
     mode: normalizeLegMode(trip.Type),
@@ -62,14 +74,14 @@ function normalizeLeg(
     line_name: LINE_NAMES[trip.Line] ?? trip.Line,
     direction: trip.Direction,
     from: {
-      stop_code: fromCode,
-      stop_name: stopNames.get(fromCode) ?? fromCode,
-      time: combineDateAndHhmm(journeyDate, fromHhmm),
+      stop_code: first.Code,
+      stop_name: stopNames.get(first.Code) ?? first.Code,
+      time: combineDateAndHhmm(journeyDate, first.Time),
     },
     to: {
-      stop_code: toCode,
-      stop_name: stopNames.get(toCode) ?? toCode,
-      time: combineDateAndHhmm(journeyDate, toHhmm),
+      stop_code: last.Code,
+      stop_name: stopNames.get(last.Code) ?? last.Code,
+      time: combineDateAndHhmm(journeyDate, last.Time),
     },
     trip_number: trip.Number,
   };

@@ -141,6 +141,15 @@ async function main(): Promise<void> {
   );
   await save("schedule-journey", journey);
 
+  // A cross-line pair (Stouffville -> transfer at Union -> Lakeshore West)
+  // to capture the multi-leg journey shape: journey-level
+  // departFromCode/destinationStopCode semantics and per-leg trimmed Stops
+  // (see normalize/journey.ts's leg-boundary note).
+  const transferJourney = await fetchJson(
+    `/Schedule/Journey/${date}/UI/EX/0800/3`,
+  );
+  await save("schedule-journey-transfer", transferJourney);
+
   await save(
     "service-alerts",
     await fetchJson("/ServiceUpdate/ServiceAlert/All"),

@@ -191,6 +191,149 @@ describe("normalizeJourney", () => {
     expect(result[0]?.legs[1]?.mode).toBe("bus");
     expect(result[0]?.accessible).toBe(true);
   });
+
+  // Regression for the empty-itineraries bug observed live (Unionville GO ->
+  // Exhibition GO): on transfer journeys upstream stamps every trip with the
+  // JOURNEY-level departFromCode/destinationStopCode, which never appear in
+  // an intermediate leg's trimmed Stops list. Leg boundaries must come from
+  // the Stops list itself, not those codes.
+  it("builds legs from each trip's trimmed Stops even when departFromCode/destinationStopCode are journey-level", () => {
+    const transferJourney = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      SchJourneys: [
+        {
+          Date: "2026-07-20",
+          Time: "08:00",
+          To: "EX",
+          From: "UI",
+          Services: [
+            {
+              Colour: "#794500",
+              Type: "R",
+              Direction: "S",
+              Code: "71",
+              StartTime: "2026-07-20 08:13:00",
+              EndTime: "2026-07-20 09:05:00",
+              Duration: "00:52:00",
+              Accessible: "",
+              Trips: {
+                Trip: [
+                  {
+                    Number: "7107",
+                    Display: "ST - Union Station GO",
+                    Line: "ST",
+                    Direction: "S",
+                    LineVariant: "ST",
+                    Type: "T",
+                    Stops: {
+                      Stop: [
+                        {
+                          Code: "UI",
+                          Order: 1,
+                          Time: "08:13",
+                          sortingTime: "0813",
+                          IsMajor: true,
+                        },
+                        {
+                          Code: "UN",
+                          Order: 2,
+                          Time: "08:50",
+                          sortingTime: "0850",
+                          IsMajor: true,
+                        },
+                      ],
+                    },
+                    // Journey-level endpoints, NOT this leg's — "EX" is not
+                    // in this trip's Stops.
+                    destinationStopCode: "EX",
+                    departFromCode: "UI",
+                    departFromAlternativeCode: null,
+                    departFromTimingPoint: "unionville",
+                    tripPatternId: 10,
+                  },
+                  {
+                    Number: "1023",
+                    Display: "LW - Exhibition GO",
+                    Line: "LW",
+                    Direction: "W",
+                    LineVariant: "LW",
+                    Type: "T",
+                    Stops: {
+                      Stop: [
+                        {
+                          Code: "UN",
+                          Order: 1,
+                          Time: "08:57",
+                          sortingTime: "0857",
+                          IsMajor: true,
+                        },
+                        {
+                          Code: "EX",
+                          Order: 2,
+                          Time: "09:05",
+                          sortingTime: "0905",
+                          IsMajor: true,
+                        },
+                      ],
+                    },
+                    // "UI" is not in this trip's Stops either.
+                    destinationStopCode: "EX",
+                    departFromCode: "UI",
+                    departFromAlternativeCode: null,
+                    departFromTimingPoint: "unionville",
+                    tripPatternId: 11,
+                  },
+                ],
+              },
+              Transfers: { Transfer: [] },
+              TransferLinks: {
+                Link: [
+                  {
+                    FromTrip: "7107",
+                    FromStopCode: "UN",
+                    ToTrip: "1023",
+                    ToStopCode: "UN",
+                    TransferDuration: "00:07:00",
+                  },
+                ],
+              },
+              StartSortTime: "0813",
+              EndSortTime: "0905",
+              tripHash: "7107_1023",
+              transferCount: 1,
+            },
+          ],
+        },
+      ],
+    };
+
+    const result = normalizeJourney(
+      transferJourney,
+      new Map([["UN", "Union Station GO"]]),
+    );
+
+    expect(result).toHaveLength(1);
+    expect(result[0]?.transfers).toBe(1);
+    expect(result[0]?.legs).toHaveLength(2);
+
+    const [first, second] = result[0]!.legs;
+    expect(first).toMatchObject({
+      line_code: "ST",
+      trip_number: "7107",
+      from: { stop_code: "UI" },
+      to: {
+        stop_code: "UN",
+        stop_name: "Union Station GO",
+        time: "2026-07-20T08:50:00-04:00",
+      },
+    });
+    expect(second).toMatchObject({
+      line_code: "LW",
+      trip_number: "1023",
+      from: { stop_code: "UN" },
+      to: { stop_code: "EX", time: "2026-07-20T09:05:00-04:00" },
+    });
+  });
 });
 
 describe("planItineraries", () => {
