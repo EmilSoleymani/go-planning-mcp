@@ -51,32 +51,20 @@ export function resolveStopCode(entry: RawStopListEntry): string {
     : entry.PublicStopId;
 }
 
-// Full stop dataset in the search_stops match shape (tool-schemas spec §3,
-// gotransit://stops resource) — every stop, unfiltered, sharing the same
-// per-entry mapping as normalizeSearchStops so the two paths cannot drift.
-export function normalizeAllStops(raw: RawStopAllResponse): SearchStopsResult {
-  const entries = raw.Stations?.Station ?? [];
-  const matches: StopMatch[] = entries.map((entry) => ({
-    stop_code: resolveStopCode(entry),
-    stop_name: entry.LocationName,
-    stop_type: stopType(entry.LocationType),
-  }));
-  return { matches, truncated: false, total_matched: matches.length };
-}
-
-export function normalizeSearchStops(
-  raw: RawStopAllResponse,
-  query: string,
-  filter: "train" | "bus" | "any" = "any",
-  limit = 10,
-): SearchStopsResult {
-  const entries = raw.Stations?.Station ?? [];
 export function toStopMatch(entry: RawStopListEntry): StopMatch {
   return {
     stop_code: resolveStopCode(entry),
     stop_name: entry.LocationName,
     stop_type: stopType(entry.LocationType),
   };
+}
+
+// Full stop dataset in the search_stops match shape (tool-schemas spec §3,
+// gotransit://stops resource) — every stop, unfiltered, sharing the same
+// per-entry mapping as normalizeSearchStops so the two paths cannot drift.
+export function normalizeAllStops(raw: RawStopAllResponse): SearchStopsResult {
+  const matches = (raw.Stations?.Station ?? []).map(toStopMatch);
+  return { matches, truncated: false, total_matched: matches.length };
 }
 
 function scoredMatches(
