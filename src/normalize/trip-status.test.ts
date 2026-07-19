@@ -100,14 +100,30 @@ describe("normalizeTripStatus", () => {
               {
                 Code: "CL",
                 Status: "S",
-                ArrivalTime: { Scheduled: "23:53", Computed: "23:53", Status: "E" },
-                DepartureTime: { Scheduled: "23:53", Computed: "23:53", Status: "E" },
+                ArrivalTime: {
+                  Scheduled: "23:53",
+                  Computed: "23:53",
+                  Status: "E",
+                },
+                DepartureTime: {
+                  Scheduled: "23:53",
+                  Computed: "23:53",
+                  Status: "E",
+                },
               },
               {
                 Code: "OA",
                 Status: "S",
-                ArrivalTime: { Scheduled: "00:01", Computed: "00:01", Status: "E" },
-                DepartureTime: { Scheduled: "00:01", Computed: "00:01", Status: "E" },
+                ArrivalTime: {
+                  Scheduled: "00:01",
+                  Computed: "00:01",
+                  Status: "E",
+                },
+                DepartureTime: {
+                  Scheduled: "00:01",
+                  Computed: "00:01",
+                  Status: "E",
+                },
               },
             ],
           },
