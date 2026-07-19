@@ -39,6 +39,29 @@ jobs:
       - name: Run smoke suite
         id: smoke
         run: npm run test:smoke -- --reporter=json --outputFile=smoke-results.json
+      - name: Publish results to job summary
+        if: always()
+        run: |
+          if [ -f smoke-results.json ]; then
+            jq -r '
+              if .numTotalTests == 0 then
+                "## Smoke suite results\n\n**Suite failed to start — 0 tests ran.** Check that `METROLINX_API_KEY` is set correctly; see the run log for details.\n"
+              else
+                ( [.testResults[].assertionResults[]?] ) as $tests |
+                "## Smoke suite results\n\n**\(.numPassedTests)/\(.numTotalTests) passed**\n\n| Check | Status | Duration |\n|---|---|---|\n"
+                + ( [ $tests[] | "| \(.title) | \(if .status == "passed" then "✅ pass" else "❌ fail" end) | \((.duration|round))ms |" ] | join("\n") )
+                + "\n"
+                + ( if .numFailedTests > 0 then
+                      "\n<details><summary>Failure details</summary>\n\n"
+                      + ( [ $tests[] | select(.status == "failed") | "**\(.title)**\n\n```\n\(.failureMessages | join("\n"))\n```\n" ] | join("\n") )
+                      + "\n</details>\n"
+                    else "" end
+                  )
+              end
+            ' smoke-results.json >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '## Smoke suite results\n\nsmoke-results.json not found — the suite likely crashed before writing output. See the run log.\n' >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Upload smoke report
         if: always()
         uses: actions/upload-artifact@v4
