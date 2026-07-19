@@ -9,7 +9,7 @@ import type {
 } from "../metrolinx/types.js";
 import { normalizeTripStatus } from "./trip-status.js";
 
-const DATE = "2026-07-17";
+const DATE = "2026-07-18";
 
 const tripFixture = JSON.parse(
   readFileSync(
@@ -29,7 +29,7 @@ describe("normalizeTripStatus", () => {
   it("normalizes the live-captured trip envelope, resolving Destination via Stop/All", () => {
     const result = normalizeTripStatus(tripFixture, stopAllFixture, DATE);
 
-    expect(result.trip_number).toBe("1039");
+    expect(result.trip_number).toBe("1041");
     expect(result.destination).toBe("Aldershot GO");
     expect(result.status).toBe("scheduled");
     expect(result.stops).toHaveLength(11);
@@ -65,26 +65,75 @@ describe("normalizeTripStatus", () => {
   it("converts bare HH:MM stop times onto the requested operational day", () => {
     const result = normalizeTripStatus(tripFixture, stopAllFixture, DATE);
     const un = result.stops.find((s) => s.stop_code === "UN");
-    expect(un?.scheduled_arrival).toBe("2026-07-17T23:17:00-04:00");
-    expect(un?.scheduled_departure).toBe("2026-07-17T23:17:00-04:00");
+    expect(un?.scheduled_arrival).toBe("2026-07-18T00:17:00-04:00");
+    expect(un?.scheduled_departure).toBe("2026-07-18T00:17:00-04:00");
   });
 
   it("rolls an HH>=24 stop time onto the next calendar day", () => {
     const result = normalizeTripStatus(tripFixture, stopAllFixture, DATE);
     const al = result.stops.find((s) => s.stop_code === "AL");
-    expect(al?.scheduled_departure).toBe("2026-07-18T00:27:00-04:00");
+    expect(al?.scheduled_departure).toBe("2026-07-19T01:29:00-04:00");
     expect(al?.scheduled_arrival).toBeUndefined();
   });
 
+  // A previously live-captured trip (superseded 2026-07-18, issue #45) showed
+  // this for real: post-midnight stops sent as literal small HH:MM ("00:01")
+  // while only the terminal stop used the "24:01" wraparound — Metrolinx is
+  // inconsistent about which stops get the rollover treatment within one
+  // response, and there's no reliable signal in the payload to tell the two
+  // cases apart. Reconstructed synthetically here (matching this file's
+  // other boundary-condition tests) since a live re-capture isn't guaranteed
+  // to reproduce that exact inconsistency on every run.
   it("takes an under-24-wrapped past-midnight HH:MM literally (known upstream quirk)", () => {
-    // OA is genuinely visited after midnight on this overnight trip (real
-    // order runs ...CL 23:53 -> OA -> BO -> AP -> BU -> AL 24:27), but
-    // Metrolinx sent "00:01" instead of the "24:01" wraparound it used for
-    // the final stop — there's no reliable signal to correct this from the
-    // payload alone, so it's read as literally 00:01 on the requested day.
-    const result = normalizeTripStatus(tripFixture, stopAllFixture, DATE);
+    const result = normalizeTripStatus(
+      {
+        Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+        Trips: [
+          {
+            Number: "1039",
+            Destination: "AL",
+            Longitude: 0,
+            Latitude: 0,
+            Status: "S",
+            TimeStamp: "",
+            Stops: [
+              {
+                Code: "CL",
+                Status: "S",
+                ArrivalTime: {
+                  Scheduled: "23:53",
+                  Computed: "23:53",
+                  Status: "E",
+                },
+                DepartureTime: {
+                  Scheduled: "23:53",
+                  Computed: "23:53",
+                  Status: "E",
+                },
+              },
+              {
+                Code: "OA",
+                Status: "S",
+                ArrivalTime: {
+                  Scheduled: "00:01",
+                  Computed: "00:01",
+                  Status: "E",
+                },
+                DepartureTime: {
+                  Scheduled: "00:01",
+                  Computed: "00:01",
+                  Status: "E",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      stopAllFixture,
+      DATE,
+    );
     const oa = result.stops.find((s) => s.stop_code === "OA");
-    expect(oa?.scheduled_departure).toBe("2026-07-17T00:01:00-04:00");
+    expect(oa?.scheduled_departure).toBe("2026-07-18T00:01:00-04:00");
   });
 
   it("expands S/M status codes and passes through an empty status unchanged", () => {

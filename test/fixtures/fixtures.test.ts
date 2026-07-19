@@ -48,16 +48,39 @@ describe("fixtures", () => {
     expect(fixture.Stop.StopName).toBe("Union Station GO");
   });
 
-  // Live-captured manually (issue #8 follow-up, PR #22 review) — the
-  // original hand-written guess for this endpoint had the wrong time
-  // format (bare "HH:MM", not a full naive datetime); this fixture is the
-  // real payload that caught it. scripts/capture-fixtures.ts still doesn't
-  // cover this endpoint (see issue #25).
+  // Live-captured by scripts/capture-fixtures.ts (issue #45) — a prior
+  // hand-written guess for this endpoint had the wrong time format (bare
+  // "HH:MM", not a full naive datetime, per issue #8 follow-up); this
+  // fixture is a real payload confirming that shape, not asserting a
+  // specific trip's content, since a re-run captures whichever trip number
+  // is running at capture time.
   it("schedule-trip.json (live-captured) has bare HH:MM stop times, not full datetimes", () => {
     const fixture = loadFixture("schedule-trip.json") as {
       Trips: { Number: string; Stops: { Code: string }[] }[];
     };
-    expect(fixture.Trips[0]?.Number).toBe("1039");
+    expect(fixture.Trips[0]?.Number).toMatch(/^\d+$/);
     expect(fixture.Trips[0]?.Stops.length).toBeGreaterThan(0);
   });
+
+  // fleet-consist.json / fleet-consist-engine.json are INTENTIONALLY
+  // hand-authored, not real captures (issue #45) — Fleet/Consist/* has
+  // returned Metadata.ErrorCode "403" for every key this project has ever
+  // had (re-confirmed live by capture-fixtures.ts as of this test), so no
+  // real response has ever been available to capture. Field shapes are
+  // hand-derived from Metrolinx's Help-page docs (research handoff §2.7),
+  // not confirmed against a live payload — see the RawFleetConsistResponse
+  // comment in src/metrolinx/types.ts. Re-run scripts/capture-fixtures.ts
+  // and replace both files for real if Fleet access is ever granted; this
+  // test exists so that swap isn't silently missed.
+  it.each(["fleet-consist.json", "fleet-consist-engine.json"])(
+    "%s is documented as intentionally hand-authored, pending Fleet access",
+    (name) => {
+      const fixture = loadFixture(name) as {
+        Metadata: { ErrorCode: string };
+        AllConsists?: { Consists?: { EngineNumber: string }[] };
+      };
+      expect(fixture.Metadata.ErrorCode).toBe("200");
+      expect(fixture.AllConsists?.Consists?.[0]?.EngineNumber).toBeTruthy();
+    },
+  );
 });

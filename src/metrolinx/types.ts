@@ -370,10 +370,14 @@ export interface RawTripStatusResponse {
 }
 
 // ServiceataGlance/{Trains,Buses,UPX}/All — live positions for one mode.
-// Confirmed live against Trains (issue #3); Buses/UPX are the same
-// documented shape, not yet independently captured.
+// Confirmed live against all three (issue #45): Trains carry Cars, Buses
+// carry BusType instead — the two fields are mutually exclusive, never both
+// present on the same trip. UPX returned Metadata.ErrorCode "204" (no UPX
+// service running at capture time) so its shape is unconfirmed but presumed
+// to match Trains/Buses (documented as the same endpoint family).
 export interface RawServiceGlanceTrip {
-  Cars: string;
+  Cars?: string;
+  BusType?: string;
   TripNumber: string;
   StartTime: string;
   EndTime: string;

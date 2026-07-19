@@ -612,7 +612,7 @@ describe("MetrolinxHttpClient", () => {
     );
 
     const body = await makeClient().getTripStatus("20260717", "1039");
-    expect(body.Trips?.[0]?.Number).toBe("1039");
+    expect(body.Trips?.[0]?.Number).toBe("1041");
   });
 
   it("never caches Schedule/Trip (live stop-by-stop status)", async () => {
