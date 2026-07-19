@@ -38,6 +38,10 @@ function loadEnvKey(): string {
 
 const API_KEY = loadEnvKey();
 
+interface RawEnvelope {
+  Metadata?: { ErrorCode?: string | null; ErrorMessage?: string | null };
+}
+
 async function fetchJson<T>(path: string): Promise<T> {
   const url = new URL(`${BASE_URL}${path}`);
   url.searchParams.set("key", API_KEY);
@@ -47,7 +51,19 @@ async function fetchJson<T>(path: string): Promise<T> {
   if (!response.ok) {
     throw new Error(`HTTP ${String(response.status)} for ${path}`);
   }
-  return (await response.json()) as T;
+  const body = (await response.json()) as T & RawEnvelope;
+  // Metrolinx tunnels failures through HTTP 200 bodies (client.ts's
+  // production request path checks this same field) — a naive !response.ok
+  // check misses this entirely and would silently "capture" and commit an
+  // error envelope as if it were real data. "204"/No Content is Metrolinx's
+  // not-found signal, not a failure (issue #7) — passed through like "200".
+  const code = body.Metadata?.ErrorCode;
+  if (code && code !== "200" && code !== "204") {
+    throw new Error(
+      `${path} returned Metadata.ErrorCode "${code}" (${body.Metadata?.ErrorMessage ?? "no message"}) — tunneled failure, not a real capture`,
+    );
+  }
+  return body;
 }
 
 async function save(name: string, data: unknown): Promise<void> {
@@ -69,7 +85,13 @@ function hhmm(date: Date): string {
 }
 
 interface StopAllResponse {
-  Stations?: { Station?: { LocationCode: string; LocationName: string }[] };
+  Stations?: {
+    Station?: {
+      LocationCode: string;
+      LocationName: string;
+      LocationType: string;
+    }[];
+  };
 }
 interface LineAllResponse {
   AllLines?: {
@@ -93,6 +115,9 @@ interface NextServiceResponse {
 interface UnionDeparturesResponse {
   AllDepartures?: { Trip?: { TripNumber: string }[] };
 }
+interface FleetConsistResponse {
+  AllConsists?: { Consists?: { EngineNumber: string }[] };
+}
 
 async function main(): Promise<void> {
   await mkdir(FIXTURES_DIR, { recursive: true });
@@ -101,14 +126,25 @@ async function main(): Promise<void> {
   const stopAll = await fetchJson<StopAllResponse>("/Stop/All");
   await save("stop-all", stopAll);
 
-  const oakville = stopAll.Stations?.Station?.find((s) =>
+  // "Oakville GO" is a confirmed live name collision (tool-schemas spec
+  // §5): a Bus Stop and the Train & Bus Station share the exact same name.
+  // A plain .find() by name alone is a coin flip on which one comes first
+  // in Metrolinx's response order — prefer the Train entry explicitly so
+  // this doesn't silently capture fares/journey fixtures against the wrong
+  // stop (see PR #43's get_fares smoke-test fix for the same trap).
+  const oakvilleCandidates = (stopAll.Stations?.Station ?? []).filter((s) =>
     s.LocationName.toLowerCase().includes("oakville"),
   );
+  const oakville =
+    oakvilleCandidates.find((s) => s.LocationType.includes("Train")) ??
+    oakvilleCandidates[0];
   if (!oakville)
     throw new Error(
       "Could not find Oakville in Stop/All — pick another destination stop code manually",
     );
-  console.log(`Oakville stop code: ${oakville.LocationCode}`);
+  console.log(
+    `Oakville stop code: ${oakville.LocationCode} (${oakville.LocationType})`,
+  );
 
   const stopDetails = await fetchJson("/Stop/Details/UN");
   await save("stop-details", stopDetails);
@@ -169,9 +205,17 @@ async function main(): Promise<void> {
       "service-guarantee",
       await fetchJson(`/ServiceUpdate/ServiceGuarantee/${firstTrip}/${date}`),
     );
+    // Schedule/Trip/{Date}/{TripNumber} — issue #25 flagged this fixture as
+    // hand-written since this script never actually covered the endpoint;
+    // reuses the same "today's Union departure" trip number as above so
+    // it's guaranteed to resolve.
+    await save(
+      "schedule-trip",
+      await fetchJson(`/Schedule/Trip/${date}/${firstTrip}`),
+    );
   } else {
     console.warn(
-      "No Union departure trip number found — skipped service-guarantee.json",
+      "No Union departure trip number found — skipped service-guarantee.json and schedule-trip.json",
     );
   }
   await save(
@@ -209,7 +253,34 @@ async function main(): Promise<void> {
     );
   }
   await save("fares", await fetchJson(`/Fares/UN/${oakville.LocationCode}`));
-  await save("fleet-consist", await fetchJson("/Fleet/Consist/All"));
+  // Fleet/Consist/* — confirmed live (issue #3/#10, handoff-001 §2.7,
+  // re-confirmed by the weekly smoke suite issue #15) to sit behind the
+  // same separate, undocumented Fleet-section authorization as
+  // Fleet/Occupancy above; this project's key has never had access.
+  // fleet-consist.json / fleet-consist-engine.json in the repo predate this
+  // confirmation and are hand-authored, not real captures — attempted here
+  // (not fatal) so a key that *does* have access produces a real one.
+  try {
+    const fleetConsist =
+      await fetchJson<FleetConsistResponse>("/Fleet/Consist/All");
+    await save("fleet-consist", fleetConsist);
+    const engineNumber = fleetConsist.AllConsists?.Consists?.[0]?.EngineNumber;
+    if (engineNumber) {
+      await save(
+        "fleet-consist-engine",
+        await fetchJson(`/Fleet/Consist/Engine/${engineNumber}`),
+      );
+    } else {
+      console.warn(
+        "No engine number available from Fleet/Consist/All — skipped fleet-consist-engine.json",
+      );
+    }
+  } catch (error) {
+    console.warn(
+      "Fleet/Consist/* not accessible with this key — skipped (see docs/spec/tool-schemas.md §5):",
+      error,
+    );
+  }
 
   const now = new Date();
   const fromTime = hhmm(now);
