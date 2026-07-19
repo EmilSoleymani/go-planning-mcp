@@ -71,7 +71,7 @@ jobs:
           retention-days: 14
           if-no-files-found: warn
       - name: File or update smoke-failure issue
-        if: failure() && steps.smoke.outcome == 'failure'
+        if: failure() && steps.smoke.outcome == 'failure' && github.event_name != 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
