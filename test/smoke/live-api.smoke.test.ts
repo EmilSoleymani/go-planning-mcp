@@ -7,6 +7,9 @@
 //
 // Excluded from the default `test` script by vitest.config.ts
 // (`exclude: ["test/smoke/**"]`) and run only via `npm run test:smoke`.
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 import { MetrolinxHttpClient } from "../../src/metrolinx/client.js";
@@ -26,6 +29,34 @@ import {
   callTool,
   type CallToolOutcome,
 } from "../../src/tools/test-support.js";
+
+// Local-dev convenience only: fills in unset env vars from a .env file if
+// one exists, no dotenv dependency (same minimal parser as
+// scripts/capture-fixtures.ts's loadEnvKey). CI sets METROLINX_API_KEY
+// directly via the job env and has no .env file, so this is a no-op there;
+// an already-set var (shell export, CI) always wins over the file.
+function loadDotEnvIfPresent(): void {
+  let raw: string;
+  try {
+    raw = readFileSync(
+      fileURLToPath(new URL("../../.env", import.meta.url)),
+      "utf8",
+    );
+  } catch {
+    return;
+  }
+  for (const line of raw.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    const value = trimmed.slice(eq + 1).trim();
+    if (key && !(key in process.env)) process.env[key] = value;
+  }
+}
+
+loadDotEnvIfPresent();
 
 const apiKey = process.env.METROLINX_API_KEY;
 if (!apiKey) {
