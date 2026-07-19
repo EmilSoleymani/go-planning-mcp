@@ -207,8 +207,11 @@ describe("live API smoke suite", () => {
       });
       expectOk(result);
       const dto = faresOutputSchema.parse(result.structuredContent);
+      // Soft invariant is "fares > 0" as in "at least one row exists"
+      // (test-architecture spec §2) — not "every amount is positive".
+      // Live-confirmed real $0 rows: children ride free, and PRESTO
+      // fare-cap tiers (e.g. "PrestoTrips41+") hit $0 after enough trips.
       expect(dto.fares.length).toBeGreaterThan(0);
-      for (const fare of dto.fares) expect(fare.amount).toBeGreaterThan(0);
     },
     LIVE_TIMEOUT_MS,
   );
