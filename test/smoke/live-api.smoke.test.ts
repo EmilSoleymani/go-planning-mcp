@@ -7,6 +7,9 @@
 //
 // Excluded from the default `test` script by vitest.config.ts
 // (`exclude: ["test/smoke/**"]`) and run only via `npm run test:smoke`.
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 import { MetrolinxHttpClient } from "../../src/metrolinx/client.js";
@@ -26,6 +29,34 @@ import {
   callTool,
   type CallToolOutcome,
 } from "../../src/tools/test-support.js";
+
+// Local-dev convenience only: fills in unset env vars from a .env file if
+// one exists, no dotenv dependency (same minimal parser as
+// scripts/capture-fixtures.ts's loadEnvKey). CI sets METROLINX_API_KEY
+// directly via the job env and has no .env file, so this is a no-op there;
+// an already-set var (shell export, CI) always wins over the file.
+function loadDotEnvIfPresent(): void {
+  let raw: string;
+  try {
+    raw = readFileSync(
+      fileURLToPath(new URL("../../.env", import.meta.url)),
+      "utf8",
+    );
+  } catch {
+    return;
+  }
+  for (const line of raw.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    const value = trimmed.slice(eq + 1).trim();
+    if (key && !(key in process.env)) process.env[key] = value;
+  }
+}
+
+loadDotEnvIfPresent();
 
 const apiKey = process.env.METROLINX_API_KEY;
 if (!apiKey) {
@@ -165,24 +196,22 @@ describe("live API smoke suite", () => {
   it(
     "get_fares — Fares (UN → Oakville)",
     async () => {
-      const oakville = await callTool(client, "search_stops", {
-        query: "oakville",
-        limit: 1,
-      });
-      expectOk(oakville);
-      const matches = searchStopsOutputSchema.parse(
-        oakville.structuredContent,
-      ).matches;
-      expect(matches.length).toBeGreaterThan(0);
-
+      // Hardcoded, not resolved via search_stops: "Oakville GO" is a
+      // confirmed live name collision (tool-schemas spec §5) between a Bus
+      // Stop and the Train & Bus Station, both landing in the same
+      // top-match tier — matches[0] is not reliably the station. "OA" is
+      // the station's own stable code, same as "UN"/"LW" elsewhere here.
       const result = await callTool(client, "get_fares", {
         from_stop_code: "UN",
-        to_stop_code: matches[0]!.stop_code,
+        to_stop_code: "OA",
       });
       expectOk(result);
       const dto = faresOutputSchema.parse(result.structuredContent);
+      // Soft invariant is "fares > 0" as in "at least one row exists"
+      // (test-architecture spec §2) — not "every amount is positive".
+      // Live-confirmed real $0 rows: children ride free, and PRESTO
+      // fare-cap tiers (e.g. "PrestoTrips41+") hit $0 after enough trips.
       expect(dto.fares.length).toBeGreaterThan(0);
-      for (const fare of dto.fares) expect(fare.amount).toBeGreaterThan(0);
     },
     LIVE_TIMEOUT_MS,
   );
@@ -227,15 +256,18 @@ describe("live API smoke suite", () => {
 
       // No train currently running is a legitimate real-time-empty state
       // (test-architecture spec §2) — fall back to the raw Fleet/Consist/All
-      // feed's first engine so Fleet domain coverage doesn't depend on time
-      // of day. Only skip if that feed itself is empty.
+      // feed's first engine so args resolution doesn't depend on time of
+      // day. That raw call can itself hit the same Forbidden restriction
+      // handled below, so it's wrapped rather than left to throw.
       const args = tripNumber
         ? { trip_number: tripNumber }
-        : await (async () => {
-            const raw = await client.getFleetConsistAll();
-            const engineNumber = raw.AllConsists?.Consists?.[0]?.EngineNumber;
-            return engineNumber ? { engine_number: engineNumber } : undefined;
-          })();
+        : await client
+            .getFleetConsistAll()
+            .then((raw) => raw.AllConsists?.Consists?.[0]?.EngineNumber)
+            .catch(() => undefined)
+            .then((engineNumber) =>
+              engineNumber ? { engine_number: engineNumber } : undefined,
+            );
 
       if (!args) {
         console.warn(
@@ -245,6 +277,26 @@ describe("live API smoke suite", () => {
       }
 
       const result = await callTool(client, "get_fleet_consist", args);
+
+      // The whole Fleet section sits behind separate authorization from the
+      // base Open Data API key, undocumented on the Help site — confirmed
+      // live back in issue #3/#10 (tunneled Metadata.ErrorCode "403") and
+      // again for the sibling Fleet/Occupancy endpoints (issue #11/PR #26;
+      // see tool-schemas spec §5 and handoff-001 §2.7). This project's key
+      // has never had access to Fleet/Consist/*; a Forbidden response here
+      // is the known, expected state, not drift — asserting it as a hard
+      // failure would spam the smoke-failure issue every week for a
+      // condition that can't change without a key upgrade from Metrolinx.
+      if (
+        result.isError &&
+        result.errorPayload?.error.message.includes("Forbidden")
+      ) {
+        console.warn(
+          "Fleet/Consist is Forbidden for this API key (known limitation, tool-schemas spec §5) — skipping assertion.",
+        );
+        return;
+      }
+
       expectOk(result);
       expect(() =>
         fleetConsistOutputSchema.parse(result.structuredContent),
