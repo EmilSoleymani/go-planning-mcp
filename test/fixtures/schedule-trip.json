@@ -1,107 +1,31 @@
 {
   "Metadata": {
-    "TimeStamp": "2026-07-17 23:01:34",
+    "TimeStamp": "2026-07-18 23:40:47",
     "ErrorCode": "200",
     "ErrorMessage": "OK"
   },
   "Trips": [
     {
-      "Number": "1039",
+      "Number": "1041",
       "Destination": "AL",
-      "Longitude": 0.0,
-      "Latitude": 0.0,
+      "Longitude": 0,
+      "Latitude": 0,
       "Status": "S",
-      "TimeStamp": "2026-07-17 23:01:34",
+      "TimeStamp": "2026-07-18 23:39:55",
       "Stops": [
         {
           "ArrivalTime": {
-            "Scheduled": "00:01",
-            "Computed": "00:01",
+            "Scheduled": "00:17",
+            "Computed": "00:17",
             "Status": "E"
           },
           "DepartureTime": {
-            "Scheduled": "00:01",
-            "Computed": "00:01",
+            "Scheduled": "00:17",
+            "Computed": "00:17",
             "Status": "E"
           },
           "Track": {
-            "Scheduled": "1",
-            "Actual": null
-          },
-          "Code": "OA",
-          "Status": "S",
-          "Remark": null
-        },
-        {
-          "ArrivalTime": {
-            "Scheduled": "00:06",
-            "Computed": "00:06",
-            "Status": "E"
-          },
-          "DepartureTime": {
-            "Scheduled": "00:06",
-            "Computed": "00:06",
-            "Status": "E"
-          },
-          "Track": {
-            "Scheduled": "1",
-            "Actual": null
-          },
-          "Code": "BO",
-          "Status": "S",
-          "Remark": null
-        },
-        {
-          "ArrivalTime": {
-            "Scheduled": "00:12",
-            "Computed": "00:12",
-            "Status": "E"
-          },
-          "DepartureTime": {
-            "Scheduled": "00:12",
-            "Computed": "00:12",
-            "Status": "E"
-          },
-          "Track": {
-            "Scheduled": "1",
-            "Actual": null
-          },
-          "Code": "AP",
-          "Status": "S",
-          "Remark": null
-        },
-        {
-          "ArrivalTime": {
-            "Scheduled": "00:19",
-            "Computed": "00:19",
-            "Status": "E"
-          },
-          "DepartureTime": {
-            "Scheduled": "00:19",
-            "Computed": "00:19",
-            "Status": "E"
-          },
-          "Track": {
-            "Scheduled": "1",
-            "Actual": null
-          },
-          "Code": "BU",
-          "Status": "S",
-          "Remark": null
-        },
-        {
-          "ArrivalTime": {
-            "Scheduled": "23:17",
-            "Computed": "23:17",
-            "Status": "E"
-          },
-          "DepartureTime": {
-            "Scheduled": "23:17",
-            "Computed": "23:17",
-            "Status": "E"
-          },
-          "Track": {
-            "Scheduled": "8",
+            "Scheduled": "4",
             "Actual": null
           },
           "Code": "UN",
@@ -110,13 +34,13 @@
         },
         {
           "ArrivalTime": {
-            "Scheduled": "23:25",
-            "Computed": "23:25",
+            "Scheduled": "00:25",
+            "Computed": "00:25",
             "Status": "E"
           },
           "DepartureTime": {
-            "Scheduled": "23:25",
-            "Computed": "23:25",
+            "Scheduled": "00:25",
+            "Computed": "00:25",
             "Status": "E"
           },
           "Track": {
@@ -129,13 +53,13 @@
         },
         {
           "ArrivalTime": {
-            "Scheduled": "23:33",
-            "Computed": "23:33",
+            "Scheduled": "00:33",
+            "Computed": "00:33",
             "Status": "E"
           },
           "DepartureTime": {
-            "Scheduled": "23:33",
-            "Computed": "23:33",
+            "Scheduled": "00:33",
+            "Computed": "00:33",
             "Status": "E"
           },
           "Track": {
@@ -148,13 +72,13 @@
         },
         {
           "ArrivalTime": {
-            "Scheduled": "23:39",
-            "Computed": "23:39",
+            "Scheduled": "00:39",
+            "Computed": "00:39",
             "Status": "E"
           },
           "DepartureTime": {
-            "Scheduled": "23:39",
-            "Computed": "23:39",
+            "Scheduled": "00:39",
+            "Computed": "00:39",
             "Status": "E"
           },
           "Track": {
@@ -167,13 +91,13 @@
         },
         {
           "ArrivalTime": {
-            "Scheduled": "23:46",
-            "Computed": "23:46",
+            "Scheduled": "00:46",
+            "Computed": "00:46",
             "Status": "E"
           },
           "DepartureTime": {
-            "Scheduled": "23:46",
-            "Computed": "23:46",
+            "Scheduled": "00:46",
+            "Computed": "00:46",
             "Status": "E"
           },
           "Track": {
@@ -186,13 +110,13 @@
         },
         {
           "ArrivalTime": {
-            "Scheduled": "23:53",
-            "Computed": "23:53",
+            "Scheduled": "00:54",
+            "Computed": "00:54",
             "Status": "E"
           },
           "DepartureTime": {
-            "Scheduled": "23:53",
-            "Computed": "23:53",
+            "Scheduled": "00:54",
+            "Computed": "00:54",
             "Status": "E"
           },
           "Track": {
@@ -205,12 +129,88 @@
         },
         {
           "ArrivalTime": {
+            "Scheduled": "01:02",
+            "Computed": "01:02",
+            "Status": "E"
+          },
+          "DepartureTime": {
+            "Scheduled": "01:02",
+            "Computed": "01:02",
+            "Status": "E"
+          },
+          "Track": {
+            "Scheduled": "1",
+            "Actual": null
+          },
+          "Code": "OA",
+          "Status": "S",
+          "Remark": null
+        },
+        {
+          "ArrivalTime": {
+            "Scheduled": "01:08",
+            "Computed": "01:08",
+            "Status": "E"
+          },
+          "DepartureTime": {
+            "Scheduled": "01:08",
+            "Computed": "01:08",
+            "Status": "E"
+          },
+          "Track": {
+            "Scheduled": "1",
+            "Actual": null
+          },
+          "Code": "BO",
+          "Status": "S",
+          "Remark": null
+        },
+        {
+          "ArrivalTime": {
+            "Scheduled": "01:14",
+            "Computed": "01:14",
+            "Status": "E"
+          },
+          "DepartureTime": {
+            "Scheduled": "01:14",
+            "Computed": "01:14",
+            "Status": "E"
+          },
+          "Track": {
+            "Scheduled": "1",
+            "Actual": null
+          },
+          "Code": "AP",
+          "Status": "S",
+          "Remark": null
+        },
+        {
+          "ArrivalTime": {
+            "Scheduled": "01:21",
+            "Computed": "01:21",
+            "Status": "E"
+          },
+          "DepartureTime": {
+            "Scheduled": "01:21",
+            "Computed": "01:21",
+            "Status": "E"
+          },
+          "Track": {
+            "Scheduled": "1",
+            "Actual": null
+          },
+          "Code": "BU",
+          "Status": "S",
+          "Remark": null
+        },
+        {
+          "ArrivalTime": {
             "Scheduled": "",
             "Computed": "",
             "Status": ""
           },
           "DepartureTime": {
-            "Scheduled": "24:27",
+            "Scheduled": "25:29",
             "Computed": "",
             "Status": ""
           },

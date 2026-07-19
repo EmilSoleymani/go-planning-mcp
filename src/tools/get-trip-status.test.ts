@@ -35,13 +35,13 @@ describe("get_trip_status", () => {
         getStopAll: () => Promise.resolve(stopAllFixture),
       }),
       "get_trip_status",
-      { trip_number: "1039", date: "2026-07-17" },
+      { trip_number: "1041", date: "2026-07-18" },
     );
 
     expect(result.isError).toBe(false);
-    expect(capturedArgs).toEqual(["20260717", "1039"]);
+    expect(capturedArgs).toEqual(["20260718", "1041"]);
     expect(result.structuredContent).toMatchObject({
-      trip_number: "1039",
+      trip_number: "1041",
       destination: "Aldershot GO",
       status: "scheduled",
     });
