@@ -1,5 +1,8 @@
 # go-planning-mcp
 
+[![Release](https://github.com/EmilSoleymani/go-planning-mcp/actions/workflows/release.yml/badge.svg)](https://github.com/EmilSoleymani/go-planning-mcp/actions/workflows/release.yml)
+[![Smoke](https://github.com/EmilSoleymani/go-planning-mcp/actions/workflows/smoke.yml/badge.svg)](https://github.com/EmilSoleymani/go-planning-mcp/actions/workflows/smoke.yml)
+
 An MCP server that wraps the Metrolinx GO Transit Open Data API, letting LLMs plan trips, check schedules, and query live departures through natural conversation. Self-hostable via Docker or deployable to Vercel in minutes.
 
 ## Tools
