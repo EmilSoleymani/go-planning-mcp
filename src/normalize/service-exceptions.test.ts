@@ -13,19 +13,88 @@ const fixture = JSON.parse(
 ) as RawServiceExceptionsResponse;
 
 describe("normalizeServiceExceptions", () => {
-  it("filters affected_stops down to cancelled/overridden stops only", () => {
+  // Fixture captured live 2026-07-21 (issue #27) during real GO Transit
+  // service exceptions — confirms the wire format is "0"/"1" strings, not
+  // "True"/"False" as an earlier (unverified) comment in this file claimed.
+  it("coerces a stop-level cancellation ('1') to true while the trip itself stays uncancelled ('0')", () => {
     const result = normalizeServiceExceptions(fixture);
-    const trip = result.exceptions.find((e) => e.trip_number === "9724");
+    const trip = result.exceptions.find((e) => e.trip_number === "1960");
 
     expect(trip?.cancelled).toBe(false);
-    // 3 raw stops, only 2 flagged IsCancelled/IsOverride.
-    expect(trip?.affected_stops).toHaveLength(2);
-    expect(trip?.affected_stops.map((s) => s.stop_code)).toEqual(["OA", "AL"]);
+    expect(trip?.affected_stops).toHaveLength(1);
+    expect(trip?.affected_stops[0]?.stop_code).toBe("CF");
+    expect(trip?.affected_stops[0]?.cancelled).toBe(true);
+  });
+
+  it("coerces a trip-level cancellation ('1') to true when the trip has no stops", () => {
+    const result = normalizeServiceExceptions(fixture);
+    const trip = result.exceptions.find((e) => e.trip_number === "E1960");
+
+    expect(trip?.cancelled).toBe(true);
+    expect(trip?.affected_stops).toEqual([]);
+  });
+
+  it("includes an overridden-but-not-cancelled stop in affected_stops, with cancelled: false", () => {
+    const result = normalizeServiceExceptions(fixture);
+    const trip = result.exceptions.find((e) => e.trip_number === "E1960Q");
+
+    expect(trip?.cancelled).toBe(false);
+    expect(trip?.affected_stops).toHaveLength(1);
+    expect(trip?.affected_stops[0]?.stop_code).toBe("CF");
+    expect(trip?.affected_stops[0]?.cancelled).toBe(false);
+  });
+
+  it("marks every stop on a stop-level-only cancellation cancelled while the trip itself is not", () => {
+    const result = normalizeServiceExceptions(fixture);
+    const trip = result.exceptions.find((e) => e.trip_number === "21324");
+
+    expect(trip?.cancelled).toBe(false);
+    expect(trip?.affected_stops).toHaveLength(22);
+    expect(trip?.affected_stops.every((s) => s.cancelled)).toBe(true);
   });
 
   it("prefers scheduled departure, falling back to arrival when departure is null", () => {
-    const result = normalizeServiceExceptions(fixture);
-    const trip = result.exceptions.find((e) => e.trip_number === "9724");
+    const result = normalizeServiceExceptions({
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      Trip: [
+        {
+          TripNumber: "9724",
+          TripName: "LW - Aldershot GO",
+          IsCancelled: "0",
+          IsOverride: "0",
+          Stop: [
+            {
+              Order: 1,
+              ID: "2",
+              SchArrival: "2026-07-17 17:45:00",
+              SchDeparture: "2026-07-17 17:47:00",
+              Name: "Oakville GO",
+              IsStopping: "0",
+              IsCancelled: "1",
+              IsOverride: "0",
+              Code: "OA",
+              ActualTime: null,
+              ServiceType: "T",
+            },
+            {
+              Order: 2,
+              ID: "3",
+              SchArrival: "2026-07-17 18:10:00",
+              SchDeparture: null,
+              Name: "Aldershot GO",
+              IsStopping: "1",
+              IsCancelled: "0",
+              IsOverride: "1",
+              Code: "AL",
+              ActualTime: "2026-07-17 18:15:00",
+              ServiceType: "T",
+            },
+          ],
+        },
+      ],
+    });
+
+    const trip = result.exceptions[0];
     const oakville = trip?.affected_stops.find((s) => s.stop_code === "OA");
     const aldershot = trip?.affected_stops.find((s) => s.stop_code === "AL");
 
@@ -34,8 +103,47 @@ describe("normalizeServiceExceptions", () => {
   });
 
   it("includes actual_time only when present", () => {
-    const result = normalizeServiceExceptions(fixture);
-    const trip = result.exceptions.find((e) => e.trip_number === "9724");
+    const result = normalizeServiceExceptions({
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      Trip: [
+        {
+          TripNumber: "9724",
+          TripName: "LW - Aldershot GO",
+          IsCancelled: "0",
+          IsOverride: "0",
+          Stop: [
+            {
+              Order: 1,
+              ID: "2",
+              SchArrival: null,
+              SchDeparture: "2026-07-17 17:47:00",
+              Name: "Oakville GO",
+              IsStopping: "0",
+              IsCancelled: "1",
+              IsOverride: "0",
+              Code: "OA",
+              ActualTime: null,
+              ServiceType: "T",
+            },
+            {
+              Order: 2,
+              ID: "3",
+              SchArrival: "2026-07-17 18:10:00",
+              SchDeparture: null,
+              Name: "Aldershot GO",
+              IsStopping: "1",
+              IsCancelled: "0",
+              IsOverride: "1",
+              Code: "AL",
+              ActualTime: "2026-07-17 18:15:00",
+              ServiceType: "T",
+            },
+          ],
+        },
+      ],
+    });
+
+    const trip = result.exceptions[0];
     const oakville = trip?.affected_stops.find((s) => s.stop_code === "OA");
     const aldershot = trip?.affected_stops.find((s) => s.stop_code === "AL");
 
@@ -44,20 +152,59 @@ describe("normalizeServiceExceptions", () => {
   });
 
   it("marks a fully cancelled trip and all its affected stops cancelled", () => {
-    const result = normalizeServiceExceptions(fixture);
+    const result = normalizeServiceExceptions({
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      Trip: [
+        {
+          TripNumber: "9999",
+          TripName: "LW - Hamilton GO",
+          IsCancelled: "1",
+          IsOverride: "0",
+          Stop: [
+            {
+              Order: 1,
+              ID: "4",
+              SchArrival: null,
+              SchDeparture: "2026-07-17 20:00:00",
+              Name: "Union Station GO",
+              IsStopping: "1",
+              IsCancelled: "1",
+              IsOverride: "0",
+              Code: "UN",
+              ActualTime: null,
+              ServiceType: "T",
+            },
+            {
+              Order: 2,
+              ID: "5",
+              SchArrival: "2026-07-17 20:40:00",
+              SchDeparture: null,
+              Name: "Hamilton GO Centre",
+              IsStopping: "1",
+              IsCancelled: "1",
+              IsOverride: "0",
+              Code: "HA",
+              ActualTime: null,
+              ServiceType: "T",
+            },
+          ],
+        },
+      ],
+    });
+
     const trip = result.exceptions.find((e) => e.trip_number === "9999");
 
     expect(trip?.cancelled).toBe(true);
     expect(trip?.affected_stops.every((s) => s.cancelled)).toBe(true);
   });
 
-  it("coerces IsCancelled/IsOverride case-insensitively regardless of wire type (live-confirmed: strings, not booleans)", () => {
+  it("coerces IsCancelled/IsOverride from native booleans and defensively from 'true'/'false' casing variants", () => {
     const result = normalizeServiceExceptions({
       Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
       Trip: [
         {
           TripNumber: "1",
-          TripName: "mixed-casing trip",
+          TripName: "mixed-representation trip",
           IsCancelled: "TRUE",
           IsOverride: false,
           Stop: [
@@ -67,7 +214,7 @@ describe("normalizeServiceExceptions", () => {
               SchArrival: null,
               SchDeparture: "2026-07-17 10:00:00",
               Name: "A",
-              IsStopping: "True",
+              IsStopping: "1",
               IsCancelled: true,
               IsOverride: "false",
               Code: "A",

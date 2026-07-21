@@ -19,15 +19,18 @@ function scheduledTime(stop: RawExceptionStop): string {
   return naive ? toIsoWithTorontoOffset(naive) : "";
 }
 
-// Confirmed live (issue #9 follow-up): IsCancelled/IsOverride arrive as
-// JSON strings ("True"/"False"), not native booleans — contrary to the
-// ticket 001 Help-page shape this endpoint's types were sourced from (never
-// part of issue #3's capture batch). Coerced case-insensitively; anything
-// that isn't exactly "true" is treated as false, same as a real `false`.
+// Confirmed live 2026-07-21 (issue #27): IsCancelled/IsOverride/IsStopping
+// arrive as the numeric-string wire values "0"/"1", not native booleans —
+// and not "True"/"False" either, despite an earlier comment here claiming
+// that was already live-confirmed. It wasn't: that assumption silently
+// coerced every real cancellation to `false` with no error, since "1" !==
+// "true". Caught against real rainy-day service-exception data (issue #27).
+// "true" is still accepted case-insensitively as a defensive fallback, but
+// "1" is the confirmed real value.
 function toBool(value: boolean | string): boolean {
-  return typeof value === "boolean"
-    ? value
-    : value.trim().toLowerCase() === "true";
+  if (typeof value === "boolean") return value;
+  const normalized = value.trim().toLowerCase();
+  return normalized === "1" || normalized === "true";
 }
 
 function normalizeStop(stop: RawExceptionStop): AffectedStop {

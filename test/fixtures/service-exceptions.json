@@ -1,90 +1,769 @@
 {
   "Metadata": {
-    "TimeStamp": "2026-07-17 16:46:52",
+    "TimeStamp": "2026-07-21 17:40:58",
     "ErrorCode": "200",
     "ErrorMessage": "OK"
   },
   "Trip": [
     {
-      "TripNumber": "9724",
-      "TripName": "LW - Aldershot GO",
-      "IsCancelled": "False",
-      "IsOverride": "True",
+      "TripNumber": "1960",
+      "TripName": "Niagara Falls GO 06:36 - Union Station GO 09:04",
+      "IsCancelled": "0",
+      "IsOverride": "0",
       "Stop": [
         {
           "Order": 1,
-          "ID": "1",
+          "ID": "5198",
           "SchArrival": null,
-          "SchDeparture": "2026-07-17 17:00:00",
-          "Name": "Union Station GO",
-          "IsStopping": "True",
-          "IsCancelled": "False",
-          "IsOverride": "False",
-          "Code": "UN",
-          "ActualTime": null,
-          "ServiceType": "T"
-        },
-        {
-          "Order": 2,
-          "ID": "2",
-          "SchArrival": "2026-07-17 17:45:00",
-          "SchDeparture": "2026-07-17 17:47:00",
-          "Name": "Oakville GO",
-          "IsStopping": "False",
-          "IsCancelled": "True",
-          "IsOverride": "False",
-          "Code": "OA",
-          "ActualTime": null,
-          "ServiceType": "T"
-        },
-        {
-          "Order": 3,
-          "ID": "3",
-          "SchArrival": "2026-07-17 18:10:00",
           "SchDeparture": null,
-          "Name": "Aldershot GO",
-          "IsStopping": "True",
-          "IsCancelled": "False",
-          "IsOverride": "True",
-          "Code": "AL",
-          "ActualTime": "2026-07-17 18:15:00",
+          "Name": "Confederation GO",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "CF",
+          "ActualTime": null,
           "ServiceType": "T"
         }
       ]
     },
     {
-      "TripNumber": "9999",
-      "TripName": "LW - Hamilton GO",
-      "IsCancelled": "True",
-      "IsOverride": "False",
+      "TripNumber": "E1960Q",
+      "TripName": "",
+      "IsCancelled": "0",
+      "IsOverride": "1",
       "Stop": [
         {
-          "Order": 1,
-          "ID": "4",
-          "SchArrival": null,
-          "SchDeparture": "2026-07-17 20:00:00",
-          "Name": "Union Station GO",
-          "IsStopping": "True",
-          "IsCancelled": "True",
-          "IsOverride": "False",
-          "Code": "UN",
-          "ActualTime": null,
-          "ServiceType": "T"
-        },
-        {
           "Order": 2,
-          "ID": "5",
-          "SchArrival": "2026-07-17 20:40:00",
+          "ID": "5198",
+          "SchArrival": null,
           "SchDeparture": null,
-          "Name": "Hamilton GO Centre",
-          "IsStopping": "True",
-          "IsCancelled": "True",
-          "IsOverride": "False",
-          "Code": "HA",
+          "Name": "Confederation GO",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "CF",
           "ActualTime": null,
           "ServiceType": "T"
         }
       ]
+    },
+    {
+      "TripNumber": "990748",
+      "TripName": "",
+      "IsCancelled": "0",
+      "IsOverride": "1",
+      "Stop": [
+        {
+          "Order": 5,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Confederation GO",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "02730",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 6,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "West Harbour GO",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "02652",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 7,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Hamilton GO Centre",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "00141",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 8,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. E. @ Hughson St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "01002",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 9,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St W. @ Hamilton Place",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "01006",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 10,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Queen St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "02759",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 11,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Pearl St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "01004",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 12,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Strathcona Ave. N.",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "01005",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 13,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Dundurn St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "00178",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 14,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Aldershot GO",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "00180",
+          "ActualTime": null,
+          "ServiceType": "B"
+        }
+      ]
+    },
+    {
+      "TripNumber": "E8022Q",
+      "TripName": "",
+      "IsCancelled": "0",
+      "IsOverride": "1",
+      "Stop": [
+        {
+          "Order": 2,
+          "ID": "907",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Union Station",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "UN",
+          "ActualTime": null,
+          "ServiceType": "T"
+        }
+      ]
+    },
+    {
+      "TripNumber": "E7713Q",
+      "TripName": "",
+      "IsCancelled": "0",
+      "IsOverride": "1",
+      "Stop": [
+        {
+          "Order": 1,
+          "ID": "907",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Union Station",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "UN",
+          "ActualTime": null,
+          "ServiceType": "T"
+        }
+      ]
+    },
+    {
+      "TripNumber": "993389",
+      "TripName": "",
+      "IsCancelled": "0",
+      "IsOverride": "1",
+      "Stop": [
+        {
+          "Order": 2,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Fairview St. @ Maple Ave.",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "00819",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 3,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Stanley Ave. @ Hwy. 420 Park & Ride",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "02404",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 4,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Niagara Falls Bus Terminal",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "02408",
+          "ActualTime": null,
+          "ServiceType": "B"
+        }
+      ]
+    },
+    {
+      "TripNumber": "21324",
+      "TripName": "Milton GO 11:00 - Union Station Bus Terminal 12:20",
+      "IsCancelled": "0",
+      "IsOverride": "0",
+      "Stop": [
+        {
+          "Order": 1,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Milton GO",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00194",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 2,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Thompson Rd. S. @ Childs Dr.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00891",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 3,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Thompson Rd. S. @ Mccuaig Dr.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00896",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 4,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Thompson Rd. S. @ Laurier Ave.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00893",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 5,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. @ Thompson Rd. S.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01017",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 6,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. @ Thompson Rd. S.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00811",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 7,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. @ Armstrong Blvd.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00931",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 8,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. @ Sauve St.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "02736",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 9,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. @ Fourth Line",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00807",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 10,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. @ Trudeau Dr.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00815",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 11,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. @ James Snow Pkwy.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00808",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 12,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. W.  @ Ninth Line",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01193",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 13,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. W.  @ Lisgar Dr.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01198",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 14,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. W.  @ Forest Park Dr.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01197",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 15,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. W.  @ Tenth Line W.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01202",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 16,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. W.  @ Danton Promenade",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01195",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 17,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Derry Rd. W.  @ Winston Churchill Blvd.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01481",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 18,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Winston Churchill Blvd @ Vanderbilt Rd",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01483",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 19,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Aquitaine Ave. @ Meadowvale Town Centre Circle",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00191",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 20,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Aquitaine Ave.  @ Glen Erin Dr.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01134",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 21,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Aquitaine Ave.  @ Montevideo Rd.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01136",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 22,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Aquitaine Ave.  @ Millcreek Dr.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01138",
+          "ActualTime": null,
+          "ServiceType": "B"
+        }
+      ]
+    },
+    {
+      "TripNumber": "E7713C",
+      "TripName": "",
+      "IsCancelled": "0",
+      "IsOverride": "1",
+      "Stop": [
+        {
+          "Order": 2,
+          "ID": "907",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Union Station",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "UN",
+          "ActualTime": null,
+          "ServiceType": "T"
+        }
+      ]
+    },
+    {
+      "TripNumber": "1972",
+      "TripName": "Niagara Falls GO 13:02 - Union Station GO 15:27",
+      "IsCancelled": "0",
+      "IsOverride": "0",
+      "Stop": [
+        {
+          "Order": 1,
+          "ID": "5198",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Confederation GO",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "CF",
+          "ActualTime": null,
+          "ServiceType": "T"
+        }
+      ]
+    },
+    {
+      "TripNumber": "40540",
+      "TripName": "Hamilton GO Centre 15:50 - Richmond Hill Centre 18:00",
+      "IsCancelled": "0",
+      "IsOverride": "0",
+      "Stop": [
+        {
+          "Order": 1,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Hamilton GO Centre",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00141",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 2,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. E. @ Hughson St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01002",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 3,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St W. @ Hamilton Place",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01006",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 4,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Queen St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "02759",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 5,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Pearl St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01004",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 6,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Strathcona Ave. N.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "01005",
+          "ActualTime": null,
+          "ServiceType": "B"
+        },
+        {
+          "Order": 7,
+          "ID": "",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "King St. W. @ Dundurn St. N.",
+          "IsStopping": "0",
+          "IsCancelled": "1",
+          "IsOverride": "0",
+          "Code": "00178",
+          "ActualTime": null,
+          "ServiceType": "B"
+        }
+      ]
+    },
+    {
+      "TripNumber": "E8023Q",
+      "TripName": "",
+      "IsCancelled": "0",
+      "IsOverride": "1",
+      "Stop": [
+        {
+          "Order": 2,
+          "ID": "907",
+          "SchArrival": null,
+          "SchDeparture": null,
+          "Name": "Union Station",
+          "IsStopping": "0",
+          "IsCancelled": "0",
+          "IsOverride": "1",
+          "Code": "UN",
+          "ActualTime": null,
+          "ServiceType": "T"
+        }
+      ]
+    },
+    {
+      "TripNumber": "E1960",
+      "TripName": "",
+      "IsCancelled": "1",
+      "IsOverride": "0",
+      "Stop": []
+    },
+    {
+      "TripNumber": "E8022C",
+      "TripName": "",
+      "IsCancelled": "1",
+      "IsOverride": "0",
+      "Stop": []
+    },
+    {
+      "TripNumber": "41313",
+      "TripName": "Pickering GO 11:20 - Square One 13:05",
+      "IsCancelled": "1",
+      "IsOverride": "0",
+      "Stop": []
+    },
+    {
+      "TripNumber": "E8022K",
+      "TripName": "",
+      "IsCancelled": "1",
+      "IsOverride": "0",
+      "Stop": []
+    },
+    {
+      "TripNumber": "E8022U",
+      "TripName": "",
+      "IsCancelled": "1",
+      "IsOverride": "0",
+      "Stop": []
     }
   ]
 }
