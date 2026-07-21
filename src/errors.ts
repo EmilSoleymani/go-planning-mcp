@@ -33,9 +33,13 @@ export function toToolErrorResult(error: MetrolinxError): CallToolResult {
       retryable: error.retryable,
     },
   };
+  // No structuredContent here: the SDK client validates it against the tool's
+  // *success* outputSchema whenever present, regardless of isError, and every
+  // tool's outputSchema describes the success shape (#29). Omitting it is what
+  // the SDK's own error path expects — it only requires structuredContent
+  // when `!isError`.
   return {
     isError: true,
     content: [{ type: "text", text: JSON.stringify(payload) }],
-    structuredContent: payload,
   };
 }
