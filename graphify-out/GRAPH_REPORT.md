@@ -1,13 +1,18 @@
-# Graph Report - .  (2026-07-21)
+# Graph Report - go-planning-mcp  (2026-07-21)
 
 ## Corpus Check
-- 164 files · ~159,239 words
+- 159 files · ~161,583 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
 - 842 nodes · 1915 edges · 49 communities (47 shown, 2 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 50 edges (avg confidence: 0.85)
-- Token cost: 275,493 input · 0 output
+- Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `e6a1f013`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - Metrolinx API Client & Error Handling
@@ -54,7 +59,7 @@
 - Release Workflow Jobs
 - Dependency Overrides
 - Package Repository Metadata
-- Service Alerts Tests
+- get-service-alerts.test.ts
 - Fixture Loader Tests
 
 ## God Nodes (most connected - your core abstractions)
@@ -280,7 +285,7 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `MetrolinxClient` connect `Metrolinx API Client & Error Handling` to `Journey/Line-Schedule Normalization`, `MCP Server Transports (stdio/http)`, `Prompt & Tool Test Fixtures`, `Service Alerts Normalization`, `Fleet Consist Normalization`, `Journey/Trip Planning Tests`?**
   _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `MetrolinxError` connect `Metrolinx API Client & Error Handling` to `Union Departures Tests`, `Journey/Line-Schedule Normalization`, `Prompt & Tool Test Fixtures`, `Vehicle Positions Tests`, `Fleet Consist Normalization`, `Service Alerts Tests`, `Trip Status Normalization`, `Metrolinx Client Test Fixtures`, `Stop Destinations Normalization`, `Journey/Trip Planning Tests`?**
+- **Why does `MetrolinxError` connect `Metrolinx API Client & Error Handling` to `Union Departures Tests`, `Journey/Line-Schedule Normalization`, `Prompt & Tool Test Fixtures`, `Vehicle Positions Tests`, `Fleet Consist Normalization`, `get-service-alerts.test.ts`, `Trip Status Normalization`, `Metrolinx Client Test Fixtures`, `Stop Destinations Normalization`, `Journey/Trip Planning Tests`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **Why does `MetrolinxHttpClient` connect `MCP Server Transports (stdio/http)` to `Metrolinx API Client & Error Handling`, `Metrolinx Client Test Fixtures`, `Line Listing & Ambiguity Resolution`?**
   _High betweenness centrality (0.018) - this node is a cross-community bridge._

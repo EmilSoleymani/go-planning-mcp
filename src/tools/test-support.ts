@@ -29,6 +29,10 @@ export async function callTool(
     client.connect(clientTransport),
   ]);
   try {
+    // Populates the SDK's per-tool output-schema validator cache (Client
+    // caches it from listTools(), not callTool()) so tests exercise the same
+    // structuredContent/outputSchema validation a real client hits (#29).
+    await client.listTools();
     const result = await client.callTool({ name: toolName, arguments: args });
     const content = result.content as { type: string; text: string }[];
     const isError = result.isError === true;
