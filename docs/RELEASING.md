@@ -109,6 +109,13 @@ by hand in the GitHub/npm UI.
    Confirm the npm package page shows the new version with a provenance
    badge, and that the ghcr package page lists the new semver tags.
 
+6. **Create the GitHub Release.** Not part of the ghcr/npm publish pipeline
+   and doesn't trigger anything — purely a changelog page for the tag:
+
+   ```bash
+   gh release create vX.Y.Z --title "vX.Y.Z" --generate-notes
+   ```
+
 ## Recovery: a publish half-fails
 
 Because `publish-ghcr` and `publish-npm` are independent jobs (both gated on
