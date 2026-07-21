@@ -12,10 +12,14 @@ the first release) and a **per-release runbook** (do this every time).
 
 Do these once, before running a release for the first time.
 
-- [ ] **npm account.** Have an npm account with publish rights, and confirm
+- [x] **npm account.** Have an npm account with publish rights, and confirm
       the `go-transit-mcp` package name is still unclaimed (or already owned
-      by this account, if a previous release created it).
-- [ ] **npm trusted publisher binding.** On the `go-transit-mcp` package's
+      by this account, if a previous release created it). Note: an
+      unattested `0.0.0` already exists on the registry from a manual
+      `npm publish` predating the trusted-publisher binding below — this
+      doesn't block anything (`npm version` moves past it), but it means the
+      first CI-published version won't be `0.0.0`.
+- [x] **npm trusted publisher binding.** On the `go-transit-mcp` package's
       npm settings page (or, for a first publish, when creating the package),
       add a trusted publisher pointing at this GitHub repository and the
       `.github/workflows/release.yml` workflow file. This is what lets
@@ -26,17 +30,20 @@ Do these once, before running a release for the first time.
       run, the `go-planning-mcp` package will exist under the repo owner's
       GitHub Packages but may default to private. Set it to **public** (
       Package settings → Change visibility) so the `docker run` one-liner in
-      the README works for anyone without a `docker login`.
-- [ ] **ghcr workflow permissions.** Confirm the repo's Actions settings
+      the README works for anyone without a `docker login`. Not yet
+      applicable — no tag has been pushed, so the package doesn't exist yet.
+- [x] **ghcr workflow permissions.** Confirm the repo's Actions settings
       allow workflows to write packages (Settings → Actions → General →
       Workflow permissions → "Read and write permissions"), or the
       job-level `permissions: packages: write` in `release.yml` won't be
       enough on its own.
-- [ ] **Branch protection: flip on admin enforcement.** Per
+- [x] **Branch protection: flip on admin enforcement.** Per
       [docs/spec/cicd-pipeline.md §5](spec/cicd-pipeline.md), once the code
-      scaffold has landed, turn off "Allow bypassing the above settings" for
-      admins on the `main` branch protection rule, so a release can never
-      ship code that skipped CI.
+      scaffold has landed, turn off admin bypass so a release can never ship
+      code that skipped CI. Implemented as repository ruleset `protect-main`
+      (Settings → Rules → Rulesets, not the classic branch protection page):
+      requires `checks (20)` + `checks (22)`, squash-only merge, and an empty
+      bypass list (`current_user_can_bypass: never`).
 
 Nothing above is automated by this repo — they're one-time actions to take
 by hand in the GitHub/npm UI.

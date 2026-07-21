@@ -41,5 +41,5 @@ Contract from ticket 008: separate file, weekly + `workflow_dispatch`, never PR-
 - **Required status checks**: `checks (20)` and `checks (22)`. No required reviewers (solo maintainer — a review requirement is self-lockout). "Require branch up to date": **off** (squash merges + low traffic → pure re-run friction).
 - **Squash-merge only**; merge commits and rebase merging disabled; auto-delete head branches. Linear history, one commit per PR, PR title = commit message.
 - **Admin enforcement, two phases**:
-  - *Now (planning/bootstrap)*: admin bypass allowed — direct-to-`main` planning-doc commits are the working pattern of the wayfinder sessions.
-  - **The moment the code scaffold lands: flip "do not allow bypass" on.** This closes the §2 hole (owner hot-push deploying unchecked code to production). This flip is an explicit implementation-phase checklist item, not a memory.
+  - *Bootstrap (superseded)*: admin bypass was allowed while direct-to-`main` planning-doc commits were the working pattern of the wayfinder sessions.
+  - **Flipped as of 2026-07-17** (ruleset `protect-main`, `current_user_can_bypass: never`, empty bypass list): admin bypass is off. This closes the §2 hole (owner hot-push deploying unchecked code to production). Implemented via a repository ruleset rather than a classic branch protection rule — same required checks and squash-only merge strategy described above.
