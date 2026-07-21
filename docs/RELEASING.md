@@ -57,17 +57,41 @@ by hand in the GitHub/npm UI.
          release.
    - [ ] A Tier 1 MCP Inspector pass (per `CONTRIBUTING.md`) has been run
          against a local build recently.
-2. **Cut the version.** From a clean, up-to-date local `main`:
+2. **Bump the version on a branch, land it via PR.** `npm version` normally
+   commits *and* tags in one step, then expects `git push --follow-tags` to
+   push both straight to `main` — but `protect-main` requires every change
+   to `main` go through a PR with green checks, with no bypass for anyone.
+   A direct push of the version-bump commit will be rejected. Split the
+   steps instead so the tag never gets created before the bump is actually
+   on `main`:
 
    ```bash
-   npm version <patch|minor|major>
-   git push --follow-tags
+   git checkout -b chore/release-vX.Y.Z
+   npm version <patch|minor|major> --no-git-tag-version
+   git commit -am "vX.Y.Z"
+   git push -u origin chore/release-vX.Y.Z
+   gh pr create --fill
    ```
 
-   `npm version` bumps `package.json`, commits it, and creates the matching
-   `vX.Y.Z` tag; `--follow-tags` pushes both the commit and the tag.
+   `--no-git-tag-version` bumps `package.json`/`package-lock.json` only —
+   no commit, no tag — so there's nothing to accidentally tag before it's
+   merged. Wait for `checks` to pass, then merge (squash).
 
-3. **Watch the workflow.** The tag push triggers `.github/workflows/release.yml`.
+3. **Tag the merged commit.** From a clean, up-to-date local `main`:
+
+   ```bash
+   git checkout main && git pull --ff-only
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
+
+   Tags aren't covered by `protect-main` (it only restricts
+   `refs/heads/main`), so this push needs no PR. Tagging *after* the merge —
+   rather than locally before it, the way `npm version` does by default —
+   guarantees the tag points at a commit `main` actually contains, instead
+   of an orphaned commit that only exists on the tag.
+
+4. **Watch the workflow.** The tag push triggers `.github/workflows/release.yml`.
    Watch it in the Actions tab:
    - `checks` (both Node 20 and 22) must pass before either publish job
      starts.
@@ -75,7 +99,7 @@ by hand in the GitHub/npm UI.
      tag cascade (`X.Y.Z`, `X.Y`, `X`) plus `latest`.
    - `publish-npm` builds and runs `npm publish --provenance` via trusted
      publishing.
-4. **Verify the artifacts** once both publish jobs are green:
+5. **Verify the artifacts** once both publish jobs are green:
 
    ```bash
    npx go-transit-mcp@latest
@@ -103,3 +127,23 @@ publish because the trusted publisher binding drifted.
 - If the failure is a config problem (e.g. the npm trusted publisher binding
   isn't set up yet), fix the one-time setup item above, then re-run the
   failed job — no need to touch git at all.
+
+## Recovery: the old one-shot `npm version && git push --follow-tags` was used by mistake
+
+If step 2's PR-first flow gets skipped and `npm version` is run and pushed
+the old way, `git push --follow-tags` will push the tag (tags aren't gated
+by `protect-main`) but get the branch push rejected — so the tag ends up
+pointing at a commit that was never merged into `main`, and the tag push
+alone is enough to trigger `release.yml` and publish for real.
+
+- **Let the triggered release run finish** — it's publishing a real,
+  correctly-built version; cancelling it doesn't undo whatever already
+  succeeded (npm in particular does not allow republishing a version once
+  it's live) and just leaves things half-done instead.
+- **Don't re-tag or re-run `npm version`.** The tag already exists and
+  already triggered a build against the right code.
+- **Reconcile `main` after the fact**: push the orphaned version-bump commit
+  to a new branch and open a normal PR into `main`, same as step 2. Once
+  merged, `main`'s `package.json` matches what's already published — the
+  tag doesn't need to move, since it already points at the (now also
+  on-`main`) commit's content.

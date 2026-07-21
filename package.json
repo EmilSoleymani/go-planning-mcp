@@ -1,6 +1,6 @@
 {
   "name": "go-transit-mcp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "MCP server for GO Transit (Metrolinx) trip planning: schedules, live departures, fares, and service alerts.",
   "type": "module",
   "license": "MIT",
