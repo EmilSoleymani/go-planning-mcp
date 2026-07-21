@@ -35,9 +35,9 @@
     "semantic_hash": "63f074b149b1dc664ce1c5c7a933cf1e"
   },
   "src/errors.ts": {
-    "mtime": 1784325915.204902,
-    "ast_hash": "ae8de3d67015ca0bb45ecf31751d0e06",
-    "semantic_hash": "ae8de3d67015ca0bb45ecf31751d0e06"
+    "mtime": 1784671341.3735209,
+    "ast_hash": "534d99ff6e5ca218c81f3ce80f30cf9b",
+    "semantic_hash": ""
   },
   "src/metrolinx/cache.test.ts": {
     "mtime": 1784343200.0161593,
@@ -510,9 +510,9 @@
     "semantic_hash": "8352fdd5a6253be0702ca611b57bc30d"
   },
   "src/tools/test-support.ts": {
-    "mtime": 1784429899.5978312,
-    "ast_hash": "33eba6dde47e7fa195aeddcee20e0425",
-    "semantic_hash": "33eba6dde47e7fa195aeddcee20e0425"
+    "mtime": 1784671304.0173736,
+    "ast_hash": "97ed90ae241c6253702a3caee613696d",
+    "semantic_hash": ""
   },
   "test/fixtures/ambiguous-name-oakville.json": {
     "mtime": 1784325915.209771,
@@ -818,5 +818,10 @@
     "mtime": 1784330318.336966,
     "ast_hash": "fe1032d8b3fc02bdcba7503bb246c45f",
     "semantic_hash": "fe1032d8b3fc02bdcba7503bb246c45f"
+  },
+  "src/errors.test.ts": {
+    "mtime": 1784671368.4392526,
+    "ast_hash": "e4bd378aedaa080dacfdd997199eb04b",
+    "semantic_hash": ""
   }
 }
