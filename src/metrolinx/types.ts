@@ -229,9 +229,10 @@ export interface RawUnionDeparturesResponse {
 // ServiceUpdate/Exceptions/{Train,Bus,All} — not part of issue #3's capture
 // batch; shape sourced from the ticket 001 Help-page research, not yet
 // empirically re-verified against a live capture.
-// IsCancelled/IsOverride/IsStopping confirmed live (issue #9 follow-up) as
-// JSON strings ("True"/"False"), not native booleans — the Help-page
-// research this shape was originally sourced from didn't show this.
+// IsCancelled/IsOverride/IsStopping confirmed live 2026-07-21 (issue #27) as
+// the numeric-string wire values "0"/"1", not native booleans — and not
+// "True"/"False" either, despite this comment previously claiming that was
+// already confirmed (it wasn't; see src/normalize/service-exceptions.ts).
 export interface RawExceptionStop {
   Order: number;
   ID: string;

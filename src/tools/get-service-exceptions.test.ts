@@ -33,7 +33,7 @@ describe("get_service_exceptions", () => {
       exceptions: { trip_number: string; cancelled: boolean }[];
     };
     expect(
-      structured.exceptions.find((e) => e.trip_number === "9999")?.cancelled,
+      structured.exceptions.find((e) => e.trip_number === "E1960")?.cancelled,
     ).toBe(true);
   });
 
