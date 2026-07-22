@@ -12,7 +12,7 @@ An MCP server that wraps the Metrolinx GO Transit Open Data API, letting LLMs pl
 | Tool | Description |
 |---|---|
 | **Trip planning** | |
-| [`plan_trip`](docs/TOOLS.md#plan_trip) | Plan a trip by station/stop name (fuzzy-resolved) or code; composes cross-line transfers via Union automatically. |
+| [`plan_trip`](docs/TOOLS.md#plan_trip) | Plan a trip by station/stop name (fuzzy-resolved) or code; composes one-transfer trips via Union and major bus-terminal hubs automatically. |
 | [`plan_journey`](docs/TOOLS.md#plan_journey) | Fine-control trip planner for exact stop codes — no fuzzy resolution, no transfer composition. |
 | **Stops** | |
 | [`search_stops`](docs/TOOLS.md#search_stops) | Fuzzy search for stops/stations by name fragment. |

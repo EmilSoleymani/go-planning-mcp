@@ -33,6 +33,16 @@ export const itinerarySchema = z.object({
   transfers: z.number(),
   accessible: z.boolean(),
   legs: z.array(itineraryLegSchema),
+  composed: z
+    .boolean()
+    .optional()
+    .describe(
+      "True when the server composed this itinerary by pairing two " +
+        "upstream timetable legs at a transfer hub (ADR 0003). The " +
+        "transfer is planner-suggested, not a GO-published connection — " +
+        "GO's service guarantee does not cover missing it. Absent on " +
+        "itineraries returned directly by the upstream planner.",
+    ),
 });
 
 export const ambiguitySchema = z.object({
@@ -107,11 +117,12 @@ export const planTripOutputSchema = z.object({
     .array(itinerarySchema)
     .optional()
     .describe(
-      "Only present when status is 'ok'. Cross-line trips are composed " +
-        "automatically via a Union Station transfer when no direct journey " +
-        "exists. Empty means nothing was found in the requested window even " +
-        "via Union — suggest a different time/date, or a bus-terminal " +
-        "transfer the server does not compose yet.",
+      "Only present when status is 'ok'. When no direct journey exists, " +
+        "one transfer is composed automatically at the best-ranked hub " +
+        "(Union, a major bus terminal, or an interchange station — ADR " +
+        "0003); such itineraries carry composed: true. Empty means nothing " +
+        "was found in the requested window even via the transfer hubs — " +
+        "suggest a different time/date.",
     ),
   ambiguities: z
     .array(ambiguitySchema)
@@ -161,7 +172,7 @@ export const planJourneyOutputSchema = z.object({
       "Raw single-call mirror: Metrolinx's journey planner only returns " +
         "single-service journeys, and this tool does not compose " +
         "transfers. Empty on a cross-line pair is expected — use plan_trip, " +
-        "which composes a via-Union transfer automatically.",
+        "which composes a hub transfer automatically.",
     ),
 });
 

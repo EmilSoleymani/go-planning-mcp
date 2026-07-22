@@ -107,7 +107,10 @@ describe("plan_trip", () => {
       },
     );
 
-    expect(captured).toEqual(["20260717", "UN", "102300", "0900", 5]);
+    // "102300" (USBT's unified PublicStopId) goes upstream as its wire
+    // LocationCode "02300" — Schedule/Journey returns empty for unified
+    // bus-stop codes (confirmed live 2026-07-21, issue #35).
+    expect(captured).toEqual(["20260717", "UN", "02300", "0900", 5]);
   });
 
   it("emulates arrive_by by back-shifting the query window ~2h", async () => {
@@ -135,81 +138,106 @@ describe("plan_trip", () => {
     expect(structured.itineraries).toHaveLength(3);
   });
 
-  it("composes a via-Union transfer when the direct journey query is empty (ADR 0002)", async () => {
-    const empty = {
-      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
-      SchJourneys: [],
-    };
-    const segment = (
-      dep: string,
-      arr: string,
-      trip: string,
-      fromCode: string,
-      toCode: string,
-    ): RawJourneyResponse => ({
-      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
-      SchJourneys: [
-        {
-          Date: "2026-07-20",
-          Time: "08:00",
-          To: toCode,
-          From: fromCode,
-          Services: [
-            {
-              Colour: "#000",
-              Type: "R",
-              Direction: "S",
-              Code: "01",
-              StartTime: `2026-07-20 ${dep}:00`,
-              EndTime: `2026-07-20 ${arr}:00`,
-              Duration: "",
-              Accessible: "",
-              Trips: {
-                Trip: [
-                  {
-                    Number: trip,
-                    Display: "test",
-                    Line: "ST",
-                    Direction: "S",
-                    LineVariant: "ST",
-                    Type: "T",
-                    Stops: {
-                      Stop: [
-                        {
-                          Code: fromCode,
-                          Order: 1,
-                          Time: dep,
-                          sortingTime: null,
-                          IsMajor: true,
-                        },
-                        {
-                          Code: toCode,
-                          Order: 2,
-                          Time: arr,
-                          sortingTime: null,
-                          IsMajor: true,
-                        },
-                      ],
-                    },
-                    destinationStopCode: toCode,
-                    departFromCode: fromCode,
-                    departFromAlternativeCode: null,
-                    departFromTimingPoint: "",
-                    tripPatternId: 0,
+  const empty = {
+    Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+    SchJourneys: [],
+  };
+  const segment = (
+    dep: string,
+    arr: string,
+    trip: string,
+    fromCode: string,
+    toCode: string,
+  ): RawJourneyResponse => ({
+    Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+    SchJourneys: [
+      {
+        Date: "2026-07-20",
+        Time: "08:00",
+        To: toCode,
+        From: fromCode,
+        Services: [
+          {
+            Colour: "#000",
+            Type: "R",
+            Direction: "S",
+            Code: "01",
+            StartTime: `2026-07-20 ${dep}:00`,
+            EndTime: `2026-07-20 ${arr}:00`,
+            Duration: "",
+            Accessible: "",
+            Trips: {
+              Trip: [
+                {
+                  Number: trip,
+                  Display: "test",
+                  Line: "ST",
+                  Direction: "S",
+                  LineVariant: "ST",
+                  Type: "T",
+                  Stops: {
+                    Stop: [
+                      {
+                        Code: fromCode,
+                        Order: 1,
+                        Time: dep,
+                        sortingTime: null,
+                        IsMajor: true,
+                      },
+                      {
+                        Code: toCode,
+                        Order: 2,
+                        Time: arr,
+                        sortingTime: null,
+                        IsMajor: true,
+                      },
+                    ],
                   },
-                ],
-              },
-              Transfers: { Transfer: [] },
-              TransferLinks: { Link: [] },
+                  destinationStopCode: toCode,
+                  departFromCode: fromCode,
+                  departFromAlternativeCode: null,
+                  departFromTimingPoint: "",
+                  tripPatternId: 0,
+                },
+              ],
             },
-          ],
-        },
-      ],
-    });
+            Transfers: { Transfer: [] },
+            TransferLinks: { Link: [] },
+          },
+        ],
+      },
+    ],
+  });
 
+  it("composes a via-Union transfer when the direct journey query is empty (ADR 0002)", async () => {
+    // The hub ladder reads endpoint coordinates + mode flags (ADR 0003).
+    const coords: Record<string, { lat: number; lon: number }> = {
+      UI: { lat: 43.8524, lon: -79.312 },
+      EX: { lat: 43.6365, lon: -79.4197 },
+    };
     const result = await callTool(
       fakeClient({
         getStopAll: () => Promise.resolve(stopAll),
+        getStopDetails: (code) =>
+          Promise.resolve({
+            Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+            Stop: {
+              Code: code,
+              StopName: `Stop ${code}`,
+              StopNameFr: "",
+              City: "",
+              Latitude: String(coords[code]?.lat),
+              Longitude: String(coords[code]?.lon),
+              IsBus: false,
+              IsTrain: true,
+              Facilities: null,
+              Parkings: null,
+              BoardingInfo: "",
+              BoardingInfoFr: "",
+              DrivingDirections: "",
+              DrivingDirectionsFr: "",
+            },
+          }),
         getJourney: (_dateWire, from, to) => {
           if (from === "UI" && to === "UN") {
             return Promise.resolve(
@@ -233,17 +261,53 @@ describe("plan_trip", () => {
       status: string;
       itineraries: {
         transfers: number;
+        composed?: boolean;
         legs: { trip_number: string; from: { stop_code: string } }[];
       }[];
     };
     expect(structured.status).toBe("ok");
     expect(structured.itineraries).toHaveLength(1);
     expect(structured.itineraries[0]?.transfers).toBe(1);
+    // Server-composed pairing is marked; not a GO-published connection.
+    expect(structured.itineraries[0]?.composed).toBe(true);
     expect(structured.itineraries[0]?.legs.map((l) => l.trip_number)).toEqual([
       "7107",
       "1023",
     ]);
     expect(structured.itineraries[0]?.legs[1]?.from.stop_code).toBe("UN");
+  });
+
+  // Confirmed live (2026-07-21): Schedule/Journey returns empty for the
+  // unified PublicStopId codes bus-only stops resolve to — the wire
+  // LocationCode must be used upstream while the DTO echoes unified codes.
+  it("queries journeys with wire LocationCodes for bus-only endpoints while echoing unified codes", async () => {
+    const captured: string[][] = [];
+    const result = await callTool(
+      fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
+        getJourney: (_dateWire, from, to) => {
+          captured.push([from, to]);
+          return Promise.resolve(
+            segment("08:30", "09:15", "4101", "00132", "02816"),
+          );
+        },
+      }),
+      "plan_trip",
+      { from: "100132", to: "102816", date: "2026-07-22", time: "08:00" },
+    );
+
+    expect(result.isError).toBe(false);
+    expect(captured).toEqual([["00132", "02816"]]);
+    const structured = result.structuredContent as {
+      status: string;
+      from?: { stop_code: string };
+      to?: { stop_code: string };
+      itineraries?: unknown[];
+    };
+    expect(structured.status).toBe("ok");
+    expect(structured.from?.stop_code).toBe("100132");
+    expect(structured.to?.stop_code).toBe("102816");
+    expect(structured.itineraries).toHaveLength(1);
   });
 
   it("surfaces client failures through the error taxonomy", async () => {

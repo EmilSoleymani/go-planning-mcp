@@ -122,6 +122,20 @@ describe("resolveStopByName", () => {
         stop_name: "Union Station GO",
         stop_type: "train",
       },
+      wireCode: "UN",
+    });
+  });
+
+  // Confirmed live (2026-07-21, issue #35 verification): Schedule/Journey
+  // and Stop/Details speak LocationCode ("02816"), and return empty/204 for
+  // the unified 6-digit PublicStopId ("102816") that bus-only stops carry
+  // as their public stop_code. Resolution must surface both.
+  it("carries the wire LocationCode for a bus-only stop alongside its unified code", () => {
+    const result = resolveStopByName(stopAll, "102816");
+    expect(result).toMatchObject({
+      status: "resolved",
+      match: { stop_code: "102816", stop_type: "bus" },
+      wireCode: "02816",
     });
   });
 

@@ -43,8 +43,13 @@ function matchesFilter(
 // Station LocationCodes ("UN", "OA") are what Stop/Details and
 // Stop/NextService accept for train (and mixed) stops. Pure bus stops have
 // no such alpha code — their unified stop_code is the 6-digit PublicStopId
-// instead (tool-schemas spec §1.4). Unconfirmed against a live Stop/Details
-// call on a bus-only stop; revisit if that ever surfaces a mismatch.
+// instead (tool-schemas spec §1.4). Confirmed live (2026-07-21, issue #35
+// verification): Stop/Details returns 204 and Schedule/Journey returns
+// empty for a bus stop's PublicStopId; both accept its LocationCode.
+// plan_trip therefore sends wireCode upstream (resolveStopByName). Tools
+// that pass a unified bus stop_code straight upstream (get_stop_details,
+// get_next_service, plan_journey) inherit the same gap — tracked as a
+// follow-up issue.
 export function resolveStopCode(entry: RawStopListEntry): string {
   return entry.LocationType.includes("Train")
     ? entry.LocationCode
@@ -116,7 +121,11 @@ export function buildStopNameIndex(
 }
 
 export type StopResolution =
-  | { status: "resolved"; match: StopMatch }
+  // wireCode is the LocationCode — the code space Schedule/Journey and
+  // Stop/Details actually accept (confirmed live 2026-07-21, issue #35:
+  // both return empty/204 for a bus-only stop's unified PublicStopId).
+  // Identical to match.stop_code for train and mixed stops.
+  | { status: "resolved"; match: StopMatch; wireCode: string }
   | { status: "ambiguous"; candidates: StopMatch[] }
   | { status: "not_found" };
 
@@ -139,17 +148,30 @@ export function resolveStopByName(
   const codeMatch = entries.find(
     (entry) => resolveStopCode(entry).toLowerCase() === trimmed,
   );
-  if (codeMatch) return { status: "resolved", match: toStopMatch(codeMatch) };
+  if (codeMatch) {
+    return {
+      status: "resolved",
+      match: toStopMatch(codeMatch),
+      wireCode: codeMatch.LocationCode,
+    };
+  }
 
   const scored = scoredMatches(entries, query, "any");
   if (scored.length === 0) return { status: "not_found" };
 
   const bestTier = Math.min(...scored.map((s) => s.tier));
-  const candidates = scored
-    .filter((s) => s.tier === bestTier)
-    .map(({ entry }) => toStopMatch(entry));
+  const best = scored.filter((s) => s.tier === bestTier);
 
-  if (candidates.length === 1)
-    return { status: "resolved", match: candidates[0]! };
-  return { status: "ambiguous", candidates };
+  if (best.length === 1) {
+    const entry = best[0]!.entry;
+    return {
+      status: "resolved",
+      match: toStopMatch(entry),
+      wireCode: entry.LocationCode,
+    };
+  }
+  return {
+    status: "ambiguous",
+    candidates: best.map(({ entry }) => toStopMatch(entry)),
+  };
 }

@@ -21,7 +21,7 @@ export function registerPlanTrip(
     {
       title: "Plan a trip",
       description:
-        "Plan a GO Transit trip between two stations/stops by name (fuzzy-resolved) or stop code, returning itineraries with legs, transfers, and accessibility. Cross-line trips are composed automatically via a Union Station transfer. Ambiguous names return candidates instead of an error.",
+        "Plan a GO Transit trip between two stations/stops by name (fuzzy-resolved) or stop code, returning itineraries with legs, transfers, and accessibility. Trips with no direct service are composed automatically with one transfer at the best-ranked hub (Union, a major bus terminal, or an interchange station); composed itineraries are marked composed: true. Ambiguous names return candidates instead of an error.",
       inputSchema: planTripInputShape,
       outputSchema: planTripOutputShape,
     },
@@ -88,13 +88,16 @@ export function registerPlanTrip(
         const itineraries = await planItineraries(
           client,
           {
-            from: fromMatch.stop_code,
-            to: toMatch.stop_code,
+            // Wire LocationCodes upstream (Schedule/Journey and the hub
+            // ladder's Stop/Details reject unified PublicStopIds); the DTO
+            // below echoes the unified codes.
+            from: fromResolution.wireCode,
+            to: toResolution.wireCode,
             date: date ?? nowInToronto().date,
             time: time ?? nowInToronto().time,
             timeMode: time_mode ?? "depart_after",
             maxResults: max_results ?? 3,
-            viaUnionFallback: true,
+            composeTransfers: true,
           },
           stopNames,
         );

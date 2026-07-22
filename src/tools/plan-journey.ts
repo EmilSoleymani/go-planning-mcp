@@ -60,9 +60,9 @@ export function registerPlanJourney(
             time: time ?? nowInToronto().time,
             timeMode: "depart_after",
             maxResults: max_results ?? 3,
-            // Raw mirror of one Schedule/Journey call — no via-Union
-            // composition here (ADR 0002); that's plan_trip's value-add.
-            viaUnionFallback: false,
+            // Raw mirror of one Schedule/Journey call — no hub-transfer
+            // composition here (ADR 0002/0003); that's plan_trip's value-add.
+            composeTransfers: false,
           },
           stopNames,
         );

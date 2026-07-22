@@ -14,6 +14,8 @@ import {
   hhmmToWire,
   toIsoWithTorontoOffset,
 } from "../time.js";
+import type { TransferLegPlan } from "./transfer-hubs.js";
+import { planHubLegs, rankHubs } from "./transfer-hubs.js";
 
 // GO Transit's known line roster. Schedule/Journey's Trip object carries no
 // line-name field (only Line/LineVariant codes and a Display string that
@@ -149,16 +151,17 @@ async function fetchItineraries(
   return normalizeJourney(raw, stopNames);
 }
 
-// Via-Union transfer composition (ADR 0002): Schedule/Journey only returns
-// single-service journeys — both documented endpoint variants confirmed live
-// (2026-07-18) to return SchJourneys: [] for a cross-line pair the official
-// planner routes via a transfer. Union is GO's hub, so when a direct query
-// comes back empty, plan_trip composes one transfer there from two journey
-// calls. Each leg is upstream-attested; only the pairing is ours. The
-// transfer buffer is a starting heuristic (same spirit as the arrive_by
-// window, spec §5); bus-hub composition is a separate grilled decision.
-const UNION_STOP_CODE = "UN";
-const MIN_TRANSFER_MINUTES = 10;
+// Hub-ladder transfer composition (ADR 0002/0003): Schedule/Journey only
+// returns single-service journeys — both documented endpoint variants
+// confirmed live (2026-07-18) to return SchJourneys: [] for a cross-line
+// pair the official planner routes via a transfer. When a direct query
+// comes back empty, plan_trip composes one transfer (hard ceiling) at a
+// curated hub, probing the detour-ranked ladder sequentially and
+// early-exiting at the first feasible pairing. Each leg is
+// upstream-attested; only the pairing is ours, and it is marked
+// `composed: true` because it is not a GO-published connection.
+const HUB_LIMIT = 3;
+const ARRIVE_BY_WIDE_HUB_LIMIT = 1;
 
 function isoToMs(iso: string): number {
   return new Date(iso).getTime();
@@ -182,25 +185,24 @@ function combine(first: Itinerary, second: Itinerary): Itinerary {
     transfers: legs.length - 1,
     accessible: first.accessible && second.accessible,
     legs,
+    composed: true,
   };
 }
 
-async function composeViaUnion(
+async function composeViaHub(
   client: MetrolinxClient,
-  fromStopCode: string,
-  toStopCode: string,
-  date: string,
+  query: JourneyQuery,
   time: string,
-  maxResults: number,
+  legPlan: TransferLegPlan,
   stopNames: Map<string, string>,
 ): Promise<Itinerary[]> {
   const inbound = await fetchItineraries(
     client,
-    fromStopCode,
-    UNION_STOP_CODE,
-    date,
+    query.from,
+    legPlan.inboundToCode,
+    query.date,
     time,
-    maxResults,
+    query.maxResults,
     stopNames,
   );
   if (inbound.length === 0) return [];
@@ -210,34 +212,60 @@ async function composeViaUnion(
   );
   const onward = await fetchItineraries(
     client,
-    UNION_STOP_CODE,
-    toStopCode,
-    date,
+    legPlan.onwardFromCode,
+    query.to,
+    query.date,
     hhmmOfIso(earliest.arrival_time),
-    maxResults,
+    query.maxResults,
     stopNames,
   );
 
   const combined: Itinerary[] = [];
   for (const first of inbound) {
-    const readyMs = isoToMs(first.arrival_time) + MIN_TRANSFER_MINUTES * 60_000;
+    const readyMs =
+      isoToMs(first.arrival_time) + legPlan.bufferMinutes * 60_000;
     const second = onward.find(
       (candidate) => isoToMs(candidate.departure_time) >= readyMs,
     );
     if (second) combined.push(combine(first, second));
   }
-  return combined.slice(0, maxResults);
+  return combined.slice(0, query.maxResults);
 }
 
-// Direct query first; the via-Union fallback only runs when it comes back
-// empty and neither endpoint already is Union, so every currently-working
-// direct journey is untouched. Worst case 3 upstream calls (6 under
-// arrive_by's widening retry).
+// Coordinates + mode flags for ladder ranking come from Stop/Details
+// (cacheable at the 24h stops tier), fetched lazily — only once the direct
+// query has already come back empty.
+interface LadderEndpoint {
+  code: string;
+  lat: number;
+  lon: number;
+  isTrain: boolean;
+  isBus: boolean;
+}
+
+async function ladderEndpoint(
+  client: MetrolinxClient,
+  stopCode: string,
+): Promise<LadderEndpoint | undefined> {
+  const details = await client.getStopDetails(stopCode);
+  const stop = details.Stop;
+  if (!stop) return undefined;
+  const lat = Number(stop.Latitude);
+  const lon = Number(stop.Longitude);
+  if (Number.isNaN(lat) || Number.isNaN(lon)) return undefined;
+  return { code: stopCode, lat, lon, isTrain: stop.IsTrain, isBus: stop.IsBus };
+}
+
+// Direct query first; the hub ladder only runs when it comes back empty, so
+// every currently-working direct journey is untouched. Sequential probes,
+// early exit on the first hub with a feasible pairing (ADR 0003): worst
+// case 1 + 2*hubLimit journey calls per pass.
 async function fetchDirectOrComposed(
   client: MetrolinxClient,
   query: JourneyQuery,
   time: string,
   stopNames: Map<string, string>,
+  hubLimit: number,
 ): Promise<Itinerary[]> {
   const direct = await fetchItineraries(
     client,
@@ -248,19 +276,25 @@ async function fetchDirectOrComposed(
     query.maxResults,
     stopNames,
   );
-  if (direct.length > 0 || !query.viaUnionFallback) return direct;
-  if (query.from === UNION_STOP_CODE || query.to === UNION_STOP_CODE) {
-    return direct;
+  if (direct.length > 0 || !query.composeTransfers) return direct;
+
+  const [from, to] = await Promise.all([
+    ladderEndpoint(client, query.from),
+    ladderEndpoint(client, query.to),
+  ]);
+  if (!from || !to) return direct;
+
+  for (const hub of rankHubs(from, to).slice(0, hubLimit)) {
+    const composed = await composeViaHub(
+      client,
+      query,
+      time,
+      planHubLegs(hub, from, to),
+      stopNames,
+    );
+    if (composed.length > 0) return composed;
   }
-  return composeViaUnion(
-    client,
-    query.from,
-    query.to,
-    query.date,
-    time,
-    query.maxResults,
-    stopNames,
-  );
+  return direct;
 }
 
 // arrive_by is emulated (tool-schemas spec §2.1): one Schedule/Journey call
@@ -275,6 +309,7 @@ async function itinerariesArrivingBy(
   query: JourneyQuery,
   stopNames: Map<string, string>,
   backshiftHours: number,
+  hubLimit: number,
 ): Promise<Itinerary[]> {
   const startTime = addHoursToTime(query.time, -backshiftHours);
   const itineraries = await fetchDirectOrComposed(
@@ -282,6 +317,7 @@ async function itinerariesArrivingBy(
     query,
     startTime,
     stopNames,
+    hubLimit,
   );
   const targetMs = new Date(
     combineDateAndHhmm(query.date, query.time),
@@ -298,8 +334,8 @@ export interface JourneyQuery {
   time: string;
   timeMode: "depart_after" | "arrive_by";
   maxResults: number;
-  /** plan_trip composes via-Union transfers; plan_journey stays a raw mirror. */
-  viaUnionFallback: boolean;
+  /** plan_trip composes hub transfers; plan_journey stays a raw mirror. */
+  composeTransfers: boolean;
 }
 
 export async function planItineraries(
@@ -308,7 +344,13 @@ export async function planItineraries(
   stopNames: Map<string, string>,
 ): Promise<Itinerary[]> {
   if (query.timeMode === "depart_after") {
-    return fetchDirectOrComposed(client, query, query.time, stopNames);
+    return fetchDirectOrComposed(
+      client,
+      query,
+      query.time,
+      stopNames,
+      HUB_LIMIT,
+    );
   }
 
   const narrow = await itinerariesArrivingBy(
@@ -316,13 +358,17 @@ export async function planItineraries(
     query,
     stopNames,
     ARRIVE_BY_BACKSHIFT_HOURS,
+    HUB_LIMIT,
   );
   if (narrow.length > 0) return narrow;
 
+  // The wide retry is a second-chance pass; re-running the full ladder is
+  // where the call count blows up, so it gets only the top-ranked hub.
   return itinerariesArrivingBy(
     client,
     query,
     stopNames,
     ARRIVE_BY_WIDE_BACKSHIFT_HOURS,
+    ARRIVE_BY_WIDE_HUB_LIMIT,
   );
 }

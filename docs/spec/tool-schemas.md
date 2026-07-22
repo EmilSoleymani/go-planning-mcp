@@ -113,7 +113,7 @@ Output:
 
 Journey-only by design: fares and alerts stay in their own tools; the `plan_a_trip` prompt orchestrates the composition.
 
-Amendment ([ADR 0002](../adr/0002-via-union-transfer-composition.md)): upstream `Schedule/Journey` turned out to be a direct-only planner (§5), so when the direct query is empty `plan_trip` composes one transfer via Union (`UN`) from two further journey calls — 10-minute minimum transfer buffer, worst case 3 upstream calls (6 under `arrive_by`). Composed results are ordinary multi-leg itineraries; no DTO change. `plan_journey` (§2.2) stays a raw single-call mirror. Bus-hub composition: issue #35 (needs grilling).
+Amendment ([ADR 0002](../adr/0002-via-union-transfer-composition.md)): upstream `Schedule/Journey` turned out to be a direct-only planner (§5), so when the direct query is empty `plan_trip` composes one transfer itself from two further journey calls. Second amendment ([ADR 0003](../adr/0003-multi-hub-composition-single-transfer-ceiling.md), issue #35): composition generalized from via-Union-only to the curated hub ladder — candidates ranked by geometric detour (endpoint coordinates + mode flags from `Stop/Details`, 1.6× detour-ratio cutoff), probed sequentially with early exit, at most 3 hubs per plan (1 on `arrive_by`'s widened retry; worst case 7 journey calls, 10 under `arrive_by`). Per-hub transfer buffers default to 10 min (15 across the `UN`↔`02300` walking pair). Composed itineraries carry an optional `composed: true` flag — the pairing is planner-suggested, not a GO-published connection. `plan_journey` (§2.2) stays a raw single-call mirror.
 
 ### 2.2 `plan_journey` — raw journey query
 

@@ -26,7 +26,7 @@ Conventions that apply across all tools:
 
 ### `plan_trip`
 
-Plan a GO Transit trip between two stations/stops by name (fuzzy-resolved) or stop code. Returns itineraries with legs, transfers, and accessibility. Cross-line trips that have no direct journey are composed automatically via a Union Station transfer. An ambiguous name is not an error — it comes back as a list of candidates to disambiguate.
+Plan a GO Transit trip between two stations/stops by name (fuzzy-resolved) or stop code. Returns itineraries with legs, transfers, and accessibility. Trips that have no direct journey are composed automatically with one transfer at the best-ranked composition hub — Union, a major bus terminal (Square One, Hwy 407, Scarborough Centre, …), or an interchange station (ADR 0003). Composed itineraries carry `composed: true`: the pairing is planner-suggested, not a GO-published connection. An ambiguous name is not an error — it comes back as a list of candidates to disambiguate.
 
 **Inputs**
 
@@ -70,7 +70,7 @@ Plan a GO Transit trip between two stations/stops by name (fuzzy-resolved) or st
 }
 ```
 
-`from`/`to` are always echoed so the LLM can confirm what it assumed (e.g. "I assumed Oakville GO station, not the bus stop"). An empty `itineraries` array means nothing was found in the requested window, even via a Union transfer — try a different time/date. Bus-terminal transfer composition beyond Union is not yet supported (tracked in issue #35).
+`from`/`to` are always echoed so the LLM can confirm what it assumed (e.g. "I assumed Oakville GO station, not the bus stop"). An empty `itineraries` array means nothing was found in the requested window, even after probing up to three transfer hubs — try a different time/date. Composition is capped at one transfer (ADR 0003); journeys genuinely needing two transfers are out of scope.
 
 When `status: "ambiguous"`, `itineraries`/`from`/`to` are absent and `ambiguities` is present instead:
 
