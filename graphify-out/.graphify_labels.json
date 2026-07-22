@@ -19,10 +19,12 @@
   "17": "Fixture Capture Script",
   "18": "Stop Search & Resolution",
   "19": "Release Workflow & Publishing Runbook",
+  "20": "normalize/line-schedule.ts",
   "21": "Smoke Testing & Repo/CI Setup",
   "22": "Package Metadata",
   "23": "npm Scripts",
   "24": "Service Guarantee Normalization",
+  "25": "normalize/fares.ts",
   "26": "Contributor Workflow & Self-Hosting Docs",
   "27": "TypeScript Build Config",
   "28": "MCP Tool/Prompt Design Decisions",
@@ -41,8 +43,13 @@
   "41": "Release Workflow Jobs",
   "42": "Dependency Overrides",
   "43": "Package Repository Metadata",
+  "44": "Multi-hub transfer composition is capped at one transfer",
   "45": "Fixture Loader Tests",
   "46": "ESLint Config",
   "47": "Vitest Config",
-  "48": "Smoke Test Config"
+  "48": "Smoke Test Config",
+  "49": "tools/search-stops.ts",
+  "50": "GO Planning MCP Server",
+  "51": "tools/search-stops.test.ts",
+  "52": "CLAUDE.md"
 }

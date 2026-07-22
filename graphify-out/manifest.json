@@ -35,7 +35,7 @@
     "semantic_hash": "63f074b149b1dc664ce1c5c7a933cf1e"
   },
   "src/errors.ts": {
-    "mtime": 1784671341.3735209,
+    "mtime": 1784683435.0539134,
     "ast_hash": "534d99ff6e5ca218c81f3ce80f30cf9b",
     "semantic_hash": ""
   },
@@ -510,7 +510,7 @@
     "semantic_hash": "8352fdd5a6253be0702ca611b57bc30d"
   },
   "src/tools/test-support.ts": {
-    "mtime": 1784671304.0173736,
+    "mtime": 1784683435.0543163,
     "ast_hash": "97ed90ae241c6253702a3caee613696d",
     "semantic_hash": ""
   },
@@ -760,9 +760,9 @@
     "semantic_hash": "999d4fd7a9ff6a1c9246e4d48c755828"
   },
   "README.md": {
-    "mtime": 1784433364.7460217,
-    "ast_hash": "892e4a0e156accabbafad5a37ff71b5b",
-    "semantic_hash": "892e4a0e156accabbafad5a37ff71b5b"
+    "mtime": 1784683435.048661,
+    "ast_hash": "12be06b175e836c86ef25992f7480e15",
+    "semantic_hash": ""
   },
   "docker-compose.yml": {
     "mtime": 1784325915.2005222,
@@ -820,8 +820,28 @@
     "semantic_hash": "fe1032d8b3fc02bdcba7503bb246c45f"
   },
   "src/errors.test.ts": {
-    "mtime": 1784671368.4392526,
+    "mtime": 1784683435.0535707,
     "ast_hash": "e4bd378aedaa080dacfdd997199eb04b",
+    "semantic_hash": ""
+  },
+  ".claude/settings.json": {
+    "mtime": 1784683435.0469193,
+    "ast_hash": "8e261eb56eb0858c964c2e8077e96a4c",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1784683435.0478868,
+    "ast_hash": "82efb97a359f5c7290bf2513d14686be",
+    "semantic_hash": ""
+  },
+  "CONTEXT.md": {
+    "mtime": 1784684826.8454835,
+    "ast_hash": "9564c3163e082525e226d7b50a90268e",
+    "semantic_hash": ""
+  },
+  "docs/adr/0003-multi-hub-composition-single-transfer-ceiling.md": {
+    "mtime": 1784684921.4584296,
+    "ast_hash": "ed083db2938ef111e10b5f671426ff60",
     "semantic_hash": ""
   }
 }

@@ -186,6 +186,60 @@ async function main(): Promise<void> {
   );
   await save("schedule-journey-transfer", transferJourney);
 
+  // Hub-ladder captures (ADR 0003, issue #35). Two jobs: (1) verify
+  // Schedule/Journey accepts bus-terminal codes as endpoints — including
+  // which of the duplicate terminal codes (Square One 00132/00133,
+  // Hwy 407 02673/02674) is the canonical journey-planning code; (2)
+  // Stop/Details for every hub row to verify the curated coordinates in
+  // normalize/transfer-hubs.ts.
+  const busHubJourney = await fetchJson(
+    `/Schedule/Journey/${date}/00132/02816/0900/3`,
+  );
+  await save("schedule-journey-bus-hub", busHubJourney);
+  const busHubJourneyAltCode = await fetchJson(
+    `/Schedule/Journey/${date}/00133/02816/0900/3`,
+  );
+  await save("schedule-journey-bus-hub-alt-code", busHubJourneyAltCode);
+  const hubDetailCodes = [
+    "UN",
+    "02300",
+    "BE",
+    "00225",
+    "08032",
+    "KP",
+    "02778",
+    "LA",
+    "00350",
+    "NI",
+    "02408",
+    "00132",
+    "00133",
+    "02673",
+    "02674",
+    "00013",
+    "02816",
+    "00019",
+    "00011",
+    "OA",
+    "BU",
+    "AL",
+    "HA",
+    "ML",
+    "GL",
+    "KI",
+    "WH",
+    "OS",
+    "AU",
+    "NE",
+    "UI",
+    "PA",
+  ];
+  const hubDetails: Record<string, unknown> = {};
+  for (const code of hubDetailCodes) {
+    hubDetails[code] = await fetchJson(`/Stop/Details/${code}`);
+  }
+  await save("stop-details-hubs", hubDetails);
+
   await save(
     "service-alerts",
     await fetchJson("/ServiceUpdate/ServiceAlert/All"),

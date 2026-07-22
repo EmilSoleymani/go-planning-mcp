@@ -2,10 +2,14 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import type { RawJourneyResponse } from "../metrolinx/types.js";
+import type {
+  RawJourneyResponse,
+  RawStopDetailsResponse,
+} from "../metrolinx/types.js";
 import { fakeClient } from "../tools/test-support.js";
 import type { JourneyQuery } from "./journey.js";
 import { normalizeJourney, planItineraries } from "./journey.js";
+import { rankHubs } from "./transfer-hubs.js";
 
 const journeyFixture = JSON.parse(
   readFileSync(
@@ -347,7 +351,7 @@ function query(overrides: Partial<JourneyQuery>): JourneyQuery {
     time: "09:00",
     timeMode: "depart_after",
     maxResults: 3,
-    viaUnionFallback: false,
+    composeTransfers: false,
     ...overrides,
   };
 }
@@ -489,13 +493,62 @@ describe("planItineraries", () => {
   });
 });
 
-// ADR 0002: when the direct query is empty and viaUnionFallback is on,
-// compose one transfer at Union from two journey calls.
-describe("planItineraries via-Union composition", () => {
+// Minimal Stop/Details response: coordinates + mode flags are all the hub
+// ladder reads (ADR 0003).
+function stopDetails(
+  code: string,
+  lat: number,
+  lon: number,
+  modes: { isTrain: boolean; isBus: boolean },
+): RawStopDetailsResponse {
+  return {
+    Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+    Stop: {
+      Code: code,
+      StopName: `Stop ${code}`,
+      StopNameFr: "",
+      City: "",
+      Latitude: String(lat),
+      Longitude: String(lon),
+      IsBus: modes.isBus,
+      IsTrain: modes.isTrain,
+      Facilities: null,
+      Parkings: null,
+      BoardingInfo: "",
+      BoardingInfoFr: "",
+      DrivingDirections: "",
+      DrivingDirectionsFr: "",
+    },
+  };
+}
+
+function detailsFor(
+  map: Record<string, RawStopDetailsResponse>,
+): (code: string) => Promise<RawStopDetailsResponse> {
+  return (code) => {
+    const details = map[code];
+    return details
+      ? Promise.resolve(details)
+      : Promise.reject(new Error(`no details stub for ${code}`));
+  };
+}
+
+// ADR 0002/0003: when the direct query is empty and composeTransfers is on,
+// compose one transfer at a hub from two journey calls, walking the
+// detour-ranked hub ladder. Union outranks every hub near its detour bucket,
+// so the ADR 0002 UI->EX behavior is preserved through the unified ladder.
+describe("planItineraries hub-ladder composition", () => {
   // Routes the fake by (from, to) pair: UI->EX direct is empty (the
   // confirmed live behavior for cross-line pairs), the two segments exist.
   function stitchingClient(calls: string[][]) {
     return fakeClient({
+      getStopDetails: detailsFor({
+        UI: stopDetails("UI", 43.8524, -79.312, { isTrain: true, isBus: true }),
+        EX: stopDetails("EX", 43.6365, -79.4197, {
+          isTrain: true,
+          isBus: false,
+        }),
+      }),
       getJourney: (dateWire, from, to, startWire, maxJourneys) => {
         calls.push([dateWire, from, to, startWire, String(maxJourneys)]);
         if (from === "UI" && to === "UN") {
@@ -527,7 +580,7 @@ describe("planItineraries via-Union composition", () => {
     });
   }
 
-  it("composes a via-Union itinerary when the direct query is empty", async () => {
+  it("composes via the top-ranked hub (Union) when the direct query is empty", async () => {
     const calls: string[][] = [];
     const result = await planItineraries(
       stitchingClient(calls),
@@ -536,7 +589,7 @@ describe("planItineraries via-Union composition", () => {
         to: "EX",
         date: "2026-07-20",
         time: "08:00",
-        viaUnionFallback: true,
+        composeTransfers: true,
       }),
       stopNames,
     );
@@ -557,6 +610,8 @@ describe("planItineraries via-Union composition", () => {
       arrival_time: "2026-07-20T09:13:00-04:00",
       duration_minutes: 60,
       transfers: 1,
+      // The pairing is ours, not a GO-published connection (ADR 0003).
+      composed: true,
     });
     expect(first?.legs.map((l) => l.trip_number)).toEqual(["7107", "1023"]);
     expect(first?.legs[1]?.from.stop_code).toBe("UN");
@@ -576,17 +631,29 @@ describe("planItineraries via-Union composition", () => {
 
     const result = await planItineraries(
       client,
-      query({ viaUnionFallback: true }),
+      query({ composeTransfers: true }),
       stopNames,
     );
 
     expect(calls).toHaveLength(1);
     expect(result).toHaveLength(3);
+    // Direct upstream itineraries carry no composed flag.
+    expect(result[0]?.composed).toBeUndefined();
   });
 
   it("does not compose when an endpoint already is Union", async () => {
     const calls: string[][] = [];
     const client = fakeClient({
+      getStopDetails: detailsFor({
+        UN: stopDetails("UN", 43.6453, -79.3806, {
+          isTrain: true,
+          isBus: true,
+        }),
+        EX: stopDetails("EX", 43.6365, -79.4197, {
+          isTrain: true,
+          isBus: false,
+        }),
+      }),
       getJourney: (dateWire, from, to, startWire, maxJourneys) => {
         calls.push([dateWire, from, to, startWire, String(maxJourneys)]);
         return Promise.resolve(emptyJourney);
@@ -595,7 +662,7 @@ describe("planItineraries via-Union composition", () => {
 
     const result = await planItineraries(
       client,
-      query({ from: "UN", to: "EX", viaUnionFallback: true }),
+      query({ from: "UN", to: "EX", composeTransfers: true }),
       stopNames,
     );
 
@@ -624,6 +691,13 @@ describe("planItineraries via-Union composition", () => {
 
   it("returns empty when no onward departure clears the transfer buffer", async () => {
     const client = fakeClient({
+      getStopDetails: detailsFor({
+        UI: stopDetails("UI", 43.8524, -79.312, { isTrain: true, isBus: true }),
+        EX: stopDetails("EX", 43.6365, -79.4197, {
+          isTrain: true,
+          isBus: false,
+        }),
+      }),
       getJourney: (_dateWire, from, to) => {
         if (from === "UI" && to === "UN") {
           return Promise.resolve(
@@ -652,7 +726,7 @@ describe("planItineraries via-Union composition", () => {
         to: "EX",
         date: "2026-07-20",
         time: "08:00",
-        viaUnionFallback: true,
+        composeTransfers: true,
       }),
       stopNames,
     );
@@ -670,7 +744,7 @@ describe("planItineraries via-Union composition", () => {
         date: "2026-07-20",
         time: "10:00",
         timeMode: "arrive_by",
-        viaUnionFallback: true,
+        composeTransfers: true,
       }),
       stopNames,
     );
@@ -679,5 +753,190 @@ describe("planItineraries via-Union composition", () => {
     expect(calls[0]).toEqual(["20260720", "UI", "EX", "0800", "3"]);
     expect(result).toHaveLength(2);
     expect(result[0]?.transfers).toBe(1);
+  });
+
+  // Bus-only curbside endpoints (Mississauga-ish -> Kitchener-ish): the
+  // motivating bus-to-bus case. Ladder order is derived from the tested
+  // rankHubs unit rather than hardcoded, so curated-coordinate tweaks don't
+  // break these tests.
+  const F1 = { code: "F1", lat: 43.6, lon: -79.65 };
+  const T1 = { code: "T1", lat: 43.44, lon: -80.48 };
+  const busOnlyDetails = detailsFor({
+    F1: stopDetails("F1", F1.lat, F1.lon, { isTrain: false, isBus: true }),
+    T1: stopDetails("T1", T1.lat, T1.lon, { isTrain: false, isBus: true }),
+  });
+  const ladder = rankHubs(F1, T1);
+  // A bus-only endpoint meets a walking-pair hub on its bus side.
+  const hubCode = (i: number): string => ladder[i]!.busCode ?? ladder[i]!.code;
+
+  it("continues down the ladder when the top hub yields no inbound leg", async () => {
+    const calls: string[][] = [];
+    const client = fakeClient({
+      getStopDetails: busOnlyDetails,
+      getJourney: (_dateWire, from, to) => {
+        calls.push([from, to]);
+        if (from === "F1" && to === hubCode(1)) {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // prettier-ignore
+              { dep: "08:20", arr: "09:00", line: "BUS", trip: "9001", fromCode: "F1", toCode: hubCode(1) },
+            ]),
+          );
+        }
+        if (from === hubCode(1) && to === "T1") {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // prettier-ignore
+              { dep: "09:10", arr: "10:00", line: "BUS", trip: "9002", fromCode: hubCode(1), toCode: "T1" },
+            ]),
+          );
+        }
+        return Promise.resolve(emptyJourney);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({
+        from: "F1",
+        to: "T1",
+        date: "2026-07-20",
+        time: "08:00",
+        composeTransfers: true,
+      }),
+      stopNames,
+    );
+
+    // Direct, hub 1 inbound (empty -> onward skipped), hub 2 inbound+onward.
+    expect(calls).toEqual([
+      ["F1", "T1"],
+      ["F1", hubCode(0)],
+      ["F1", hubCode(1)],
+      [hubCode(1), "T1"],
+    ]);
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject({ transfers: 1, composed: true });
+    expect(result[0]?.legs.map((l) => l.trip_number)).toEqual(["9001", "9002"]);
+  });
+
+  it("probes at most three hubs (ADR 0003 call budget)", async () => {
+    const calls: string[][] = [];
+    const client = fakeClient({
+      getStopDetails: busOnlyDetails,
+      getJourney: (_dateWire, from, to) => {
+        calls.push([from, to]);
+        return Promise.resolve(emptyJourney);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({ from: "F1", to: "T1", composeTransfers: true }),
+      stopNames,
+    );
+
+    expect(result).toEqual([]);
+    // Direct + three inbound probes; empty inbounds never trigger onwards.
+    expect(calls).toEqual([
+      ["F1", "T1"],
+      ["F1", hubCode(0)],
+      ["F1", hubCode(1)],
+      ["F1", hubCode(2)],
+    ]);
+  });
+
+  it("arrive_by: the widened retry probes only the top-ranked hub", async () => {
+    const calls: string[][] = [];
+    const client = fakeClient({
+      getStopDetails: busOnlyDetails,
+      getJourney: (_dateWire, from, to, startWire) => {
+        calls.push([from, to, startWire]);
+        return Promise.resolve(emptyJourney);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({
+        from: "F1",
+        to: "T1",
+        time: "10:00",
+        timeMode: "arrive_by",
+        composeTransfers: true,
+      }),
+      stopNames,
+    );
+
+    expect(result).toEqual([]);
+    // Narrow window (08:00): direct + 3 hub probes; wide window (06:00):
+    // direct + 1 hub probe (K=1, ADR 0003).
+    expect(calls).toEqual([
+      ["F1", "T1", "0800"],
+      ["F1", hubCode(0), "0800"],
+      ["F1", hubCode(1), "0800"],
+      ["F1", hubCode(2), "0800"],
+      ["F1", "T1", "0600"],
+      ["F1", hubCode(0), "0600"],
+    ]);
+  });
+
+  it("crosses the Union walking pair for a bus-only origin with the 15-minute pair buffer", async () => {
+    // B1 sits at Unionville's coordinates but is bus-only, so its inbound
+    // leg targets USBT (02300) while the rail onward departs from UN.
+    const calls: string[][] = [];
+    const client = fakeClient({
+      getStopDetails: detailsFor({
+        B1: stopDetails("B1", 43.8524, -79.312, {
+          isTrain: false,
+          isBus: true,
+        }),
+        EX: stopDetails("EX", 43.6365, -79.4197, {
+          isTrain: true,
+          isBus: false,
+        }),
+      }),
+      getJourney: (_dateWire, from, to) => {
+        calls.push([from, to]);
+        if (from === "B1" && to === "02300") {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // prettier-ignore
+              { dep: "08:13", arr: "08:50", line: "BUS", trip: "9001", fromCode: "B1", toCode: "02300" },
+            ]),
+          );
+        }
+        if (from === "UN" && to === "EX") {
+          return Promise.resolve(
+            rawJourney("2026-07-20", [
+              // 13 minutes after the 08:50 arrival: clears the default 10
+              // but violates the UN<->USBT pair buffer of 15.
+              // prettier-ignore
+              { dep: "09:03", arr: "09:11", line: "LW", trip: "9002", fromCode: "UN", toCode: "EX" },
+              // prettier-ignore
+              { dep: "09:06", arr: "09:14", line: "LW", trip: "9003", fromCode: "UN", toCode: "EX" },
+            ]),
+          );
+        }
+        return Promise.resolve(emptyJourney);
+      },
+    });
+
+    const result = await planItineraries(
+      client,
+      query({
+        from: "B1",
+        to: "EX",
+        date: "2026-07-20",
+        time: "08:00",
+        composeTransfers: true,
+      }),
+      stopNames,
+    );
+
+    expect(calls).toContainEqual(["B1", "02300"]);
+    expect(calls).toContainEqual(["UN", "EX"]);
+    expect(result).toHaveLength(1);
+    expect(result[0]?.legs.map((l) => l.trip_number)).toEqual(["9001", "9003"]);
+    expect(result[0]?.composed).toBe(true);
   });
 });
