@@ -62,13 +62,19 @@ describe("gotransit://stops", () => {
 describe("gotransit://stops/{code}", () => {
   it("resolves and equals get_stop_details' structuredContent for the same code", async () => {
     const contents = await readResource(
-      fakeClient({ getStopDetails: () => Promise.resolve(stopDetails) }),
+      fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
+        getStopDetails: () => Promise.resolve(stopDetails),
+      }),
       "gotransit://stops/UN",
     );
     const resourceDto = jsonOf(contents);
 
     const toolResult = await callTool(
-      fakeClient({ getStopDetails: () => Promise.resolve(stopDetails) }),
+      fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
+        getStopDetails: () => Promise.resolve(stopDetails),
+      }),
       "get_stop_details",
       { stop_code: "UN" },
     );
@@ -77,13 +83,9 @@ describe("gotransit://stops/{code}", () => {
   });
 
   it("propagates a not_found failure as a resource read error", async () => {
-    const empty: RawStopDetailsResponse = {
-      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
-      Stop: null,
-    };
     await expect(
       readResource(
-        fakeClient({ getStopDetails: () => Promise.resolve(empty) }),
+        fakeClient({ getStopAll: () => Promise.resolve(stopAll) }),
         "gotransit://stops/NOPE",
       ),
     ).rejects.toThrow();

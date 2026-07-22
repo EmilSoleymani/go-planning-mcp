@@ -4,6 +4,7 @@ import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { MetrolinxError, toToolErrorResult } from "../errors.js";
 import type { MetrolinxClient } from "../metrolinx/client.js";
 import { normalizeNextService } from "../normalize/next-service.js";
+import { resolveWireCode } from "../normalize/search-stops.js";
 import {
   getNextServiceInputShape,
   nextServiceOutputShape,
@@ -24,8 +25,23 @@ export function registerGetNextService(
     },
     async ({ stop_code }): Promise<CallToolResult> => {
       try {
+        // Pure bus stops' unified stop_code is their PublicStopId, but
+        // Stop/NextService's code space is unverified live for bus stops
+        // (issue #61) — translate defensively via the cached Stop/All
+        // dataset, same as get_stop_details' confirmed fix.
+        const resolution = resolveWireCode(
+          await client.getStopAll(),
+          stop_code,
+        );
+        if (!resolution) {
+          throw new MetrolinxError(
+            "not_found",
+            `Unknown stop code "${stop_code}". Verify via search_stops.`,
+            false,
+          );
+        }
         const dto = normalizeNextService(
-          await client.getNextService(stop_code),
+          await client.getNextService(resolution.wireCode),
         );
         return {
           content: [{ type: "text", text: JSON.stringify(dto) }],

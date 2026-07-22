@@ -61,7 +61,7 @@ describe("plan_journey", () => {
     expect(result.errorPayload?.error.code).toBe("not_found");
   });
 
-  it("passes date/time/max_results through as a depart-after query", async () => {
+  it("passes date/time/max_results through as a depart-after query, translating the unified to_stop_code to its wire LocationCode", async () => {
     let captured: unknown;
     await callTool(
       fakeClient({
@@ -81,7 +81,9 @@ describe("plan_journey", () => {
       },
     );
 
-    expect(captured).toEqual(["20260717", "UN", "102300", "0900", 7]);
+    // "102300" is Union Station Bus Terminal's unified PublicStopId;
+    // Schedule/Journey only accepts its LocationCode "02300" (issue #61).
+    expect(captured).toEqual(["20260717", "UN", "02300", "0900", 7]);
   });
 
   it("surfaces client failures through the error taxonomy", async () => {

@@ -104,4 +104,32 @@ describe("normalizeStopDetails", () => {
       normalizeStopDetails({ Metadata: metadata, Stop: null }),
     ).toThrowError(MetrolinxError);
   });
+
+  it("echoes the override stop_code instead of the raw response's Code field", () => {
+    // Simulates a bus stop queried by its wire LocationCode (issue #61):
+    // upstream's own Code field mirrors the wire code, not the unified
+    // stop_code the caller resolved it from.
+    const raw: RawStopDetailsResponse = {
+      Metadata: metadata,
+      Stop: {
+        Code: "02300",
+        StopName: "Union Station Bus Terminal",
+        StopNameFr: "",
+        City: "Toronto",
+        Latitude: "43.645",
+        Longitude: "-79.380",
+        IsBus: true,
+        IsTrain: false,
+        Facilities: [],
+        Parkings: [],
+        BoardingInfo: "",
+        BoardingInfoFr: "",
+        DrivingDirections: "",
+        DrivingDirectionsFr: "",
+      },
+    };
+
+    const dto = normalizeStopDetails(raw, "en", "102300");
+    expect(dto.stop_code).toBe("102300");
+  });
 });
