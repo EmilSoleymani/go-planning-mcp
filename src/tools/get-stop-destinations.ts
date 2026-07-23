@@ -3,6 +3,7 @@ import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 
 import { MetrolinxError, toToolErrorResult } from "../errors.js";
 import type { MetrolinxClient } from "../metrolinx/client.js";
+import { resolveWireCode } from "../normalize/search-stops.js";
 import { normalizeStopDestinations } from "../normalize/stop-destinations.js";
 import {
   getStopDestinationsInputShape,
@@ -25,11 +26,26 @@ export function registerGetStopDestinations(
     },
     async ({ stop_code, from_time, to_time }): Promise<CallToolResult> => {
       try {
+        // Pure bus stops' unified stop_code is their PublicStopId, but
+        // Stop/Destinations' code space is unverified live for bus stops
+        // (issue #61) — translate defensively via the cached Stop/All
+        // dataset, same as get_stop_details' confirmed fix.
+        const resolution = resolveWireCode(
+          await client.getStopAll(),
+          stop_code,
+        );
+        if (!resolution) {
+          throw new MetrolinxError(
+            "not_found",
+            `Unknown stop code "${stop_code}". Verify via search_stops.`,
+            false,
+          );
+        }
         const fromTime = from_time ?? nowInToronto().time;
         const toTime = to_time ?? addHoursToTime(fromTime, 4);
         const dto = normalizeStopDestinations(
           await client.getStopDestinations(
-            stop_code,
+            resolution.wireCode,
             hhmmToWire(fromTime),
             hhmmToWire(toTime),
           ),

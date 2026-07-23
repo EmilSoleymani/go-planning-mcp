@@ -46,10 +46,11 @@ function matchesFilter(
 // instead (tool-schemas spec §1.4). Confirmed live (2026-07-21, issue #35
 // verification): Stop/Details returns 204 and Schedule/Journey returns
 // empty for a bus stop's PublicStopId; both accept its LocationCode.
-// plan_trip therefore sends wireCode upstream (resolveStopByName). Tools
-// that pass a unified bus stop_code straight upstream (get_stop_details,
-// get_next_service, plan_journey) inherit the same gap — tracked as a
-// follow-up issue.
+// plan_trip sends wireCode upstream via resolveStopByName (fuzzy name
+// entry point); get_stop_details, get_next_service, get_stop_destinations,
+// plan_journey, and the gotransit://stops/{code} resource take an
+// already-known exact code, so they translate via resolveWireCode instead
+// (issue #61) — same LocationCode target, no fuzzy fallback.
 export function resolveStopCode(entry: RawStopListEntry): string {
   return entry.LocationType.includes("Train")
     ? entry.LocationCode
@@ -128,6 +129,35 @@ export type StopResolution =
   | { status: "resolved"; match: StopMatch; wireCode: string }
   | { status: "ambiguous"; candidates: StopMatch[] }
   | { status: "not_found" };
+
+export interface WireCodeResolution {
+  /** LocationCode — the code space to send upstream. */
+  wireCode: string;
+  /** Canonical unified stop_code (matches the entry's own casing). */
+  stopCode: string;
+}
+
+/**
+ * Exact, non-fuzzy translation of an already-known unified `stop_code`
+ * (e.g. one a caller obtained from `search_stops`) to its upstream
+ * `wireCode`, for tools that accept a stop code directly rather than a
+ * name (`get_stop_details`, `get_next_service`, `get_stop_destinations`,
+ * `plan_journey`) — issue #61. Unlike `resolveStopByName`, an unmatched
+ * code never falls through to fuzzy name matching: these tools promise
+ * exact-code-only resolution, so a bad code must resolve to nothing
+ * rather than coincidentally matching some stop's name.
+ */
+export function resolveWireCode(
+  raw: RawStopAllResponse,
+  stopCode: string,
+): WireCodeResolution | undefined {
+  const trimmed = stopCode.trim().toLowerCase();
+  const entry = (raw.Stations?.Station ?? []).find(
+    (candidate) => resolveStopCode(candidate).toLowerCase() === trimmed,
+  );
+  if (!entry) return undefined;
+  return { wireCode: entry.LocationCode, stopCode: resolveStopCode(entry) };
+}
 
 /**
  * Resolves a `plan_trip` `from`/`to` input, which per tool-schemas spec §2.1

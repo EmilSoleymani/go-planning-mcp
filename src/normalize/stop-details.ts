@@ -18,6 +18,12 @@ function pickLang(en: string, fr: string, lang: "en" | "fr"): string {
 export function normalizeStopDetails(
   raw: RawStopDetailsResponse,
   lang: "en" | "fr" = "en",
+  // The unified stop_code to echo back. Stop/Details' own `Code` field
+  // mirrors whatever code the request was made with — for a bus-only stop
+  // that's the wire LocationCode (issue #61), not the unified stop_code
+  // search_stops handed out. Callers that queried by wireCode must pass
+  // the canonical unified code back in here so the DTO round-trips.
+  stopCodeOverride?: string,
 ): StopDetails {
   const stop = raw.Stop;
   if (!stop) {
@@ -45,7 +51,7 @@ export function normalizeStopDetails(
   );
 
   return {
-    stop_code: stop.Code,
+    stop_code: stopCodeOverride ?? stop.Code,
     stop_name: pickLang(stop.StopName, stop.StopNameFr, lang),
     city: stop.City ?? "",
     coordinates: { lat: Number(stop.Latitude), lon: Number(stop.Longitude) },

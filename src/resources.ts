@@ -2,9 +2,13 @@ import { ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ReadResourceResult } from "@modelcontextprotocol/sdk/types.js";
 
+import { MetrolinxError } from "./errors.js";
 import type { MetrolinxClient } from "./metrolinx/client.js";
 import { normalizeListLines } from "./normalize/list-lines.js";
-import { normalizeAllStops } from "./normalize/search-stops.js";
+import {
+  normalizeAllStops,
+  resolveWireCode,
+} from "./normalize/search-stops.js";
 import { normalizeStopDetails } from "./normalize/stop-details.js";
 import { dateToWire, nowInToronto } from "./time.js";
 
@@ -60,7 +64,22 @@ export function registerResources(
     },
     async (uri, { code }) => {
       const stopCode = firstValue(code);
-      const dto = normalizeStopDetails(await client.getStopDetails(stopCode));
+      // Same unified-code -> LocationCode translation as get_stop_details
+      // (issue #61) — the two paths share this client call and serializer
+      // and must not drift.
+      const resolution = resolveWireCode(await client.getStopAll(), stopCode);
+      if (!resolution) {
+        throw new MetrolinxError(
+          "not_found",
+          `Unknown stop code "${stopCode}". Verify via search_stops.`,
+          false,
+        );
+      }
+      const dto = normalizeStopDetails(
+        await client.getStopDetails(resolution.wireCode),
+        "en",
+        resolution.stopCode,
+      );
       return jsonResourceResult(uri, dto);
     },
   );

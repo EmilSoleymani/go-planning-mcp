@@ -7,6 +7,7 @@ import {
   buildStopNameIndex,
   normalizeSearchStops,
   resolveStopByName,
+  resolveWireCode,
 } from "./search-stops.js";
 
 const stopAll = JSON.parse(
@@ -172,5 +173,35 @@ describe("resolveStopByName", () => {
   it("returns not_found for a query with no hits", () => {
     const result = resolveStopByName(stopAll, "zzzznotarealstopzzzz");
     expect(result).toEqual({ status: "not_found" });
+  });
+});
+
+describe("resolveWireCode", () => {
+  it("resolves a bus stop's unified PublicStopId to its LocationCode", () => {
+    const result = resolveWireCode(stopAll, "102300");
+    expect(result).toEqual({ wireCode: "02300", stopCode: "102300" });
+  });
+
+  it("resolves case-insensitively and canonicalizes the returned stopCode", () => {
+    const result = resolveWireCode(stopAll, "un");
+    expect(result).toEqual({ wireCode: "UN", stopCode: "UN" });
+  });
+
+  it("is identical to stop_code for a train station (wireCode === stop_code)", () => {
+    const result = resolveWireCode(stopAll, "UN");
+    expect(result?.wireCode).toBe(result?.stopCode);
+  });
+
+  it("does not fuzzy-match by name — only an exact unified stop_code resolves", () => {
+    // "Union" is a valid name-search query (resolveStopByName would fuzzy
+    // match it) but not itself anyone's unified stop_code — these tools
+    // promise exact-code-only resolution (issue #61).
+    const result = resolveWireCode(stopAll, "Union");
+    expect(result).toBeUndefined();
+  });
+
+  it("returns undefined for a code that matches no stop", () => {
+    const result = resolveWireCode(stopAll, "zzzznotarealcodezzzz");
+    expect(result).toBeUndefined();
   });
 });

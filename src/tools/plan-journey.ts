@@ -4,7 +4,10 @@ import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { MetrolinxError, toToolErrorResult } from "../errors.js";
 import type { MetrolinxClient } from "../metrolinx/client.js";
 import { planItineraries } from "../normalize/journey.js";
-import { buildStopNameIndex } from "../normalize/search-stops.js";
+import {
+  buildStopNameIndex,
+  resolveWireCode,
+} from "../normalize/search-stops.js";
 import type { PlanJourneyResult } from "../schemas/journey.js";
 import {
   planJourneyInputShape,
@@ -36,14 +39,20 @@ export function registerPlanJourney(
         const stopAll = await client.getStopAll();
         const stopNames = buildStopNameIndex(stopAll);
 
-        if (!stopNames.has(from_stop_code)) {
+        // Pure bus stops' unified stop_code is their PublicStopId, but
+        // Schedule/Journey only accepts LocationCode (confirmed live,
+        // issue #35/#61) — translate via the cached Stop/All dataset
+        // before calling, same wireCode pattern plan_trip already uses.
+        const fromResolution = resolveWireCode(stopAll, from_stop_code);
+        if (!fromResolution) {
           throw new MetrolinxError(
             "not_found",
             `Unknown stop code "${from_stop_code}" for from_stop_code. Verify via search_stops.`,
             false,
           );
         }
-        if (!stopNames.has(to_stop_code)) {
+        const toResolution = resolveWireCode(stopAll, to_stop_code);
+        if (!toResolution) {
           throw new MetrolinxError(
             "not_found",
             `Unknown stop code "${to_stop_code}" for to_stop_code. Verify via search_stops.`,
@@ -54,8 +63,8 @@ export function registerPlanJourney(
         const itineraries = await planItineraries(
           client,
           {
-            from: from_stop_code,
-            to: to_stop_code,
+            from: fromResolution.wireCode,
+            to: toResolution.wireCode,
             date: date ?? nowInToronto().date,
             time: time ?? nowInToronto().time,
             timeMode: "depart_after",

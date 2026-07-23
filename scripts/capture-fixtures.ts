@@ -240,6 +240,43 @@ async function main(): Promise<void> {
   }
   await save("stop-details-hubs", hubDetails);
 
+  // Bus wire-code boundary (issue #61): Stop/Details and Schedule/Journey
+  // are confirmed to reject a bus-only stop's unified PublicStopId and
+  // require its LocationCode instead (issue #35). Stop/NextService and
+  // Stop/Destinations are not yet independently confirmed either way —
+  // capture both code forms for Scarborough Centre Bus Terminal
+  // (LocationCode "02816" / PublicStopId "102816") so a maintainer with a
+  // live key can diff the pair and update tool-schemas spec §5.
+  try {
+    const busWindowStart = hhmm(new Date());
+    const busWindowEnd = hhmm(new Date(Date.now() + 4 * 60 * 60 * 1000));
+    await save(
+      "stop-next-service-bus-location-code",
+      await fetchJson("/Stop/NextService/02816"),
+    );
+    await save(
+      "stop-next-service-bus-public-stop-id",
+      await fetchJson("/Stop/NextService/102816"),
+    );
+    await save(
+      "stop-destinations-bus-location-code",
+      await fetchJson(
+        `/Stop/Destinations/02816/${busWindowStart}/${busWindowEnd}`,
+      ),
+    );
+    await save(
+      "stop-destinations-bus-public-stop-id",
+      await fetchJson(
+        `/Stop/Destinations/102816/${busWindowStart}/${busWindowEnd}`,
+      ),
+    );
+  } catch (error) {
+    console.warn(
+      "Bus wire-code boundary captures failed — skipped (see docs/spec/tool-schemas.md §5):",
+      error,
+    );
+  }
+
   await save(
     "service-alerts",
     await fetchJson("/ServiceUpdate/ServiceAlert/All"),

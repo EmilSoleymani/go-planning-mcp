@@ -3,7 +3,10 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { MetrolinxError } from "../errors.js";
-import type { RawStopDetailsResponse } from "../metrolinx/types.js";
+import type {
+  RawStopAllResponse,
+  RawStopDetailsResponse,
+} from "../metrolinx/types.js";
 import { callTool, fakeClient } from "./test-support.js";
 
 const fixture = JSON.parse(
@@ -13,10 +16,20 @@ const fixture = JSON.parse(
   ),
 ) as RawStopDetailsResponse;
 
+const stopAll = JSON.parse(
+  readFileSync(
+    new URL("../../test/fixtures/stop-all.json", import.meta.url),
+    "utf8",
+  ),
+) as RawStopAllResponse;
+
 describe("get_stop_details", () => {
   it("returns the normalized DTO as structuredContent (live-captured Union fixture)", async () => {
     const result = await callTool(
-      fakeClient({ getStopDetails: () => Promise.resolve(fixture) }),
+      fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
+        getStopDetails: () => Promise.resolve(fixture),
+      }),
       "get_stop_details",
       { stop_code: "UN" },
     );
@@ -44,7 +57,10 @@ describe("get_stop_details", () => {
 
   it("collapses to French facility descriptions when lang: fr is requested", async () => {
     const result = await callTool(
-      fakeClient({ getStopDetails: () => Promise.resolve(fixture) }),
+      fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
+        getStopDetails: () => Promise.resolve(fixture),
+      }),
       "get_stop_details",
       { stop_code: "UN", lang: "fr" },
     );
@@ -60,13 +76,9 @@ describe("get_stop_details", () => {
     );
   });
 
-  it("returns an in-result not_found error for an unknown stop code", async () => {
-    const empty: RawStopDetailsResponse = {
-      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
-      Stop: null,
-    };
+  it("returns an in-result not_found error for a stop code absent from Stop/All", async () => {
     const result = await callTool(
-      fakeClient({ getStopDetails: () => Promise.resolve(empty) }),
+      fakeClient({ getStopAll: () => Promise.resolve(stopAll) }),
       "get_stop_details",
       { stop_code: "NOPE" },
     );
@@ -76,9 +88,52 @@ describe("get_stop_details", () => {
     expect(result.errorPayload?.error.message).toContain("search_stops");
   });
 
+  // Confirmed live (2026-07-21, issue #35/#61): a pure bus stop's unified
+  // stop_code is its 6-digit PublicStopId, but Stop/Details only accepts
+  // its LocationCode — the tool must translate before calling upstream and
+  // echo back the unified code, not the wire code Stop/Details itself sees.
+  it("translates a bus stop's unified stop_code to its LocationCode upstream and echoes the unified code back", async () => {
+    let capturedCode: string | undefined;
+    const busStopDetails: RawStopDetailsResponse = {
+      Metadata: { TimeStamp: "", ErrorCode: "200", ErrorMessage: "OK" },
+      Stop: {
+        Code: "02300",
+        StopName: "Union Station Bus Terminal",
+        StopNameFr: "",
+        City: "Toronto",
+        Latitude: "43.645",
+        Longitude: "-79.380",
+        IsBus: true,
+        IsTrain: false,
+        Facilities: [],
+        Parkings: [],
+        BoardingInfo: "",
+        BoardingInfoFr: "",
+        DrivingDirections: "",
+        DrivingDirectionsFr: "",
+      },
+    };
+    const result = await callTool(
+      fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
+        getStopDetails: (code) => {
+          capturedCode = code;
+          return Promise.resolve(busStopDetails);
+        },
+      }),
+      "get_stop_details",
+      { stop_code: "102300" },
+    );
+
+    expect(capturedCode).toBe("02300");
+    expect(result.isError).toBe(false);
+    expect(result.structuredContent).toMatchObject({ stop_code: "102300" });
+  });
+
   it("surfaces client failures through the error taxonomy", async () => {
     const result = await callTool(
       fakeClient({
+        getStopAll: () => Promise.resolve(stopAll),
         getStopDetails: () =>
           Promise.reject(
             new MetrolinxError(

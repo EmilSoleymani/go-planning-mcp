@@ -3,6 +3,7 @@ import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 
 import { MetrolinxError, toToolErrorResult } from "../errors.js";
 import type { MetrolinxClient } from "../metrolinx/client.js";
+import { resolveWireCode } from "../normalize/search-stops.js";
 import { normalizeStopDetails } from "../normalize/stop-details.js";
 import {
   getStopDetailsInputShape,
@@ -24,9 +25,24 @@ export function registerGetStopDetails(
     },
     async ({ stop_code, lang }): Promise<CallToolResult> => {
       try {
+        // Pure bus stops' unified stop_code is their PublicStopId, but
+        // Stop/Details only accepts LocationCode (confirmed live, issue
+        // #61) — translate via the cached Stop/All dataset before calling.
+        const resolution = resolveWireCode(
+          await client.getStopAll(),
+          stop_code,
+        );
+        if (!resolution) {
+          throw new MetrolinxError(
+            "not_found",
+            `Unknown stop code "${stop_code}". Verify via search_stops.`,
+            false,
+          );
+        }
         const dto = normalizeStopDetails(
-          await client.getStopDetails(stop_code),
+          await client.getStopDetails(resolution.wireCode),
           lang,
+          resolution.stopCode,
         );
         return {
           content: [{ type: "text", text: JSON.stringify(dto) }],
